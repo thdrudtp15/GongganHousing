@@ -2,6 +2,7 @@
 import { StaticImageData } from 'next/image';
 import Image from 'next/image';
 import { useInView } from 'react-intersection-observer';
+import { useEffect, useState } from 'react';
 
 import dummy_projectImg1 from '@/public/images/project_1.jpg';
 import dummy_projectImg2 from '@/public/images/project_2.jpg';
@@ -17,16 +18,16 @@ const Item = ({
   };
   dependence?: boolean;
 }) => {
-  const { ref, inView } = useInView();
+  const { ref, inView } = useInView({
+    triggerOnce: dependence,
+  });
 
   if (!data) return;
 
   return (
     <article
       className={`group relative w-full h-full aspect-[1.22/1] overflow-hidden ${
-        inView && dependence
-          ? 'animate-(--fade-in)'
-          : 'animate-(--fade-out)'
+        inView ? 'animate-(--fade-in)' : 'animate-(--fade-out)'
       }`}
     >
       <Image
@@ -50,36 +51,33 @@ const Item = ({
 };
 
 const ProjectItems = () => {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
+  const { ref, inView, entry } = useInView({
+    triggerOnce: false,
   });
 
+  const [animationState, setAnimationState] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!entry) return;
+    const { scrollY, innerHeight } = window;
+    const nowScroll = scrollY + innerHeight;
+    const top = entry.boundingClientRect.top + window.scrollY;
+
+    if (nowScroll > top) {
+      setAnimationState(true);
+    } else {
+      setAnimationState(false);
+    }
+  }, [entry, inView]);
+
   return (
-    <div className="grid grid-cols-2 gap-[16px]" ref={ref}>
-      <Item
-        dependence={inView}
-        data={{ image: dummy_projectImg1 }}
-      />
-      <Item
-        dependence={inView}
-        data={{ image: dummy_projectImg2 }}
-      />
-      <Item
-        dependence={inView}
-        data={{ image: dummy_projectImg3 }}
-      />
-      <Item
-        dependence={inView}
-        data={{ image: dummy_projectImg4 }}
-      />
-      <Item
-        dependence={inView}
-        data={{ image: dummy_projectImg3 }}
-      />
-      <Item
-        dependence={inView}
-        data={{ image: dummy_projectImg4 }}
-      />
+    <div className="grid grid-cols-2 gap-[2rem]" ref={ref}>
+      <Item dependence={animationState} data={{ image: dummy_projectImg1 }} />
+      <Item dependence={animationState} data={{ image: dummy_projectImg2 }} />
+      <Item dependence={animationState} data={{ image: dummy_projectImg3 }} />
+      <Item dependence={animationState} data={{ image: dummy_projectImg4 }} />
+      <Item dependence={animationState} data={{ image: dummy_projectImg3 }} />
+      <Item dependence={animationState} data={{ image: dummy_projectImg4 }} />
     </div>
   );
 };

@@ -25,14 +25,13 @@ const Overlay = () => {
 
 const Hero = () => {
   return (
-    <section
-      className={`w-full h-screen relative overflow-hidden`}
-    >
+    <section className={`w-full h-screen relative overflow-hidden`}>
       <Image
         src={heroImg.src}
         alt="hero"
         fill
         className="object-cover animate-(--scale-up)"
+        priority
       />
       <Overlay />
       <div></div>

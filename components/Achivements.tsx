@@ -2,7 +2,8 @@
 import Image from 'next/image';
 import inquiryImg from '@/public/images/inquiry.jpg';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { useEffect } from 'react';
+import { useInView } from 'react-intersection-observer';
+import { useEffect, useRef } from 'react';
 
 type AchivementItemProps = {
   value?: number;
@@ -13,7 +14,7 @@ type AchivementItemProps = {
 
 const AchivementItem = ({
   value = 100,
-  duration = 0.7,
+  duration = 2,
   suffix,
   title,
 }: AchivementItemProps) => {
@@ -37,6 +38,8 @@ const AchivementItem = ({
 };
 
 const Achivements = () => {
+  const { ref, inView } = useInView();
+
   return (
     <div className="w-full h-full relative aspect-[0.76/1]">
       <Image
@@ -44,11 +47,26 @@ const Achivements = () => {
         alt="inquiry image"
         fill
         className="object-cover"
+        priority
       />
-      <div className="absolute top-0 w-full h-full left-0 flex flex-col py-[100px] px-[60px] justify-between bg-[rgba(0,0,0,0.6)]">
-        <AchivementItem value={5} title="경력" suffix="년" />
-        <AchivementItem value={23} title="프로젝트" suffix="+" />
-        <AchivementItem value={90} title="만족도" suffix="%" />
+      <div
+        className="absolute top-0 w-full h-full left-0 flex flex-col py-[100px] px-[60px] justify-between bg-[rgba(0,0,0,0.6)]"
+        ref={ref}
+      >
+        <motion.div
+          // initial={{ opacity: 0, y: -50 }} // 처음: 투명 + 위에서 시작
+          // animate={{ opacity: 1, y: 0 }} // 애니메이션 끝: 불투명 + 제자리
+          // transition={{ duration: 0.8, ease: 'easeOut' }} // 0.8초 동안 부드럽게
+          className="flex flex-col justify-between h-full"
+        >
+          {inView && (
+            <>
+              <AchivementItem value={5} title="경력" suffix="년" />
+              <AchivementItem value={23} title="프로젝트" suffix="+" />
+              <AchivementItem value={90} title="만족도" suffix="%" />
+            </>
+          )}
+        </motion.div>
       </div>
     </div>
   );

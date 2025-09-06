@@ -7,7 +7,11 @@ const ContentWrap = ({
 }) => {
   return (
     <div
-      className={`max-w-[1200px] mx-auto px-[20px] ${className}`}
+      className={` 
+        mx-auto px-[20px] ${className}
+        max-w-[1200px]
+      
+      `}
     >
       {children}
     </div>
