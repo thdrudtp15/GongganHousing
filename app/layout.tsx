@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
 import './globals.css';
-import Header from '@/containers/main/Header';
-import Footer from '@/containers/main/Footer';
+import Header from '@/containers/Header';
+import Footer from '@/containers/Footer';
 
 const inter = Inter({
   subsets: ['latin'],

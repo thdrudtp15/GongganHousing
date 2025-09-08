@@ -38,7 +38,7 @@ const Item = ({
       />
 
       <div
-        className="group-hover:opacity-100 absolute top-0 left-0 w-full h-full flex justify-end p-10 flex-col 
+        className="group-hover:opacity-100 absolute top-0 left-0 w-full h-full flex justify-end p-[10%] flex-col 
                    bg-[rgba(0,0,0,0.6)] text-[#ffffff] opacity-0
                    transition duration-700"
       >

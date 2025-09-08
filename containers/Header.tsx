@@ -36,7 +36,7 @@ const Header = () => {
     <header
       className={`group hover:bg-[#ffffff] absolute w-full h-[80px] 
                   px-[2rem] py-[1rem] flex justify-between items-center 
-                  top-0 left-0  z-[2] transition`}
+                  top-0 left-0  z-[2] transition duration-600`}
     >
       <Link href="/">
         <div className="h-[50px] w-[80px] bg-[url(@/public/svgs/logo_c.svg)] group-hover:bg-[url(@/public/svgs/logo_b.svg)]"></div>
