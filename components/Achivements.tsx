@@ -41,7 +41,7 @@ const Achivements = () => {
   const { ref, inView } = useInView();
 
   return (
-    <div className="w-full h-full relative aspect-[0.76/1]">
+    <div className="w-full h-[800px] relative ">
       <Image
         src={inquiryImg}
         alt="inquiry image"
@@ -57,7 +57,7 @@ const Achivements = () => {
           // initial={{ opacity: 0, y: -50 }} // 처음: 투명 + 위에서 시작
           // animate={{ opacity: 1, y: 0 }} // 애니메이션 끝: 불투명 + 제자리
           // transition={{ duration: 0.8, ease: 'easeOut' }} // 0.8초 동안 부드럽게
-          className="flex flex-col justify-between h-full"
+          className="flex flex-col gap-[80px] h-full"
         >
           {inView && (
             <>

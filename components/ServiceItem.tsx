@@ -31,12 +31,12 @@ const ServiceItem = ({ children, image }: ServiceItemProps) => {
     const animate = () => {
       if (imgRef.current && visible) {
         // 선형 보간(LERP)로 부드럽게 이동
-        imgX += (mouseX - imgX) * 0.2;
-        imgY += (mouseY - imgY) * 0.2;
+        imgX += (mouseX - imgX) * 0.1;
+        imgY += (mouseY - imgY) * 0.1;
         imgRef.current.style.transform = `translate(${imgX}px, ${imgY}px)`;
         imgRef.current.style.opacity = '1';
-        imgRef.current.style.top = imgY.toString();
-        imgRef.current.style.left = imgX.toString();
+      } else if (imgRef.current) {
+        imgRef.current.style.opacity = '0';
       }
       requestAnimationFrame(animate);
     };
@@ -64,7 +64,8 @@ const ServiceItem = ({ children, image }: ServiceItemProps) => {
             position: 'fixed',
             pointerEvents: 'none',
             opacity: 0,
-
+            top: 0,
+            left: 0,
             zIndex: 9999,
             transition: '1.5s opacity ',
             transform: 'translate(0,0)',

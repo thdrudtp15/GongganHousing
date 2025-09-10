@@ -1,21 +1,17 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
-import logoB from '@/public/svgs/logo_b.svg';
-import logoC from '@/public/svgs/logo_c.svg';
-
 const navItems = [
-  { name: '회사소개', href: '/' },
-  { name: '상담문의' },
-  { name: '시공 사례' },
+  { name: '회사소개', href: '/about' },
+  { name: '상담문의', href: '/inquiry' },
+  { name: '시공 사례', href: '/portfolio' },
   { name: '오시는 길' },
 ];
 
-const NavItem = ({ children }: { children: ReactNode }) => {
+const NavItem = ({ children, href }: { children: ReactNode; href: string }) => {
   return (
     <Link
-      href="/"
+      href={href || '/'}
       className={`
         font-medium 
         px-[24px] 
@@ -45,7 +41,7 @@ const Header = () => {
         <ul className="flex items-center gap-[20px]">
           {navItems.map((item) => (
             <li key={item.name}>
-              <NavItem>{item.name}</NavItem>
+              <NavItem href={item.href as string}>{item.name}</NavItem>
             </li>
           ))}
         </ul>
