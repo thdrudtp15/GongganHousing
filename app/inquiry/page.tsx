@@ -1,5 +1,5 @@
 import PageBanner from '@/containers/PageBanner';
-import bannerImg from '@/public/images/banner_inquiry.png';
+import bannerImg from '@/public/images/banner_inquiry.webp';
 
 const Page = () => {
   return (
