@@ -71,7 +71,7 @@ const ProjectItems = () => {
   }, [entry, inView]);
 
   return (
-    <div className="grid grid-cols-2 gap-[2rem]" ref={ref}>
+    <div className="grid grid-cols-2 gap-[20px]" ref={ref}>
       <Item dependence={animationState} data={{ image: dummy_projectImg1 }} />
       <Item dependence={animationState} data={{ image: dummy_projectImg2 }} />
       <Item dependence={animationState} data={{ image: dummy_projectImg3 }} />

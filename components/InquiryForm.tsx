@@ -59,30 +59,34 @@ const InquiryForm = () => {
 
   return (
     <div className="w-full">
-      <h3 className="text-[50px] text-[#0b1b30] font-bold">상담문의</h3>
+      <h3 className="text-[60px] text-[#0b1b30] font-bold mb-[8px]">
+        상담문의
+      </h3>
       <p className="text-[20px] font-medium mb-[60px]">
         “편하게 문의 주시면, 최적의 솔루션을 찾아드립니다.”
       </p>
       <form className="flex flex-col gap-[20px]" action={action}>
-        <Input
-          title="이름"
-          type="input"
-          name="name"
-          placeholder="이름을 입력해주세요"
-        />
-        <Input
-          title="연락처"
-          type="input"
-          name="phone"
-          placeholder="연락처를 작성해주세요"
-        />
-        <Input
-          title="문의내용"
-          type="textarea"
-          name="inquiry"
-          placeholder="문의 내용을 작성해주세요"
-          className="resize-none h-[96px]"
-        />
+        <div className="flex flex-col gap-[40px]">
+          <Input
+            title="이름"
+            type="input"
+            name="name"
+            placeholder="이름을 입력해주세요"
+          />
+          <Input
+            title="연락처"
+            type="input"
+            name="phone"
+            placeholder="연락처를 작성해주세요"
+          />
+          <Input
+            title="문의내용"
+            type="textarea"
+            name="inquiry"
+            placeholder="문의 내용을 작성해주세요"
+            className="resize-none h-[96px]"
+          />
+        </div>
         <Checkbox text="개인정보취급방침동의" name="agree" />
         <button className="py-[20px] px-[30px] w-full cursor-pointer bg-[#0c1d30] font-medium text-[20px] text-[#F5F6F5]">
           상담 신청하기

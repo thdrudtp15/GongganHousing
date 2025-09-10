@@ -9,7 +9,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@fontsource/pretendard": "^5.2.5",
     "cloudinary": "^2.7.0",
     "framer-motion": "^12.23.12",
     "next": "15.5.2",

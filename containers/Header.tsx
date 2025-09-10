@@ -35,7 +35,7 @@ const Header = () => {
   return (
     <header
       className={`group hover:bg-[#ffffff] absolute w-full h-[80px] 
-                  px-[2rem] py-[1rem] flex justify-between items-center 
+                  px-[40px] py-[1rem] flex justify-between items-center 
                   top-0 left-0  z-[2] transition duration-600`}
     >
       <Link href="/">

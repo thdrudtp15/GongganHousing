@@ -6,7 +6,7 @@ import InquiryForm from '@/components/InquiryForm';
 const Inquiry = () => {
   return (
     <section className="py-[100px] bg-[#F5F6F5]">
-      <ContentWrap className="flex justify-between items-center gap-[8rem]">
+      <ContentWrap className="flex justify-between items-center gap-[60px]">
         <Achivements />
         <InquiryForm />
       </ContentWrap>

@@ -8,7 +8,7 @@ const ContentWrap = ({
   return (
     <div
       className={` 
-        mx-auto px-[20px] ${className}
+        mx-auto px-[40px] ${className}
         max-w-[1200px]
       
       `}
