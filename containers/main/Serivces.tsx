@@ -7,8 +7,8 @@ import dummy_serviceImg_3 from '@/public/images/service_3.png';
 
 const Services = () => {
   return (
-    <section className="py-[100px] bg-[#FAFAFA]">
-      <ContentWrap className="flex gap-[40px] justify-center">
+    <ContentWrap className="bg-[#fafafa]">
+      <ContentWrap.Content className="flex gap-[40px] justify-center">
         <div className="w-full">
           <h2 className="font-bold text-[60px] mb-[24px]">사업 영역</h2>
           <p className="font-medium text-[20px] max-w-[400px] text-[#717171] break-keep">
@@ -23,8 +23,8 @@ const Services = () => {
             <ServiceItem image={dummy_serviceImg_1}>옥외광고물</ServiceItem>
           </ul>
         </div>
-      </ContentWrap>
-    </section>
+      </ContentWrap.Content>
+    </ContentWrap>
   );
 };
 

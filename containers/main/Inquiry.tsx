@@ -1,16 +1,15 @@
 import ContentWrap from '@/wrappers/ContentWrap';
-
 import Achivements from '@/components/Achivements';
 import InquiryForm from '@/components/InquiryForm';
 
 const Inquiry = () => {
   return (
-    <section className="py-[100px] bg-[#F5F6F5]">
-      <ContentWrap className="flex justify-between items-center gap-[60px]">
+    <ContentWrap className="bg-[#f5f6f5]">
+      <ContentWrap.Content className="flex justify-between items-center gap-[60px]">
         <Achivements />
         <InquiryForm />
-      </ContentWrap>
-    </section>
+      </ContentWrap.Content>
+    </ContentWrap>
   );
 };
 

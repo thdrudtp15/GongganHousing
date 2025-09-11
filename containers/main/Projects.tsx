@@ -3,8 +3,8 @@ import ProjectItems from '@/components/ProjectItems';
 
 const Projects = () => {
   return (
-    <section className="bg-(--identity) py-[100px]">
-      <ContentWrap>
+    <ContentWrap className="bg-(--identity)">
+      <ContentWrap.Content>
         <div className="flex gap-[24px] mb-[80px] flex-col">
           <h2 className="text-[60px] text-[#ffffff] font-bold">시공사례</h2>
           <p className="text-[20px] font-medium text-[#ffffff]">
@@ -12,8 +12,8 @@ const Projects = () => {
           </p>
         </div>
         <ProjectItems />
-      </ContentWrap>
-    </section>
+      </ContentWrap.Content>
+    </ContentWrap>
   );
 };
 

@@ -5,7 +5,7 @@ const navItems = [
   { name: '회사소개', href: '/about' },
   { name: '상담문의', href: '/inquiry' },
   { name: '시공 사례', href: '/portfolio' },
-  { name: '오시는 길' },
+  { name: '오시는 길', href: '/location' },
 ];
 
 const NavItem = ({ children, href }: { children: ReactNode; href: string }) => {
@@ -35,7 +35,7 @@ const Header = () => {
                   top-0 left-0  z-[2] transition duration-600`}
     >
       <Link href="/">
-        <div className="h-[50px] w-[80px] bg-[url(@/public/svgs/logo_c.svg)] group-hover:bg-[url(@/public/svgs/logo_b.svg)]"></div>
+        <div className="h-[50px] w-[80px] bg-[url(@/public/svgs/logo_c.svg)] group-hover:bg-[url(@/public/svgs/logo_b.svg)] duration-600"></div>
       </Link>
       <nav>
         <ul className="flex items-center gap-[20px]">
