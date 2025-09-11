@@ -7,7 +7,7 @@ import dummy_serviceImg_3 from '@/public/images/service_3.png';
 
 const Services = () => {
   return (
-    <ContentWrap className="bg-[#fafafa]">
+    <ContentWrap className="bg-[#fafafa] ">
       <ContentWrap.Content className="flex gap-[40px] justify-center">
         <div className="w-full">
           <h2 className="font-bold text-[60px] mb-[24px]">사업 영역</h2>

@@ -5,7 +5,7 @@ import Services from '@/containers/main/Serivces';
 
 const Home = () => {
   return (
-    <main>
+    <main className="overflow-hidden">
       <Hero />
       <Services />
       <Projects />
