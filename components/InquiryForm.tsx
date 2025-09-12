@@ -3,24 +3,47 @@
 import { sendInpuiry } from '@/actions/sendInquiry';
 import { useActionState } from 'react';
 
+import '../app/globals.css';
+
 type InputProps = {
   title: string;
+  error: string;
   type: 'textarea' | 'input';
   name: string;
   placeholder: string;
   className?: string;
 };
 
-const Checkbox = ({ text, name }: { text: string; name: string }) => {
+const Checkbox = ({
+  text,
+  name,
+  error,
+}: {
+  text: string;
+  name: string;
+  error: string;
+}) => {
   return (
     <label className="w-[fit-content]">
-      <input className="mr-[8px]" type="checkbox" />
-      {text}
+      <input
+        className="mr-[8px]"
+        // defaultChecked={false}
+        type="checkbox"
+        name={name}
+      />
+      {text} {error}
     </label>
   );
 };
 
-const Input = ({ title, type, name, placeholder, className }: InputProps) => {
+const Input = ({
+  title,
+  error,
+  type,
+  name,
+  placeholder,
+  className,
+}: InputProps) => {
   const inputClassName = `
         p-[12px] w-full outline-none
         border-b-[2px] border-b-[#cccccc]
@@ -29,7 +52,11 @@ const Input = ({ title, type, name, placeholder, className }: InputProps) => {
     `;
   return (
     <label>
-      {title && <h4 className="text-[14px] font-regular mb-[4px]">{title}</h4>}
+      {title && (
+        <h4 className="text-[14px] font-regular mb-[4px]">
+          {title} {error}
+        </h4>
+      )}
       {type === 'input' && (
         <input
           className={`${inputClassName} ${className}`}
@@ -57,6 +84,8 @@ const InquiryForm = () => {
     agree: '',
   });
 
+  console.log(state, '??');
+
   return (
     <div className="w-full">
       <h3 className="text-[60px] text-[#0b1b30] font-bold mb-[8px]">
@@ -69,25 +98,32 @@ const InquiryForm = () => {
         <div className="flex flex-col gap-[40px]">
           <Input
             title="이름"
+            error={state.name}
             type="input"
             name="name"
             placeholder="이름을 입력해주세요"
           />
           <Input
             title="연락처"
+            error={state.phone}
             type="input"
             name="phone"
             placeholder="연락처를 작성해주세요"
           />
           <Input
             title="문의내용"
+            error={state.inquiry}
             type="textarea"
             name="inquiry"
             placeholder="문의 내용을 작성해주세요"
             className="resize-none h-[96px]"
           />
         </div>
-        <Checkbox text="개인정보취급방침동의" name="agree" />
+        <Checkbox
+          text="개인정보취급방침동의"
+          name="agree"
+          error={state.agree}
+        />
         <button className="py-[20px] px-[30px] w-full cursor-pointer bg-[#0c1d30] font-medium text-[20px] text-[#F5F6F5]">
           상담 신청하기
         </button>

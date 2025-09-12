@@ -53,12 +53,7 @@ const Achivements = () => {
         className="absolute top-0 w-full h-full left-0 flex flex-col py-[100px] px-[60px] justify-between bg-[rgba(0,0,0,0.6)]"
         ref={ref}
       >
-        <motion.div
-          // initial={{ opacity: 0, y: -50 }} // 처음: 투명 + 위에서 시작
-          // animate={{ opacity: 1, y: 0 }} // 애니메이션 끝: 불투명 + 제자리
-          // transition={{ duration: 0.8, ease: 'easeOut' }} // 0.8초 동안 부드럽게
-          className="flex flex-col gap-[80px] h-full"
-        >
+        <div className="flex flex-col gap-[80px] h-full">
           {inView && (
             <>
               <AchivementItem value={5} title="경력" suffix="년" />
@@ -66,7 +61,7 @@ const Achivements = () => {
               <AchivementItem value={90} title="만족도" suffix="%" />
             </>
           )}
-        </motion.div>
+        </div>
       </div>
     </div>
   );
