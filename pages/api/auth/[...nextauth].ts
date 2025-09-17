@@ -22,7 +22,9 @@ export const authOptions = {
   // 쿠키 설정
   cookies: {
     sessionToken: {
-      name: `__Host-next-auth.session-token`,
+      name: `${
+        process.env.NODE_ENV === 'production' ? '__Host-' : ''
+      }next-auth.session-token`,
       options: {
         httpOnly: true,
         sameSite: 'lax',
@@ -43,7 +45,6 @@ export const authOptions = {
       return false; // 로그인 거부
     },
     async session({ session, user }: { session: any; user: any }) {
-      console.log('세션 실행');
       const signingSecret = process.env.SUPABASE_JWT_SECRET;
       if (signingSecret) {
         const payload = {
