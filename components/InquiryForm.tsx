@@ -84,8 +84,6 @@ const InquiryForm = () => {
     agree: '',
   });
 
-  console.log(state, '??');
-
   return (
     <div className="w-full">
       <h3 className="text-[60px] text-[#0b1b30] font-bold mb-[8px]">

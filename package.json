@@ -9,8 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@next-auth/supabase-adapter": "^0.2.1",
+    "@supabase/supabase-js": "^2.57.4",
     "cloudinary": "^2.7.0",
     "framer-motion": "^12.23.12",
+    "jsonwebtoken": "^9.0.2",
     "next": "15.5.2",
     "next-auth": "^4.24.11",
     "nodemailer": "^6.9.4",
@@ -24,6 +27,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20",
     "@types/nodemailer": "^7.0.1",
     "@types/react": "^19",

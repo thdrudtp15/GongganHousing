@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import logoB from '@/public/svgs/logo_b.svg';
+import Auth from '@/components/Auth';
 
 const Footer = () => {
   return (
@@ -17,6 +18,7 @@ const Footer = () => {
           취급: 건축공사, 실내건축공사, 금속 창호 공사, 옥외 광고 사업
         </p>
       </div>
+      <Auth />
     </footer>
   );
 };
