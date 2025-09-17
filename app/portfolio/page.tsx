@@ -14,8 +14,8 @@ const Page = async ({
   return (
     <div>
       <PageBanner image={bannerImg}>시공사례</PageBanner>
-      <ContentWrap>
-        <ContentWrap.Content className="bg-[#f5f6f5]">
+      <ContentWrap className="bg-[#f5f6f5]">
+        <ContentWrap.Content>
           <Pagination totalPages={20} nowPage={page} />
         </ContentWrap.Content>
       </ContentWrap>

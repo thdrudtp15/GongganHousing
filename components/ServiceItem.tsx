@@ -9,6 +9,10 @@ interface ServiceItemProps {
 }
 
 const ServiceItem = ({ children, image }: ServiceItemProps) => {
+  const isMobile =
+    typeof window !== 'undefined' &&
+    window.matchMedia('(pointer: coarse)').matches;
+
   const ref = useRef<HTMLLIElement | null>(null);
   const imgRef = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
@@ -51,10 +55,10 @@ const ServiceItem = ({ children, image }: ServiceItemProps) => {
   return (
     <li
       ref={ref}
-      onMouseEnter={() => setVisible(true)}
-      onMouseLeave={() => setVisible(false)}
+      onMouseEnter={() => isMobile || setVisible(true)}
+      onMouseLeave={() => isMobile || setVisible(false)}
       onMouseMove={handleMouseMove}
-      className="relative py-[32px] font-medium text-[40px] border-b-[1px] border-[#8e8e8e]"
+      className="relative py-[32px] text-[#0B1C30] font-medium text-[40px] border-b-[1px] border-[#8e8e8e]"
     >
       {children}
 

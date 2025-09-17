@@ -1,5 +1,5 @@
 import { SupabaseAdapter } from '@next-auth/supabase-adapter';
-import NextAuth, { SessionStrategy } from 'next-auth';
+import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import jwt from 'jsonwebtoken';
 import type { User } from 'next-auth';
@@ -43,6 +43,7 @@ export const authOptions = {
       return false; // 로그인 거부
     },
     async session({ session, user }: { session: any; user: any }) {
+      console.log('세션 실행');
       const signingSecret = process.env.SUPABASE_JWT_SECRET;
       if (signingSecret) {
         const payload = {

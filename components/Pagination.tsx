@@ -22,7 +22,11 @@ const PaginationItem = ({
 }) => {
   const Classes = `flex items-center justify-center 
                  w-[32px] h-[32px] rounded-[8px] bg-[#ffffff]
-                 ${href ? 'hover:bg-(--identity) hover:text-[#ffffff]' : ''}`;
+                 ${
+                   href
+                     ? 'hover:bg-(--identity) hover:text-[#ffffff] text-[#222222]'
+                     : ''
+                 }`;
 
   if (!href) return <button className={Classes}>{children}</button>;
 
