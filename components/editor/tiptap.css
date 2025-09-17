@@ -1,0 +1,30 @@
+.ProseMirror {
+    padding: 1rem;
+    min-height: 600px;
+    border: 1px solid blue;
+    outline: none;
+}
+.tiptap {
+    :first-child {
+        margin-top: 0;
+    }
+
+    p.is-editor-empty:first-child::before {
+        color: #adb5bd;
+        content: attr(data-placeholder);
+        float: left;
+        height: 0;
+        pointer-events: none;
+    }
+
+    img {
+        display: block;
+        height: auto;
+        margin: 1.5rem 0;
+        max-width: 100%;
+        width: 100%;
+        &.ProseMirror-selectednode {
+            outline: 3px solid red;
+        }
+    }
+}

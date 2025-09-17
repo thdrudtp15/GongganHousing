@@ -1,0 +1,13 @@
+.dropdown {
+    position: relative;
+}
+
+.dropdownItems {
+    position: absolute;
+    top: calc(100% + 0.2rem);
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    gap: 0.2rem;
+    z-index: 2;
+}
