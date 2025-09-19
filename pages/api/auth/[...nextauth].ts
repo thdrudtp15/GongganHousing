@@ -2,6 +2,7 @@ import { SupabaseAdapter } from '@next-auth/supabase-adapter';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import jwt from 'jsonwebtoken';
+
 import type { User } from 'next-auth';
 import type { AdapterUser } from 'next-auth/adapters';
 import type { Account } from 'next-auth';

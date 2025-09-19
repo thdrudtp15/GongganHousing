@@ -6,7 +6,7 @@ export const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: process.env.NEXT_PUBLIC_NAVER_EMAIL,
-    pass: process.env.NEXT_PUBLIC_NAVER_PW,
+    pass: process.env.NAVER_PW,
   },
 });
 

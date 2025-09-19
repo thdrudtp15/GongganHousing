@@ -15,7 +15,7 @@ const PageBanner = ({
           src={image}
           fill
           alt="banner image"
-          className="object-cover z-[-1]  animate-(--scale-up)"
+          className="object-cover z-[-1]"
           priority
         />
       )}

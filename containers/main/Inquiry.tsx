@@ -4,12 +4,18 @@ import InquiryForm from '@/components/InquiryForm';
 
 const Inquiry = () => {
   return (
-    <ContentWrap className="bg-[#f5f6f5]">
-      <ContentWrap.Content className="flex justify-between items-center gap-[60px]">
-        <Achivements />
-        <InquiryForm />
-      </ContentWrap.Content>
-    </ContentWrap>
+    <>
+      <div
+        className="cf-turnstile"
+        data-sitekey={process.env.TURNSTILE_SITE_KEY}
+      />
+      <ContentWrap className="bg-[#f5f6f5]">
+        <ContentWrap.Content className="flex justify-between items-center gap-[60px]">
+          <Achivements />
+          <InquiryForm />
+        </ContentWrap.Content>
+      </ContentWrap>
+    </>
   );
 };
 
