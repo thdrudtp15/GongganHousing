@@ -57,6 +57,7 @@ const Tiptap = () => {
         <button>전송</button>
       </div>
       <input type="hidden" name="content" value={editor?.getHTML() || ''} />
+      {state.server}
     </form>
   );
 };

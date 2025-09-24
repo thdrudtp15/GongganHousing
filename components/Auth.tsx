@@ -9,11 +9,11 @@ const Logout = () => {
   return <button onClick={() => signOut()}>로그아웃</button>;
 };
 
-const Auth = () => {
+const Auth = ({ session }: { session: any }) => {
   return (
     <div className="flex gap-[20px]">
-      <Login />
-      <Logout />
+      {!session && <Login />}
+      {session && <Logout />}
     </div>
   );
 };

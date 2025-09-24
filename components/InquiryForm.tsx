@@ -77,15 +77,22 @@ const Input = ({
 };
 
 const InquiryForm = () => {
+  // const [token, setToken] = useState<string | null>(null);
+  // const [widgetId, setWidgetId] = useState<number | null>(null);
+
   const [state, action, pending] = useActionState(sendInpuiry, {
     name: '',
     phone: '',
     inquiry: '',
     agree: '',
+    server: '',
   });
+
+  // 턴스타일 + IP 기반 서버 제한
 
   return (
     <div className="w-full">
+      <div id="widget-container"></div>
       <h3 className="text-[60px] text-[#0b1b30] font-bold mb-[8px]">
         상담문의
       </h3>
@@ -122,9 +129,13 @@ const InquiryForm = () => {
           name="agree"
           error={state.agree}
         />
-        <button className="py-[20px] px-[30px] w-full cursor-pointer bg-[#0c1d30] font-medium text-[20px] text-[#F5F6F5]">
+        <button
+          disabled={pending}
+          className="py-[20px] px-[30px] w-full cursor-pointer bg-[#0c1d30] font-medium text-[20px] text-[#F5F6F5]"
+        >
           상담 신청하기
         </button>
+        {state.server}
       </form>
     </div>
   );

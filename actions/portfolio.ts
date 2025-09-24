@@ -1,43 +1,43 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
-import { unstable_cache } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { createServerSupabaseClient } from '@/lib/supabase/supabaseClient';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import { getServerSession } from 'next-auth';
+import * as z from 'zod';
 
 export const createPortfolio = async (
   prevState: { content: string; title: string; server: string },
   formdata: FormData,
 ) => {
-  const errors = prevState;
-  const supabase = await createClient();
+  const { supabaseAccessToken } = await getServerSession(authOptions);
+  const supabase = createServerSupabaseClient(supabaseAccessToken);
 
-  // const auth = supabase.auth.getUser();
-  // if (!(await auth).data.user) {
-  //     redirect('/');
-  // }
+  const errors = { ...prevState };
 
-  // zod 적용하기
   const content = formdata.get('content') as string;
   const title = formdata.get('title') as string;
 
-  if (content.trim() === '' || !content) {
-    errors.content = '내용은 필수 입력항목입니다.';
-  }
-  if (title.trim() === '' || !title) {
-    errors.title = '제목은 필수 입력항목입니다.';
-  }
+  // zod 적용하기
+  const Portfolio = z.object({
+    title: z.string().nonempty({ error: '제목을 작성해주세요' }),
+    content: z.string().nonempty({ error: '내용을 작성해주세요' }),
+  });
 
-  if (Object.values(errors).find((error) => error)) {
+  const result = Portfolio.safeParse({ title, content });
+
+  if (!result.success) {
+    const fieldsError = z.flattenError(result.error).fieldErrors;
+    errors.title = fieldsError.title?.[0] || '';
+    errors.content = fieldsError.content?.[0] || '';
     return errors;
   }
-  const { data, error } = await supabase
-    .from('portfolio')
-    .insert({ title, content });
 
-  console.log(error, data);
+  const { error } = await supabase.from('portfolio').insert({ title, content });
+
+  console.log(error);
 
   if (error) {
-    errors.server = '서버 에러 발생!';
+    errors.server = '서버 에러 발생!!!!@';
     return errors;
   }
 

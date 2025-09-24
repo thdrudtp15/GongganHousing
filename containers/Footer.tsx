@@ -2,8 +2,11 @@ import Image from 'next/image';
 
 import logoB from '@/public/svgs/logo_b.svg';
 import Auth from '@/components/Auth';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
-const Footer = () => {
+const Footer = async () => {
+  const session = await getServerSession(authOptions);
   return (
     <footer className="py-[100px] bg-[#FAFAFA] flex flex-col items-center justify-center gap-[40px]">
       <Image src={logoB} width={120} height={75} alt="logo" priority />
@@ -18,7 +21,7 @@ const Footer = () => {
           취급: 건축공사, 실내건축공사, 금속 창호 공사, 옥외 광고 사업
         </p>
       </div>
-      <Auth />
+      <Auth session={session} />
     </footer>
   );
 };
