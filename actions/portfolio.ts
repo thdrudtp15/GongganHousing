@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth';
 import * as z from 'zod';
 
 export const createPortfolio = async (
-  prevState: { content: string; title: string; server: string },
+  prevState: { content: string; title: string; server: string; id: string },
   formdata: FormData,
 ) => {
   const { supabaseAccessToken } = await getServerSession(authOptions);
@@ -32,14 +32,18 @@ export const createPortfolio = async (
     return errors;
   }
 
-  const { error } = await supabase.from('portfolio').insert({ title, content });
-
-  console.log(error);
+  const { data, error } = await supabase
+    .from('portfolio')
+    .insert({ title, content })
+    .select('id')
+    .single();
 
   if (error) {
     errors.server = '서버 에러 발생!!!!@';
     return errors;
   }
+
+  errors.id = data.id;
 
   return errors;
 };

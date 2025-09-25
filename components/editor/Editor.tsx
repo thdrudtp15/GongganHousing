@@ -18,12 +18,16 @@ import { createPortfolio } from '@/actions/portfolio';
 
 import './tiptap.css';
 import styles from './Editor.module.css';
+import { useRouter } from 'next/navigation';
 
 const Tiptap = () => {
+  const router = useRouter();
+
   const [state, action] = useActionState(createPortfolio, {
     content: '',
     title: '',
     server: '',
+    id: '',
   });
 
   const editor = useEditor({
@@ -45,6 +49,10 @@ const Tiptap = () => {
     // Don't render immediately on the server to avoid SSR issues
     immediatelyRender: false,
   });
+
+  useEffect(() => {
+    if (state.id) router.push(`/portfolio/${state.id}`);
+  }, [state.id, router]);
 
   if (!editor) return null;
 

@@ -64,7 +64,7 @@ export const authOptions = {
 
   // DB 세션/Adapter 설정
   adapter: SupabaseAdapter({
-    url: process.env.SUPABASE_URL as string,
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL as string,
     secret: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
   }),
 
