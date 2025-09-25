@@ -7,7 +7,13 @@ const ContentWrap = ({
   className?: string;
   children: React.ReactNode;
 }) => {
-  return <div className={`py-[100px] ${className}`}>{children}</div>;
+  return (
+    <div
+      className={`max-w-[1200px] mx-auto ${className}`}
+    >
+      {children}
+    </div>
+  );
 };
 
 export default ContentWrap;
@@ -22,8 +28,7 @@ const Content = ({
   return (
     <div
       className={` 
-        mx-auto px-[40px] ${className}
-        max-w-[1200px]
+        mx-auto px-[2rem] max-w-[1200px]
       `}
     >
       {children}

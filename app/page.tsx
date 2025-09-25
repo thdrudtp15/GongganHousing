@@ -1,15 +1,13 @@
 import Hero from '@/containers/main/Hero';
-import Inquiry from '@/containers/main/Inquiry';
-import Projects from '@/containers/main/Projects';
-import Services from '@/containers/main/Serivces';
+import Services from '@/containers/main/Services';
+import ContactUs from '@/containers/main/ContactUs';
 
 const Home = () => {
   return (
     <main className="overflow-hidden">
       <Hero />
-      <Services />
-      <Projects />
-      <Inquiry />
+
+      <ContactUs />
     </main>
   );
 };

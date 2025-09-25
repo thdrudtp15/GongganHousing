@@ -1,27 +1,39 @@
 import Image from 'next/image';
 
-import logoB from '@/public/svgs/logo_b.svg';
-import Auth from '@/components/Auth';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
+import ContentWrap from '@/wrappers/ContentWrap';
+
+import logoImg from '@/public/svgs/logo_c.svg';
 
 const Footer = async () => {
-  const session = await getServerSession(authOptions);
   return (
-    <footer className="py-[100px] bg-[#FAFAFA] flex flex-col items-center justify-center gap-[40px]">
-      <Image src={logoB} width={120} height={75} alt="logo" priority />
-      <div className="flex flex-col gap-[8px]">
-        <p className="text-[#747474] text-[14px] text-center">
-          대표자: 송진철 연락처: 042-840-8522~3
-        </p>
-        <p className="text-[#747474] text-[14px] text-center">
-          이메일: gonggan25@naver.com 주소: 충남 계룡시 엄사면 번영로 10, 303호
-        </p>
-        <p className="text-[#747474] text-[14px] text-center">
-          취급: 건축공사, 실내건축공사, 금속 창호 공사, 옥외 광고 사업
-        </p>
-      </div>
-      <Auth session={session} />
+    <footer className="p-[4rem] bg-(--color-background) text-[#ffffff]">
+      <ContentWrap>
+        <div className="mb-[2rem]">
+          <Image
+            className="mb-[2rem]"
+            src={logoImg}
+            width={70}
+            alt="logo"
+          />
+          <strong className="text-[1rem] ">
+            주소
+          </strong>
+          <address className="text-[0.875rem] mb-[1rem] text-[#616161]">
+            충남 계룡시 엄사면 번영로 10, 303호
+          </address>
+          <strong className="text-[1rem]">
+            연락처
+          </strong>
+          <address className="text-[0.875rem] text-[#616161]">
+            042-840-8522~3
+          </address>
+        </div>
+        <div className="border-t border-(--color-border-section) pt-[2rem] flex justify-between">
+          <p className="text-[0.725rem]">
+            @ 2025 공간하우징
+          </p>
+        </div>
+      </ContentWrap>
     </footer>
   );
 };

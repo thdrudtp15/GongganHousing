@@ -7,6 +7,17 @@
   --scale-up: scaleUp 3s ease-in-out forwards;
   --fade-in: fadeIn 0.5s ease-in forwards;
   --fade-out: fadeOut 0.5s ease-out forwards;
+
+  --content-padding: 2rem;
+
+  --color-text-primary: #ffffff; /* 주 텍스트 */
+  --color-text-secondary: #cccccc; /* 보조 텍스트 */
+  --color-text-muted: #999999; /* 안내/설명 텍스트 */
+  --color-background: #202020; /* 기본 배경 */
+  --color-accent: #f5a623; /* 강조/CTA 버튼 */
+
+  --color-border-section: #5e5e5e; /* 연하지만 충분히 구분 가능한 회색 */
+  --color-border-card: #e0e0e0; /* 연한 회색, 섹션 구분용 */
 }
 
 @theme inline {
