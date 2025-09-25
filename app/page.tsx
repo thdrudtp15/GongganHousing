@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <main className="overflow-hidden">
       <Hero />
-
+      <Services />
       <ContactUs />
     </main>
   );

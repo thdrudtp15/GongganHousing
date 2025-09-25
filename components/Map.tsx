@@ -6,6 +6,8 @@ import useKakaoLoader from '@/hooks/useKakaoLoader';
 const Map = () => {
   useKakaoLoader();
 
+  // 애드온을 좀 더 붙히면 괜찮아 질듯!
+
   return (
     <KakaoMap // 지도를 표시할 Container
       id="map"

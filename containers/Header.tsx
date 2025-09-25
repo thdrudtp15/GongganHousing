@@ -12,29 +12,34 @@ const navItems = [
 
 const Header = () => {
   return (
-    <header className="w-full  px-[2rem] absolute">
-      <ContentWrap className="flex justify-between py-[1rem] items-center">
+    <header className="w-full  px-[2rem] absolute z-[3]">
+      <ContentWrap className="flex justify-between py-[2rem] items-center">
         <Link href={'/'}>
           <Image
             src={logoImg}
-            width={70}
+            width={100}
             height={20}
             priority
             alt="logo"
           />
         </Link>
-        <ul className="flex gap-[1rem]">
-          {navItems.map((item) => (
-            <li key={item.name}>
-              <Link
-                href={item.href}
-                className="text-[#ffffff] text-[1rem]"
-              >
-                {item.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <nav>
+          <ul className="flex gap-8 md:gap-12">
+            {navItems.map((item) => (
+              <li key={item.name}>
+                <Link
+                  href={item.href}
+                  className="relative text-white text-lg font-medium tracking-wide transition-all duration-300 
+                hover:text-gray-200 after:content-[''] after:absolute after:w-0 after:h-0.5 
+                after:bg-white after:left-1/2 after:bottom-[-4px] after:transition-all after:duration-300 
+                hover:after:w-full hover:after:left-0"
+                >
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </ContentWrap>
     </header>
   );
