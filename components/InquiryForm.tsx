@@ -80,26 +80,33 @@ const InquiryForm = () => {
   // const [token, setToken] = useState<string | null>(null);
   // const [widgetId, setWidgetId] = useState<number | null>(null);
 
-  const [state, action, pending] = useActionState(sendInpuiry, {
-    name: '',
-    phone: '',
-    inquiry: '',
-    agree: '',
-    server: '',
-  });
+  const [state, action, pending] = useActionState(
+    sendInpuiry,
+    {
+      name: '',
+      phone: '',
+      inquiry: '',
+      agree: '',
+      server: '',
+    },
+  );
 
   // 턴스타일 + IP 기반 서버 제한
 
   return (
     <div className="w-full">
       <div id="widget-container"></div>
-      <h3 className="text-[60px] text-[#0b1b30] font-bold mb-[8px]">
+      <h3 className="text-6xl text-[#0b1b30] font-bold mb-[8px]">
         상담문의
       </h3>
       <p className="text-[20px] font-medium mb-[60px] text-[#222222]">
-        “편하게 문의 주시면, 최적의 솔루션을 찾아드립니다.”
+        “편하게 문의 주시면, 최적의 솔루션을
+        찾아드립니다.”
       </p>
-      <form className="flex flex-col gap-[20px]" action={action}>
+      <form
+        className="flex flex-col gap-[20px]"
+        action={action}
+      >
         <div className="flex flex-col gap-[40px]">
           <Input
             title="이름"

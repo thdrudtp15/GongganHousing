@@ -1,4 +1,6 @@
-import Image, { StaticImageData } from 'next/image';
+import Image, {
+  StaticImageData,
+} from 'next/image';
 import { ReactNode } from 'react';
 
 const PageBanner = ({
@@ -9,7 +11,7 @@ const PageBanner = ({
   image?: StaticImageData;
 }) => {
   return (
-    <section className="relative h-[600px] overflow-hidden w-full flex items-center justify-center">
+    <section className="relative h-120 overflow-hidden w-full flex items-center justify-center">
       {image && (
         <Image
           src={image}
@@ -19,7 +21,9 @@ const PageBanner = ({
           priority
         />
       )}
-      <h2 className="font-bold text-[80px] text-[#ffffff]">{children}</h2>
+      <h2 className="font-bold text-[80px] text-[#ffffff]">
+        {children}
+      </h2>
     </section>
   );
 };

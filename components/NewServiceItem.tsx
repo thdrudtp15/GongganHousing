@@ -38,7 +38,7 @@ const NewServiceItem = ({
           opacity: { duration: 1 },
           translateX: { duration: 1 },
         }}
-        className={`w-[40%] ${
+        className={`w-[100%] md:w-[40%] ${
           start === 'left'
             ? 'md:order-first'
             : 'md:order-last'

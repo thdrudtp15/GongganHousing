@@ -4,7 +4,7 @@ import logoImg from '@/public/svgs/logo_b.svg';
 
 const Footer = async () => {
   return (
-    <footer className="bg-(--color-background)  text-white px-[2rem] py-16">
+    <footer className="bg-[#202020]  text-white px-[2rem] py-16">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
           {/* 로고 및 회사 소개 */}

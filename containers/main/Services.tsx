@@ -7,8 +7,21 @@ import dummy3 from '@/public/images/hero_3.jpg';
 
 const Services = () => {
   return (
-    <Section className="py-[7rem] px-[2rem]">
+    <Section
+      className="py-[7rem] px-[2rem]"
+      id="사업영역"
+    >
       <Section.Content>
+        <h3 className="text-6xl text-[#0b1b30] font-bold  ">
+          사업 영역
+        </h3>
+        <p className="text-lg text-gray-600 mb-40">
+          인테리어에서 창호, 그리고 광고물까지
+          설계, 시공, 관리가 하나로 이어지는 토탈
+          솔루션으로 고객의 공간과 브랜드 가치를
+          완성합니다.
+        </p>
+
         <div className="flex flex-col gap-20">
           <NewServiceItem
             title="실내 건축"
