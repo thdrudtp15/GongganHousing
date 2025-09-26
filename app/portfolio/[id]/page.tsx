@@ -6,7 +6,11 @@ import { supabase } from '@/lib/supabase/supabaseClient';
 
 const getPortfolioData = unstable_cache(
   async (id: string) => {
-    return await supabase.from('portfolio').select('*').eq('id', id).single();
+    return await supabase
+      .from('portfolio')
+      .select('*')
+      .eq('id', id)
+      .single();
   },
   ['portfolio-detail'],
   { revalidate: false },
@@ -34,7 +38,7 @@ export const generateMetadata = async ({
   };
 };
 
-const Page = async ({ params }: Props) => {
+const Detail = async ({ params }: Props) => {
   const { id } = await params;
   const { data } = await getPortfolioData(id);
 
@@ -43,4 +47,4 @@ const Page = async ({ params }: Props) => {
   return <div>{id}</div>;
 };
 
-export default Page;
+export default Detail;

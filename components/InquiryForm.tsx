@@ -94,7 +94,7 @@ const InquiryForm = () => {
   // 턴스타일 + IP 기반 서버 제한
 
   return (
-    <div className="w-full">
+    <div className="flex-1">
       <div id="widget-container"></div>
       <h3 className="text-6xl text-[#0b1b30] font-bold mb-[8px]">
         상담문의

@@ -30,7 +30,7 @@ const Content = ({
 }) => {
   return (
     <div
-      className={`max-w-270 mx-auto ${className}`}
+      className={`max-w-360 mx-auto ${className}`}
     >
       {children}
     </div>

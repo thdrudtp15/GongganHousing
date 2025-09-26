@@ -3,10 +3,10 @@ import Link from 'next/link';
 
 const Portfolio = () => {
   return (
-    <Section className="bg-(--identity) pr-0">
+    <Section className="bg-(--identity)">
       <Section.Content>
         <h2 className="text-4xl font-bold mb-4 text-white">
-          시공 사례를 확인해보세요
+          다양한 시공 사례를 확인해보세요
         </h2>
         <p className="text-lg text-gray-600 mb-8">
           공간하우징이 진행한 다양한 시공 사례를

@@ -50,7 +50,7 @@ const Achivements = () => {
   const { ref, inView } = useInView();
 
   return (
-    <div className="w-full h-[800px] relative hidden md:block">
+    <div className="flex-1 h-200 relative hidden md:block">
       <Image
         src={inquiryImg}
         alt="inquiry image"
