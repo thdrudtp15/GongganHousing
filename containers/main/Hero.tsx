@@ -1,12 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  AnimatePresence,
-  motion,
-} from 'framer-motion';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import ScrollDownButton from '@/components/ScrollDown';
 
 import type {
   Dispatch,
@@ -23,49 +21,52 @@ const images = [
   dummyImage3,
 ];
 
+const delay = 8000;
+
 const Overlay = ({
   setStage,
 }: {
   setStage: Dispatch<SetStateAction<number>>;
 }) => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStage((prev: number) => {
+        if (images.length - 1 > prev)
+          return prev + 1;
+        else return 0;
+      });
+    }, delay);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
-    <div className="absolute w-full h-full bg-gradient-to-b from-black/20 via-black/40 to-black/60 z-[2] flex flex-col items-center justify-center px-4">
+    <div className="absolute w-full h-full bg-[rgba(0,0,0,0.7)] z-[2] flex flex-col items-center justify-center px-4">
       <div className="text-center max-w-4xl mx-auto space-y-6">
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight">
+        <h1 className="text-7xl md:text-6xl lg:text-7xl font-bold text-white leading-tight tracking-tight">
           <span className="block">
-            공간을 재정의하는
-          </span>
-          <span className="block bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent ">
-            건축의 혁신
+            공간에 가치를 더하다
           </span>
         </h1>
 
         <div className="w-24 h-1 bg-white/80 mx-auto rounded-full"></div>
         <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed font-light">
-          우리는 건축의 한계를 넘어 새로운
-          가능성을 창조합니다.
-          <br />각 프로젝트는 고객의 꿈을 현실로
-          만드는 혁신적인 여정입니다.
+          전문성과 투명성을 바탕으로 고객만을
+          생각합니다.
         </p>
         <div className="pt-4">
           <Link
             href="/portfolio"
-            className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white px-8 py-3 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            className=" backdrop-blur-lg border  text-white px-8 py-3 rounded-full transition-all duration-300 hover:shadow-lg"
           >
             프로젝트 보기
           </Link>
         </div>
-        <div>
-          <button
-            className="font-[#ffffff]"
-            onClick={() =>
-              setStage((prev: number) => prev + 1)
-            }
-          >
-            ㅎㅇ
-          </button>
-        </div>
       </div>
+      <div className="absolute bottom-20"></div>
+      <ScrollDownButton />
     </div>
   );
 };
@@ -76,27 +77,32 @@ const Hero = () => {
   return (
     <section className="w-full h-screen overflow-hidden relative">
       <Overlay setStage={setStage} />
-      <div className="w-full">
-        <div className="w-screen h-screen relative">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={stage}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.5 }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={images[stage]}
-                alt="이미지"
-                fill
-                priority
-                className="object-cover"
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
+      <div className="w-screen h-screen relative">
+        {images.map((img, idx) => (
+          <motion.div
+            key={idx}
+            className="absolute inset-0"
+            initial={{
+              opacity: idx === stage ? 1 : 0,
+              scale: 1,
+            }}
+            animate={{
+              opacity: idx === stage ? 1 : 0,
+              scale: idx === stage ? 1.15 : 1,
+            }}
+            transition={{
+              opacity: { duration: 1 },
+              scale: { duration: 10 },
+            }}
+          >
+            <Image
+              src={img}
+              alt={`img-${idx}`}
+              fill
+              className="object-cover"
+            />
+          </motion.div>
+        ))}
       </div>
     </section>
   );

@@ -2,7 +2,7 @@ import Pagination from '@/components/Pagination';
 import PageBanner from '@/containers/PageBanner';
 
 import bannerImg from '@/public/images/banner_portfolio.webp';
-import ContentWrap from '@/wrappers/ContentWrap';
+import Section from '@/wrappers/Section';
 
 const Page = async ({
   searchParams,
@@ -13,12 +13,17 @@ const Page = async ({
 
   return (
     <div>
-      <PageBanner image={bannerImg}>시공사례</PageBanner>
-      <ContentWrap className="bg-[#f5f6f5]">
-        <ContentWrap.Content>
-          <Pagination totalPages={20} nowPage={page} />
-        </ContentWrap.Content>
-      </ContentWrap>
+      <PageBanner image={bannerImg}>
+        시공사례
+      </PageBanner>
+      <Section className="bg-[#f5f6f5]">
+        <Section.Content>
+          <Pagination
+            totalPages={20}
+            nowPage={page}
+          />
+        </Section.Content>
+      </Section>
     </div>
   );
 };

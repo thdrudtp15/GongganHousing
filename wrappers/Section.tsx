@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-const ContentWrap = ({
+const Section = ({
   className,
   children,
 }: {
@@ -8,15 +8,15 @@ const ContentWrap = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div
-      className={`max-w-[1200px] mx-auto ${className}`}
+    <section
+      className={`py-28 px-8 ${className}`}
     >
       {children}
-    </div>
+    </section>
   );
 };
 
-export default ContentWrap;
+export default Section;
 
 const Content = ({
   children,
@@ -27,13 +27,11 @@ const Content = ({
 }) => {
   return (
     <div
-      className={` 
-        mx-auto px-[2rem] max-w-[1200px]
-      `}
+      className={`max-w-270 mx-auto ${className}`}
     >
       {children}
     </div>
   );
 };
 
-ContentWrap.Content = Content;
+Section.Content = Content;

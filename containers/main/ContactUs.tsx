@@ -1,9 +1,11 @@
-import ContentWrap from '@/wrappers/ContentWrap';
+import Section from '@/wrappers/Section';
 import Map from '@/components/Map';
 
 import { MdOutlineMailOutline } from 'react-icons/md';
 import { MdOutlinePhone } from 'react-icons/md';
 import { MdOutlineLocationOn } from 'react-icons/md';
+
+import { MdLocationOn } from 'react-icons/md';
 
 import type { ReactNode } from 'react';
 
@@ -19,36 +21,21 @@ const Info = ({
   address?: string;
 }) => {
   return (
-    <article className="flex items-start gap-6 p-6 bg-white rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all duration-300">
+    <article className="flex gap-6 p-6  rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-lg transition-all duration-300">
       {/* 아이콘 */}
-      <div className="flex-shrink-0 w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center">
-        <div className="text-blue-600">
-          {icon}
-        </div>
+      <div className="w-16 h-16 bg-blue-50 rounded-xl flex items-center justify-center">
+        {icon}
       </div>
-
       {/* 콘텐츠 */}
       <div className="flex-1 space-y-3">
-        <h2 className="text-xl font-bold text-gray-900 leading-tight">
+        <h2 className="text-xl font-bold ">
           {title}
         </h2>
-
-        <p className="text-gray-600 leading-relaxed">
+        <p className="text-gray-600">
           {description}
         </p>
-
         <address className="not-italic text-sm text-gray-500 flex items-center gap-2">
-          <svg
-            className="w-4 h-4 text-gray-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path
-              fillRule="evenodd"
-              d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-              clipRule="evenodd"
-            />
-          </svg>
+          <MdLocationOn fontSize={'1rem'} />
           {address}
         </address>
       </div>
@@ -58,10 +45,10 @@ const Info = ({
 
 const ContactUs = () => {
   return (
-    <section className="py-[7rem] px-[2rem]">
-      <ContentWrap>
-        <div className="bg-gray-50 rounded-2xl p-8 md:p-12 mb-[2rem]">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight mb-[2rem]">
+    <Section>
+      <Section.Content>
+        <div className="bg-gray-50 rounded-2xl p-8 md:p-12 mb-8">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900  mb-2">
             상담 및 문의
           </h2>
 
@@ -81,12 +68,12 @@ const ContactUs = () => {
             안내해 드리겠습니다.
           </p>
         </div>
-        <div className="flex gap-[3rem]">
-          <div className="flex flex-col gap-[2rem]">
+        <div className="flex gap-12">
+          <div className="flex flex-col gap-8">
             <Info
               icon={
                 <MdOutlineMailOutline
-                  fontSize="2rem"
+                  fontSize="3rem"
                   color="#007BFF"
                 />
               }
@@ -97,7 +84,7 @@ const ContactUs = () => {
             <Info
               icon={
                 <MdOutlinePhone
-                  fontSize="2rem"
+                  fontSize="3rem"
                   color="#28A745"
                 />
               }
@@ -108,7 +95,7 @@ const ContactUs = () => {
             <Info
               icon={
                 <MdOutlineLocationOn
-                  fontSize="2rem"
+                  fontSize="3rem"
                   color="#DC3545"
                 />
               }
@@ -120,8 +107,8 @@ const ContactUs = () => {
             <Map />
           </div>
         </div>
-      </ContentWrap>
-    </section>
+      </Section.Content>
+    </Section>
   );
 };
 

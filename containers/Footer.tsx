@@ -1,7 +1,5 @@
 import Image from 'next/image';
 
-import ContentWrap from '@/wrappers/ContentWrap';
-
 import logoImg from '@/public/svgs/logo_b.svg';
 
 const Footer = async () => {

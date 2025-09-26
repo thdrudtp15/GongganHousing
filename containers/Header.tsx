@@ -1,5 +1,7 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import ContentWrap from '@/wrappers/ContentWrap';
 
 import logoImg from '@/public/svgs/logo_c.svg';
 import Link from 'next/link';
@@ -11,16 +13,45 @@ const navItems = [
 ];
 
 const Header = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 200);
+    };
+
+    window.addEventListener(
+      'scroll',
+      handleScroll,
+    );
+    return () =>
+      window.removeEventListener(
+        'scroll',
+        handleScroll,
+      );
+  }, []);
+
   return (
-    <header className="w-full  px-[2rem] absolute z-[3]">
-      <ContentWrap className="flex justify-between py-[2rem] items-center">
+    <header
+      className={`group  w-full px-[2rem] fixed z-[3] transition duration-300 ${
+        scrolled
+          ? 'bg-[#202020]'
+          : 'hover:bg-white'
+      }`}
+    >
+      <div className="max-w-[1080px] m-auto flex justify-between py-4 items-center">
         <Link href={'/'}>
           <Image
             src={logoImg}
-            width={100}
-            height={20}
+            width={60}
+            // height={20}
             priority
             alt="logo"
+            className={`group-hover:filter transition duration-300 ${
+              !scrolled
+                ? 'group-hover:brightness-0'
+                : ''
+            }`}
           />
         </Link>
         <nav>
@@ -29,10 +60,19 @@ const Header = () => {
               <li key={item.name}>
                 <Link
                   href={item.href}
-                  className="relative text-white text-lg font-medium tracking-wide transition-all duration-300 
-                hover:text-gray-200 after:content-[''] after:absolute after:w-0 after:h-0.5 
-                after:bg-white after:left-1/2 after:bottom-[-4px] after:transition-all after:duration-300 
-                hover:after:w-full hover:after:left-0"
+                  className={`relative text-white ${
+                    !scrolled
+                      ? 'group-hover:text-[#202020]'
+                      : ''
+                  } text-lg font-medium tracking-wide transition-all duration-300 
+                 after:content-[''] after:absolute after:w-0 after:h-0.5 
+                  ${
+                    scrolled
+                      ? 'after:bg-[#ffffff]'
+                      : 'after:bg-[#202020]'
+                  }
+                 after:left-1/2 after:bottom-[-4px] after:transition-all after:duration-300 
+                 hover:after:w-full hover:after:left-0`}
                 >
                   {item.name}
                 </Link>
@@ -40,7 +80,7 @@ const Header = () => {
             ))}
           </ul>
         </nav>
-      </ContentWrap>
+      </div>
     </header>
   );
 };
