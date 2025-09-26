@@ -21,7 +21,7 @@ const NewServiceItem = ({
   const { ref, inView } = useInView();
 
   return (
-    <div className="flex gap-10 relative">
+    <div className="flex flex-col gap-10 relative md:flex-row">
       <motion.div
         initial={{
           translateX:
@@ -40,17 +40,30 @@ const NewServiceItem = ({
         }}
         className={`w-[40%] ${
           start === 'left'
-            ? 'order-first'
-            : 'order-last'
-        }`}
+            ? 'md:order-first'
+            : 'md:order-last'
+        } order-first`}
       >
-        <h2 className="text-6xl mb-4 font-bold">
+        <h2 className="text-4xl mb-4 font-bold">
           {title}
         </h2>
-        <div className="text-2xl mb-10">
+        <div className="text-2xl mb-4 text-gray-500">
           {desc}
         </div>
-        <button>시공 사례</button>
+        <button
+          className="group
+                  bg-(--identity)
+                  overflow-hidden relative border       
+                  px-[30px] py-[20px] text-[#ffffff]
+                  hover:text-[transparent]
+                  transition duration-400
+                  cursor-pointer
+                  "
+        >
+          <p className="relative flex items-center gap-[12px] z-[3] text-white duration-600">
+            시공 사례 보러가기
+          </p>
+        </button>
       </motion.div>
       <motion.div
         initial={{
@@ -67,13 +80,13 @@ const NewServiceItem = ({
           opacity: { duration: 1, delay: 0.5 },
           translateY: { duration: 1, delay: 0.5 },
         }}
-        className="w-[60%] h-100 bg-black relative"
+        className="w-[100%] h-80 bg-black relative md:w-[60%]"
       >
         <Image
           src={image}
           alt={title}
           fill
-          className="object-fit"
+          className="object-cover"
         />
       </motion.div>
       <div

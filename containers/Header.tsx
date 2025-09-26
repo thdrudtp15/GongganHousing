@@ -35,7 +35,7 @@ const Header = () => {
     <header
       className={`group  w-full px-[2rem] fixed z-[3] transition duration-300 ${
         scrolled
-          ? 'bg-[#202020]'
+          ? 'bg-white shadow-lg'
           : 'hover:bg-white'
       }`}
     >
@@ -50,7 +50,7 @@ const Header = () => {
             className={`group-hover:filter transition duration-300 ${
               !scrolled
                 ? 'group-hover:brightness-0'
-                : ''
+                : 'brightness-0'
             }`}
           />
         </Link>
@@ -60,17 +60,13 @@ const Header = () => {
               <li key={item.name}>
                 <Link
                   href={item.href}
-                  className={`relative text-white ${
-                    !scrolled
-                      ? 'group-hover:text-[#202020]'
-                      : ''
+                  className={`relative ${
+                    scrolled
+                      ? 'text-(--identity)'
+                      : 'text-white'
                   } text-lg font-medium tracking-wide transition-all duration-300 
                  after:content-[''] after:absolute after:w-0 after:h-0.5 
-                  ${
-                    scrolled
-                      ? 'after:bg-[#ffffff]'
-                      : 'after:bg-[#202020]'
-                  }
+                 after:bg-(--identity)
                  after:left-1/2 after:bottom-[-4px] after:transition-all after:duration-300 
                  hover:after:w-full hover:after:left-0`}
                 >

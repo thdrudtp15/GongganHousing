@@ -1,17 +1,17 @@
 import Section from '@/wrappers/Section';
-import NewServiceItem from '@/components/editor/NewServiceItem';
+import NewServiceItem from '@/components/NewServiceItem';
 
-import dummy1 from '@/public/images/banner_about.webp';
-import dummy2 from '@/public/images/banner_inquiry.webp';
-import dummy3 from '@/public/images/banner_portfolio.webp';
+import dummy1 from '@/public/images/hero_1.jpg';
+import dummy2 from '@/public/images/hero_2.jpg';
+import dummy3 from '@/public/images/hero_3.jpg';
 
 const Services = () => {
   return (
     <Section className="py-[7rem] px-[2rem]">
-      <Section.Content className="max-w-300">
+      <Section.Content>
         <div className="flex flex-col gap-20">
           <NewServiceItem
-            title="실내건축"
+            title="실내 건축"
             desc={
               <p>
                 공간의 기능과 아름다움을 고려
