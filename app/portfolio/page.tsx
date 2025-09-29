@@ -33,7 +33,7 @@ const Page = async ({
       return { data, count };
     },
     [`portfolio-page:${page}`],
-    { revalidate: 86400 },
+    { revalidate: false },
   );
 
   const { data, count } = await getPortfolio(

@@ -1,4 +1,5 @@
 import PageBanner from '@/containers/PageBanner';
+import PortfolioForm from '@/components/PortfolioForm';
 
 import dummy from '@/public/images/banner_inquiry.webp';
 import Section from '@/wrappers/Section';
@@ -13,8 +14,7 @@ const Page = async () => {
       </PageBanner>
       <Section>
         <Section.Content>
-          <input type="text" placeholder="제목" />
-          <textarea placeholder="설명" />
+          <PortfolioForm />
         </Section.Content>
       </Section>
     </div>

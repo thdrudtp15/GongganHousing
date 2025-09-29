@@ -20,6 +20,15 @@ const getPortfolioData = unstable_cache(
   { revalidate: false },
 );
 
+const getPorfolioImages = unstable_cache(
+  async (id: string) => {
+    return await supabase
+      .from('portfolio_images')
+      .select('image')
+      .eq('parent_id', id);
+  },
+);
+
 type Props = {
   params: Promise<{ id: string }>;
 };
@@ -45,8 +54,11 @@ export const generateMetadata = async ({
 const Detail = async ({ params }: Props) => {
   const { id } = await params;
   const { data } = await getPortfolioData(id);
+  const { data: imageData } =
+    await getPorfolioImages(id);
 
   console.log(data);
+  console.log(imageData);
 
   return (
     <div>
