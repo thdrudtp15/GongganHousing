@@ -4,6 +4,10 @@ import { unstable_cache } from 'next/cache';
 
 import { supabase } from '@/lib/supabase/supabaseClient';
 
+import PageBanner from '@/containers/PageBanner';
+
+import dummy from '@/public/images/banner_inquiry.webp';
+
 const getPortfolioData = unstable_cache(
   async (id: string) => {
     return await supabase
@@ -44,7 +48,13 @@ const Detail = async ({ params }: Props) => {
 
   console.log(data);
 
-  return <div>{id}</div>;
+  return (
+    <div>
+      <PageBanner image={dummy}>
+        시공사례
+      </PageBanner>
+    </div>
+  );
 };
 
 export default Detail;

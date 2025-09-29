@@ -33,13 +33,25 @@ export default PageBanner;
 
 const Category = ({
   category,
+  select,
+  root,
 }: {
-  category: { title: string; href: string }[];
+  category: { title: string; path: string }[];
+  select: string;
+  root: string;
 }) => {
   return (
-    <nav>
+    <nav className="w-full flex justify-center items-center p-4 gap-8 border-b border-gray-300">
       {category.map((item) => (
-        <Link key={item.title} href={item.href}>
+        <Link
+          className={`${
+            select === item.path
+              ? 'font-bold'
+              : ''
+          }`}
+          key={item.title}
+          href={`${root}${item.path}`}
+        >
           {item.title}
         </Link>
       ))}

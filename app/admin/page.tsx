@@ -1,16 +1,22 @@
-import Tiptap from '@/components/editor/Editor';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import { getServerSession } from 'next-auth/next';
+import PageBanner from '@/containers/PageBanner';
+
+import dummy from '@/public/images/banner_inquiry.webp';
+import Section from '@/wrappers/Section';
 
 const Page = async () => {
-  const session = await getServerSession(authOptions);
-
-  console.log(session, '어드민');
+  // 페이지 권한 제어?는 미들웨어에서 작성
 
   return (
     <div>
-      관리자 페이지입니다.
-      <Tiptap />
+      <PageBanner image={dummy}>
+        시공 사례 작성
+      </PageBanner>
+      <Section>
+        <Section.Content>
+          <input type="text" placeholder="제목" />
+          <textarea placeholder="설명" />
+        </Section.Content>
+      </Section>
     </div>
   );
 };

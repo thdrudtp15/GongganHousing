@@ -7,10 +7,10 @@ import logoImg from '@/public/svgs/logo_c.svg';
 import Link from 'next/link';
 
 const navItems = [
-  { name: '회사소개', href: '/about' },
+  { name: '회사소개', href: '/about/overview' },
   { name: '시공 사례', href: '/portfolio' },
   { name: '사업 영역', href: '/#사업영역' },
-  { name: '상담문의', href: '/#상담문의' },
+  { name: '상담문의', href: '/inquiry' },
 ];
 
 const Header = () => {
@@ -63,11 +63,11 @@ const Header = () => {
                   href={item.href}
                   className={`relative ${
                     scrolled
-                      ? 'text-(--identity)'
-                      : 'text-white group-hover:text-(--identity)'
+                      ? 'text-black'
+                      : 'text-white group-hover:text-black'
                   } text-lg font-medium tracking-wide transition-all duration-300 
                  after:content-[''] after:absolute after:w-0 after:h-0.5 
-                 after:bg-(--identity)
+                 after:bg-black
                  after:left-1/2 after:bottom-[-4px] after:transition-all after:duration-300 
                  hover:after:w-full hover:after:left-0`}
                 >
