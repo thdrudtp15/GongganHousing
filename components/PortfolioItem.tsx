@@ -4,7 +4,7 @@ import Image from 'next/image';
 import type { Portfolio } from '@/types/portfolio';
 import Link from 'next/link';
 
-import { formatDate } from '@/utils/formatDate';
+import { formatDate } from '@/lib/utils/formatDate';
 
 const PortfolioItem = ({
   data,

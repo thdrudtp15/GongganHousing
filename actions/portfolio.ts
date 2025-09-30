@@ -4,8 +4,10 @@ import { uploadImage } from '@/lib/cloudinary/uploadImage';
 import { createServerSupabaseClient } from '@/lib/supabase/supabaseClient';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
+import { revalidateTag } from 'next/cache';
 import * as z from 'zod';
 
+// submit~으로 함수명 변경하기
 export const createPortfolio = async (
   prevState: {
     title: string;
@@ -18,44 +20,48 @@ export const createPortfolio = async (
   },
   formdata: FormData,
 ) => {
-  const { supabaseAccessToken } =
-    await getServerSession(authOptions);
+  const { supabaseAccessToken } = await getServerSession(authOptions);
 
-  const supabase = createServerSupabaseClient(
-    supabaseAccessToken,
-  );
+  const supabase = createServerSupabaseClient(supabaseAccessToken);
 
   const errors = { ...prevState };
+
+  const id = formdata.get('id') as string;
 
   // 제목
   const title = formdata.get('title') as string;
 
   // 설명
-  const description = formdata.get(
-    'description',
-  ) as string;
+  const description = formdata.get('description') as string;
 
   // 이미지 카운트
-  const imageCount = formdata.get(
-    'imageCount',
-  ) as string;
+  const imageCount = formdata.get('image_count') as string;
 
   // 이미지 배열
   const imageArray: File[] = [];
+
+  // 삭제할 이미지 카운트
+  const deleteImageCount = formdata.get('delete_count') as string;
+
+  // 삭제할 이미지 배열
+  const deleteImageArray: string[] = [];
 
   // 카테고리
   const category = formdata.get('category');
 
   // 시공 날짜
-  const completed_at = formdata.get(
-    'completed_at',
-  );
+  const completed_at = formdata.get('completed_at');
 
   for (let i = 0; i < +imageCount; i++) {
-    imageArray.push(
-      formdata.get(`image_${i}`) as File,
-    );
+    imageArray.push(formdata.get(`image_${i}`) as File);
   }
+
+  for (let i = 0; i < +deleteImageCount; i++) {
+    deleteImageArray.push(formdata.get(`delete_${i}`) as string);
+  }
+
+  console.log(imageArray, '추가할 이미지 배열');
+  console.log(deleteImageArray, '삭제할 이미지 배열');
 
   // zod 적용하기
   const Portfolio = z.object({
@@ -71,13 +77,10 @@ export const createPortfolio = async (
     description: z.string().nonempty({
       error: '내용을 작성해주세요',
     }),
-    image: z
-      .array(z.file())
-      .min(1, '이미지는 필수입니다.')
-      .max(
-        10,
-        '이미지는 10개까지 등록할 수 있습니다.',
-      ),
+    // image: z
+    //   .array(z.file())
+    //   .min(1, '이미지는 필수입니다.')
+    //   .max(10, '이미지는 10개까지 등록할 수 있습니다.'),
   });
 
   const result = Portfolio.safeParse({
@@ -89,60 +92,84 @@ export const createPortfolio = async (
   });
 
   if (!result.success) {
-    const fieldsError = z.flattenError(
-      result.error,
-    ).fieldErrors;
+    const fieldsError = z.flattenError(result.error).fieldErrors;
     errors.title = fieldsError.title?.[0] || '';
-    errors.completed_at =
-      fieldsError.completed_at?.[0] || '';
-    errors.category =
-      fieldsError.category?.[0] || '';
-    errors.description =
-      fieldsError.description?.[0] || '';
-    errors.image = fieldsError.image?.[0] || '';
+    errors.completed_at = fieldsError.completed_at?.[0] || '';
+    errors.category = fieldsError.category?.[0] || '';
+    errors.description = fieldsError.description?.[0] || '';
+    // errors.image = fieldsError.image?.[0] || '';
     return errors;
   }
 
-  const { data, error } = await supabase
-    .from('portfolio')
-    .insert({
-      title,
-      completed_at,
-      category,
-      description,
-    })
-    .select('id')
-    .single();
+  let serverResult;
+
+  if (!id) {
+    serverResult = await supabase
+      .from('portfolio')
+      .insert({
+        title,
+        completed_at,
+        category,
+        description,
+      })
+      .select('id')
+      .single();
+  } else {
+    console.log(+id, '하잉염');
+
+    serverResult = await supabase
+      .from('portfolio')
+      .update({
+        title,
+        completed_at,
+        category,
+        description,
+      })
+      .eq('id', +id)
+      .select('id')
+      .single();
+  }
+
+  const { data, error } = serverResult;
 
   if (error) {
-    errors.server = '서버 에러 발생!!!';
+    errors.server = error.message;
     return errors;
   }
 
   try {
-    const imageUrls = await Promise.all(
-      imageArray.map(
-        async (image) => await uploadImage(image),
-      ),
-    );
+    if (imageArray.length > 0) {
+      const imageUrls = await Promise.all(
+        imageArray.map(async (image) => await uploadImage(image)),
+      );
 
-    const { error } = await supabase
-      .from('portfolio_images')
-      .insert(
+      const { error } = await supabase.from('portfolio_images').insert(
         imageUrls.map((url) => ({
           parent_id: data.id,
           image: url,
         })),
       );
 
-    if (error) {
-      throw new Error(error.message);
+      if (error) {
+        throw new Error(error.message);
+      }
+    }
+
+    if (deleteImageArray.length > 0 && id) {
+      const { error } = await supabase.from('portfolio_images').delete().in('id', deleteImageArray);
+
+      // 클라우디네리 삭제 연산 추가하기
+
+      if (error) {
+        throw new Error(error.message);
+      }
     }
   } catch (error) {
     console.log(error);
-    errors.server = '서버 에러 발생';
+    errors.server = error as string;
   }
-
+  revalidateTag('portfolio-detail');
+  revalidateTag('portfolio-images');
   errors.id = data.id;
 
   return errors;

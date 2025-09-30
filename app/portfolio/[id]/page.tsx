@@ -1,33 +1,14 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { unstable_cache } from 'next/cache';
 
-import { supabase } from '@/lib/supabase/supabaseClient';
+import {
+  getPortfolioData,
+  getPorfolioImages,
+} from '@/lib/queries/portfolio';
 
 import PageBanner from '@/containers/PageBanner';
 
 import dummy from '@/public/images/banner_inquiry.webp';
-
-const getPortfolioData = unstable_cache(
-  async (id: string) => {
-    return await supabase
-      .from('portfolio')
-      .select('*')
-      .eq('id', id)
-      .single();
-  },
-  ['portfolio-detail'],
-  { revalidate: false },
-);
-
-const getPorfolioImages = unstable_cache(
-  async (id: string) => {
-    return await supabase
-      .from('portfolio_images')
-      .select('image')
-      .eq('parent_id', id);
-  },
-);
 
 type Props = {
   params: Promise<{ id: string }>;

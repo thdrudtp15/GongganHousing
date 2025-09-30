@@ -1,6 +1,8 @@
 export type Portfolio = {
   id: number;
   created_at: string;
-  content: string;
+  completed_at: string;
+  description: string;
   title: string;
+  category: string;
 };
