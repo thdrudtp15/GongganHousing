@@ -37,15 +37,17 @@ export const getPortfolioList = unstable_cache(
   }) => {
     const from = ((+page || 1) - 1) * pageSize;
     const to = from + pageSize - 1;
-    const { data, count } = await supabase
+    let query = supabase
       .from('portfolio')
       .select('*', { count: 'exact' })
-      .eq('category', category)
       .ilike('title', `%${search || ''}%`)
       .order('created_at', { ascending: false })
       .range(from, to);
 
-    return { data, count };
+    if (category) {
+      query = query.eq('category', category);
+    }
+    return query;
   },
   [`portfolio-page`],
   { revalidate: false, tags: ['portfolio-list'] },
