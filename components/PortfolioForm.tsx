@@ -70,7 +70,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
     //삭제할 이미지 파일 append
     if (deleteImage && deleteImage.length > 0) {
       deleteImage?.forEach((image: ExistingImage, index: number) => {
-        formData.append(`delete_${index}`, image.id.toString());
+        formData.append(`delete_${index}`, JSON.stringify(image));
       });
       formData.append('delete_count', deleteImage.length.toString());
     }
@@ -101,12 +101,20 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
     if (!e.target.files) return;
     const { files } = e.target;
 
-    // 파일 중복 제거
+    // 파일 중복 제거 및 1MB 이하 필터링
     const map = new Map();
+    const MAX_SIZE = 1 * 1024 * 1024; // 1MB in bytes
+
     Array.from(files).forEach((file) => {
-      map.set(`${file.name}-${file.lastModified}-${file.size}`, file);
+      if (file.size <= MAX_SIZE) {
+        map.set(`${file.name}-${file.lastModified}-${file.size}`, file);
+      }
     });
     const array = Array.from(map.values());
+
+    if (array.length < files.length) {
+      alert('1MB 이하의 파일만 업로드할 수 있습니다.');
+    }
 
     // setter
     setImages((prev) => {
@@ -205,7 +213,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
           disabled={pending}
           className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
         >
-          {pending ? '등록 중...' : '포트폴리오 등록'}
+          {pending ? '등록 중...' : `시공사례 ${data ? '수정' : '등록'}`}
           {state.server}
         </button>
       </form>

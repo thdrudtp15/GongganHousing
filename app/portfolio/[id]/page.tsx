@@ -1,10 +1,7 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
-import {
-  getPortfolioData,
-  getPorfolioImages,
-} from '@/lib/queries/portfolio';
+import { getPortfolioData, getPorfolioImages } from '@/lib/queries/portfolio';
 
 import PageBanner from '@/containers/PageBanner';
 
@@ -14,9 +11,7 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-export const generateMetadata = async ({
-  params,
-}: Props): Promise<Metadata> => {
+export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { id } = await params;
   const { data } = await getPortfolioData(id);
 
@@ -35,17 +30,13 @@ export const generateMetadata = async ({
 const Detail = async ({ params }: Props) => {
   const { id } = await params;
   const { data } = await getPortfolioData(id);
-  const { data: imageData } =
-    await getPorfolioImages(id);
+  const { data: image } = await getPorfolioImages(id);
 
   console.log(data);
-  console.log(imageData);
 
   return (
     <div>
-      <PageBanner image={dummy}>
-        시공사례
-      </PageBanner>
+      <PageBanner image={dummy}>시공사례</PageBanner>
     </div>
   );
 };

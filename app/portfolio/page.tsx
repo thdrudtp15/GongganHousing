@@ -1,10 +1,9 @@
-import { unstable_cache } from 'next/cache';
 import React from 'react';
 
 import Pagination from '@/components/Pagination';
 import PortfolioItem from '@/components/PortfolioItem';
 import PageBanner from '@/containers/PageBanner';
-import { supabase } from '@/lib/supabase/supabaseClient';
+import { getPortfolioList } from '@/lib/queries/portfolio';
 
 import bannerImg from '@/public/images/banner_portfolio.webp';
 import Section from '@/wrappers/Section';
@@ -20,31 +19,11 @@ const Page = async ({
 }) => {
   const { page } = await searchParams;
 
-  const getPortfolio = unstable_cache(
-    async (page: number) => {
-      const from = ((+page || 1) - 1) * pageSize;
-      const to = from + pageSize - 1;
-      const { data, count } = await supabase
-        .from('portfolio')
-        .select('*', { count: 'exact' })
-        .order('created_at', { ascending: false })
-        .range(from, to);
-
-      return { data, count };
-    },
-    [`portfolio-page:${page}`],
-    { revalidate: false },
-  );
-
-  const { data, count } = await getPortfolio(
-    +page || 1,
-  );
+  const { data, count } = await getPortfolioList(+page || 1, pageSize);
 
   return (
     <div>
-      <PageBanner image={bannerImg}>
-        시공사례
-      </PageBanner>
+      <PageBanner image={bannerImg}>시공사례</PageBanner>
 
       <Section className="bg-[#f5f6f5]">
         <Section.Content>
@@ -55,11 +34,7 @@ const Page = async ({
               </React.Fragment>
             ))}
           </div>
-          <Pagination
-            pageSize={pageSize}
-            totalCount={count as number}
-            nowPage={page}
-          />
+          <Pagination pageSize={pageSize} totalCount={count as number} nowPage={page} />
         </Section.Content>
       </Section>
     </div>

@@ -1,6 +1,6 @@
 'use server';
 
-import { uploadImage } from '@/lib/cloudinary/uploadImage';
+import { removeImages, uploadImage } from '@/lib/cloudinary/cloudinary';
 import { createServerSupabaseClient } from '@/lib/supabase/supabaseClient';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
@@ -43,8 +43,8 @@ export const createPortfolio = async (
   // 삭제할 이미지 카운트
   const deleteImageCount = formdata.get('delete_count') as string;
 
-  // 삭제할 이미지 배열
-  const deleteImageArray: string[] = [];
+  // 삭제할 이미지 아이디 배열
+  const deleteImageArray: { id: string; image: string }[] = [];
 
   // 카테고리
   const category = formdata.get('category');
@@ -57,7 +57,9 @@ export const createPortfolio = async (
   }
 
   for (let i = 0; i < +deleteImageCount; i++) {
-    deleteImageArray.push(formdata.get(`delete_${i}`) as string);
+    const data = formdata.get(`delete_${i}`);
+    const datas = JSON.parse(data as string);
+    deleteImageArray.push(datas);
   }
 
   console.log(imageArray, '추가할 이미지 배열');
@@ -156,9 +158,15 @@ export const createPortfolio = async (
     }
 
     if (deleteImageArray.length > 0 && id) {
-      const { error } = await supabase.from('portfolio_images').delete().in('id', deleteImageArray);
+      const { error } = await supabase
+        .from('portfolio_images')
+        .delete()
+        .in(
+          'id',
+          deleteImageArray.map((image: any) => image.id),
+        );
 
-      // 클라우디네리 삭제 연산 추가하기
+      const result = await removeImages({ urls: deleteImageArray.map((image) => image.image) });
 
       if (error) {
         throw new Error(error.message);
@@ -170,6 +178,7 @@ export const createPortfolio = async (
   }
   revalidateTag('portfolio-detail');
   revalidateTag('portfolio-images');
+  revalidateTag('portfolio-list');
   errors.id = data.id;
 
   return errors;
