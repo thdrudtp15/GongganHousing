@@ -1,7 +1,9 @@
-import { notFound } from 'next/navigation';
+'use client';
 
-import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { ReactNode } from 'react';
+
+import useQueryParams from '@/lib/utils/useQueryParams';
 
 import { MdKeyboardDoubleArrowLeft } from 'react-icons/md';
 import { MdKeyboardDoubleArrowRight } from 'react-icons/md';
@@ -16,105 +18,72 @@ type Props = {
 
 const PaginationItem = ({
   children,
-  href,
+  handleClick,
   select,
 }: {
   children: ReactNode;
-  href?: string;
+  handleClick?: () => void;
   select?: boolean;
 }) => {
   const Classes = `flex items-center justify-center 
                  w-[32px] h-[32px] rounded-[8px] ${
-                   select
-                     ? 'bg-(--identity) text-white'
-                     : 'bg-white'
+                   select ? 'bg-(--identity) text-white' : 'bg-white'
                  }
-                 ${
-                   href
-                     ? 'hover:bg-(--identity) hover:text-white'
-                     : ''
-                 }
+                 ${handleClick ? 'hover:bg-(--identity) hover:text-white' : ''}
                  
                  `;
 
-  if (!href)
-    return (
-      <button className={Classes}>
-        {children}
-      </button>
-    );
+  if (!handleClick) return <button className={Classes}>{children}</button>;
 
   return (
-    <Link className={Classes} href={href}>
+    <button className={Classes} onClick={handleClick}>
       {children}
-    </Link>
+    </button>
   );
 };
 
-const Pagination = ({
-  pageSize,
-  totalCount,
-  nowPage = 1,
-}: Props) => {
+const Pagination = ({ pageSize, totalCount, nowPage = 1 }: Props) => {
   nowPage = +nowPage;
 
-  const totalPages =
-    (totalCount &&
-      Math.ceil(totalCount / pageSize)) ||
-    1;
+  const totalPages = (totalCount && Math.ceil(totalCount / pageSize)) || 1;
 
   if (nowPage > totalPages) {
     notFound();
   }
 
-  const sequentialPagination = (
-    type: 'prev' | 'next',
-  ) => {
-    if (type === 'next' && nowPage < totalPages) {
-      return `?page=${nowPage + 1}`;
-    } else if (type === 'prev' && nowPage !== 1) {
-      return `?page=${nowPage - 1}`;
-    }
-    return '';
-  };
+  const { handleQueryParams } = useQueryParams();
 
   const pageLimit = 5; // 페이지 네이션 표시 개수
   const pageArray: number[] = [];
 
-  const index = Math.floor(
-    (nowPage - 1) / pageLimit,
-  );
+  const index = Math.floor((nowPage - 1) / pageLimit);
 
-  for (
-    let i = index * pageLimit;
-    i < (index + 1) * pageLimit;
-    i++
-  ) {
+  for (let i = index * pageLimit; i < (index + 1) * pageLimit; i++) {
     if (i < totalPages) pageArray.push(i + 1);
   }
 
   return (
-    <div
-      className={
-        'flex gap-[5px] items-center mx-auto w-fit'
-      }
-    >
-      <PaginationItem href={`?page=1`}>
+    <div className={'flex gap-[5px] items-center mx-auto w-fit'}>
+      <PaginationItem
+        handleClick={() => {
+          if (nowPage > 1) handleQueryParams({ queryObj: { page: 1 } });
+        }}
+      >
         <MdKeyboardDoubleArrowLeft />
       </PaginationItem>
       <PaginationItem
-        href={sequentialPagination('prev')}
+        handleClick={() => {
+          if (nowPage > 1) handleQueryParams({ queryObj: { page: nowPage - 1 } });
+        }}
       >
         <MdKeyboardArrowLeft />
       </PaginationItem>
-      <ul
-        className={'flex gap-[5px] items-center'}
-      >
+      <ul className={'flex gap-[5px] items-center'}>
         {pageArray.map((page) => (
           <li key={page}>
             <PaginationItem
               select={page === nowPage}
-              href={`?page=${page}`}
+              handleClick={() => handleQueryParams({ queryObj: { page } })}
             >
               {page}
             </PaginationItem>
@@ -124,7 +93,7 @@ const Pagination = ({
           <>
             <PaginationItem>...</PaginationItem>
             <PaginationItem
-              href={`?page=${totalPages}`}
+              handleClick={() => handleQueryParams({ queryObj: { page: totalPages } })}
             >
               {totalPages}
             </PaginationItem>
@@ -132,12 +101,16 @@ const Pagination = ({
         )}
       </ul>
       <PaginationItem
-        href={sequentialPagination('next')}
+        handleClick={() => {
+          if (nowPage < totalPages) handleQueryParams({ queryObj: { page: nowPage + 1 } });
+        }}
       >
         <MdKeyboardArrowRight />
       </PaginationItem>
       <PaginationItem
-        href={`?page=${totalPages}`}
+        handleClick={() => {
+          if (nowPage < totalPages) handleQueryParams({ queryObj: { page: totalPages } });
+        }}
       >
         <MdKeyboardDoubleArrowRight />
       </PaginationItem>

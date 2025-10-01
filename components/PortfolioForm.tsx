@@ -4,6 +4,8 @@ import React, { useActionState, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import imageCompression from 'browser-image-compression';
 
+import { services } from '@/constants/services';
+
 import { createPortfolio } from '@/actions/portfolio';
 import { useRouter } from 'next/navigation';
 
@@ -195,9 +197,11 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
         />
         {state.completed_at}
         <select name="category" defaultValue={data?.category}>
-          <option value="실내건축">실내건축</option>
-          <option value="옥외광고물">옥외 광고물</option>
-          <option value="금속창호">금속창호</option>
+          {services.map((service) => (
+            <option key={service} value={service}>
+              {service}
+            </option>
+          ))}
         </select>
         {state.category}
         <textarea

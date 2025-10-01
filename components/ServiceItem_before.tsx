@@ -1,12 +1,6 @@
 'use client';
-import Image, {
-  StaticImageData,
-} from 'next/image';
-import {
-  useRef,
-  useState,
-  useEffect,
-} from 'react';
+import Image, { StaticImageData } from 'next/image';
+import { useRef, useState, useEffect } from 'react';
 import { ReactNode } from 'react';
 
 interface ServiceItemProps {
@@ -14,19 +8,11 @@ interface ServiceItemProps {
   image: StaticImageData;
 }
 
-const ServiceItem = ({
-  children,
-  image,
-}: ServiceItemProps) => {
-  const isMobile =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(pointer: coarse)')
-      .matches;
+const ServiceItem = ({ children, image }: ServiceItemProps) => {
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
 
   const ref = useRef<HTMLLIElement | null>(null);
-  const imgRef = useRef<HTMLDivElement | null>(
-    null,
-  );
+  const imgRef = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
 
   // 목표 좌표
@@ -37,13 +23,10 @@ const ServiceItem = ({
   const currentX = useRef(0);
   const currentY = useRef(0);
 
-  const handleMouseMove = (
-    e: React.MouseEvent,
-  ) => {
+  const handleMouseMove = (e: React.MouseEvent) => {
     if (!ref.current) return;
 
-    const rect =
-      ref.current.getBoundingClientRect();
+    const rect = ref.current.getBoundingClientRect();
     targetX.current = e.clientX - rect.left;
     targetY.current = e.clientY - rect.top;
   };
@@ -54,34 +37,24 @@ const ServiceItem = ({
     const animate = () => {
       if (imgRef.current) {
         // lerp로 부드럽게 이동
-        currentX.current +=
-          (targetX.current - currentX.current) *
-          0.2;
-        currentY.current +=
-          (targetY.current - currentY.current) *
-          0.2;
+        currentX.current += (targetX.current - currentX.current) * 0.2;
+        currentY.current += (targetY.current - currentY.current) * 0.2;
 
         imgRef.current.style.transform = `translate(${currentX.current}px, ${currentY.current}px)`;
       }
-      animationFrame =
-        requestAnimationFrame(animate);
+      animationFrame = requestAnimationFrame(animate);
     };
 
     animate();
 
-    return () =>
-      cancelAnimationFrame(animationFrame);
+    return () => cancelAnimationFrame(animationFrame);
   }, []);
 
   return (
     <li
       ref={ref}
-      onMouseEnter={() =>
-        isMobile || setVisible(true)
-      }
-      onMouseLeave={() =>
-        isMobile || setVisible(false)
-      }
+      onMouseEnter={() => isMobile || setVisible(true)}
+      onMouseLeave={() => isMobile || setVisible(false)}
       onMouseMove={handleMouseMove}
       className="relative py-[32px] text-[#0B1C30] font-medium text-[40px] border-b-[1px] border-[#8e8e8e]"
     >

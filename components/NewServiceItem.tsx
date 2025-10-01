@@ -24,8 +24,7 @@ const NewServiceItem = ({
     <div className="flex flex-col gap-10 relative md:flex-row">
       <motion.div
         initial={{
-          translateX:
-            start === 'left' ? -200 : 200,
+          translateX: start === 'left' ? -200 : 200,
           opacity: 0,
         }}
         animate={
@@ -39,17 +38,11 @@ const NewServiceItem = ({
           translateX: { duration: 1 },
         }}
         className={`w-[100%] md:w-[40%] ${
-          start === 'left'
-            ? 'md:order-first'
-            : 'md:order-last'
+          start === 'left' ? 'md:order-first' : 'md:order-last'
         } order-first`}
       >
-        <h2 className="text-4xl mb-4 font-bold">
-          {title}
-        </h2>
-        <div className="text-2xl mb-4 text-gray-500">
-          {desc}
-        </div>
+        <h2 className="text-4xl mb-4 font-bold">{title}</h2>
+        <div className="text-2xl mb-4 text-gray-500">{desc}</div>
         <button
           className="group
                   bg-(--identity)
@@ -82,17 +75,9 @@ const NewServiceItem = ({
         }}
         className="w-[100%] h-80 bg-black relative md:w-[60%]"
       >
-        <Image
-          src={image}
-          alt={title}
-          fill
-          className="object-cover"
-        />
+        <Image src={image} alt={title} fill className="object-cover" />
       </motion.div>
-      <div
-        ref={ref}
-        className="absolute top-[50%]"
-      ></div>
+      <div ref={ref} className="absolute top-[50%]"></div>
     </div>
   );
 };

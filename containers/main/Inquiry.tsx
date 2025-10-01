@@ -10,12 +10,9 @@ const Inquiry = () => {
           <Achivements />
           {/* <InquiryForm /> */}
           <div className="flex-1">
-            <h2 className="text-[80px] text-(--identity) font-bold">
-              상담문의
-            </h2>
+            <h2 className="text-[80px] text-(--identity) font-bold">상담문의</h2>
             <p className="text-5 text-[20px] text-[#717171] mb-10">
-              “편하게 문의 주시면, 최적의 솔루션을
-              찾아드립니다.”
+              “편하게 문의 주시면, 최적의 솔루션을 찾아드립니다.”
             </p>
             <Link
               href="/inquiry"

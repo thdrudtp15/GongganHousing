@@ -1,6 +1,8 @@
 import { unstable_cache } from 'next/cache';
 import { supabase } from '../supabase/supabaseClient';
 
+import { services } from '@/constants/services';
+
 export const getPortfolioData = unstable_cache(
   async (id: string) => {
     return await supabase.from('portfolio').select('*').eq('id', id).single();
@@ -22,12 +24,24 @@ export const getPorfolioImages = unstable_cache(
 );
 
 export const getPortfolioList = unstable_cache(
-  async (page: number, pageSize: number) => {
+  async ({
+    page,
+    pageSize,
+    category,
+    search,
+  }: {
+    page: number;
+    pageSize: number;
+    search?: string;
+    category?: string;
+  }) => {
     const from = ((+page || 1) - 1) * pageSize;
     const to = from + pageSize - 1;
     const { data, count } = await supabase
       .from('portfolio')
       .select('*', { count: 'exact' })
+      .eq('category', category)
+      .ilike('title', `%${search || ''}%`)
       .order('created_at', { ascending: false })
       .range(from, to);
 

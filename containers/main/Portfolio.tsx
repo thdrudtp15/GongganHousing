@@ -1,3 +1,4 @@
+import PortfolioCarousel from '@/components/PortfolioCarousel';
 import Section from '@/wrappers/Section';
 import Link from 'next/link';
 
@@ -5,20 +6,15 @@ const Portfolio = () => {
   return (
     <Section className="bg-(--identity)">
       <Section.Content>
-        <h2 className="text-4xl font-bold mb-4 text-white">
-          다양한 시공 사례를 확인해보세요
-        </h2>
-        <p className="text-lg text-gray-600 mb-8">
-          공간하우징이 진행한 다양한 시공 사례를
-          한눈에 확인할 수 있습니다.
-        </p>
-        <Link
-          href="/portfolio"
-          className="px-8 py-4 bg-black text-white rounded-lg hover:bg-gray-800 transition"
-        >
-          시공 사례 보기
-        </Link>
+        <h3 className="text-6xl text-[#fafafa] font-bold">시공 사례</h3>
+        <div className="flex justify-between">
+          <p className="text-[20px] text-[#717171]">
+            “투명한 과정, 전문적인 시공으로 당신의 공간을 완성합니다.”
+          </p>
+          <Link href="/portfolio">더 보기</Link>
+        </div>
       </Section.Content>
+      <PortfolioCarousel />
     </Section>
   );
 };
