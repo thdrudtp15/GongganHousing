@@ -2,6 +2,8 @@
 
 import React, { useActionState, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import imageCompression from 'browser-image-compression';
+
 import { createPortfolio } from '@/actions/portfolio';
 import { useRouter } from 'next/navigation';
 
@@ -31,19 +33,19 @@ const Preview = ({
     preview = file.image;
   }
   return (
-    <div className="h-40 w-40 relative" onClick={() => removeImage(file)}>
+    <div
+      className="h-40 w-40 relative"
+      onClick={() => {
+        URL.revokeObjectURL(preview);
+        removeImage(file);
+      }}
+    >
       <Image fill src={preview} alt="upload image" />
     </div>
   );
 };
 
 const PreviewImage = React.memo(Preview);
-
-// 기존 이미지 삭제 시 삭제 배열에 in
-// 추가 이미지 삭제 시에는 images 배열에서 제거
-
-// 삭제 배열에 있는 id로 DB 조작하여 삭제 - 클라우드 이미지 삭제까지 까면 더 조을듯
-// 추가 이미지의 경우 이미 정의 된 로직으로 클라우드 추가 및 DB 추가
 
 const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: ExistingImage[] }) => {
   const router = useRouter();
@@ -97,7 +99,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
   //========================
   // 이미지 추가
   //========================
-  const addImage = (e: ChangeEvent<HTMLInputElement>) => {
+  const addImage = async (e: ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
     const { files } = e.target;
 
@@ -105,17 +107,36 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
     const map = new Map();
     const MAX_SIZE = 1 * 1024 * 1024; // 1MB in bytes
 
-    Array.from(files).forEach((file) => {
-      if (file.size <= MAX_SIZE) {
-        map.set(`${file.name}-${file.lastModified}-${file.size}`, file);
-      }
-    });
+    await Promise.all(
+      Array.from(files).map(async (file) => {
+        if (file.size <= MAX_SIZE) {
+          map.set(`${file.name}-${file.lastModified}-${file.size}`, file);
+        } else {
+          try {
+            // 이미지 압축
+            const target = await imageCompression(file, {
+              maxSizeMB: 1,
+              maxWidthOrHeight: 800,
+              useWebWorker: true,
+            });
+            // 압축된파일 Blob -> File 형태로 변환
+            const fileTarget = new File([target], target.name, {
+              type: target.type,
+              lastModified: target.lastModified,
+            });
+            map.set(`${file.name}-${file.lastModified}-${file.size}`, fileTarget);
+          } catch (e) {
+            console.log('이미지 압축 실패 : ', e);
+          }
+        }
+      }),
+    );
+
     const array = Array.from(map.values());
 
     if (array.length < files.length) {
       alert('1MB 이하의 파일만 업로드할 수 있습니다.');
     }
-
     // setter
     setImages((prev) => {
       return [...(prev ?? []), ...array];
@@ -130,10 +151,12 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
   const removeImage = (file: ImageItem) => {
     if (!images || images.length === 0) return;
 
+    // 오브젝트 (현재 DB에 저장된 이미지의 경우)
     if ('id' in file) {
+      // 삭제 배열에 추가
       setDeleteImage((prev) => [...(prev ?? []), file]);
     }
-
+    // 파일의 경우
     const filtered = images.filter((item) => {
       if (item instanceof File && file instanceof File) {
         return !(item.name === file.name && item.lastModified === file.lastModified);
