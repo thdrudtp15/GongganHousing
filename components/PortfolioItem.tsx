@@ -5,6 +5,7 @@ import type { Portfolio } from '@/types/portfolio';
 import Link from 'next/link';
 
 import { formatDate } from '@/lib/utils/formatDate';
+import React from 'react';
 
 const PortfolioItem = ({ data }: { data: Portfolio }) => {
   return (
@@ -42,4 +43,23 @@ const PortfolioItem = ({ data }: { data: Portfolio }) => {
   );
 };
 
-export default PortfolioItem;
+const PortfolioGrid = ({ portfolioData }: { portfolioData: Portfolio[] }) => {
+  if (!portfolioData || portfolioData.length < 1) {
+    return (
+      <div className="w-full flex items-center justify-center h-100">검색 결과가 없습니다.</div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-1 gap-8 mb-20">
+      {portfolioData &&
+        portfolioData.map((portfolio) => (
+          <React.Fragment key={portfolio.id}>
+            <PortfolioItem data={portfolio} />
+          </React.Fragment>
+        ))}
+    </div>
+  );
+};
+
+export default PortfolioGrid;

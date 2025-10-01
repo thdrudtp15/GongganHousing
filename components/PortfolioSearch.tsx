@@ -14,7 +14,8 @@ const PortfolioSearch = ({ search, category }: { search: string; category: strin
   };
 
   const handleCategory = (e: ChangeEvent<HTMLSelectElement>) => {
-    handleQueryParams({ queryObj: { page: 1, category: e.target.value } });
+    const { value } = e.target;
+    handleQueryParams({ queryObj: { page: 1, category: value === '전체' ? '' : value } });
   };
 
   return (
@@ -23,6 +24,7 @@ const PortfolioSearch = ({ search, category }: { search: string; category: strin
         type="text"
         className="flex-1"
         placeholder="제목으로 검색"
+        defaultValue={search}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
             const { value } = e.target as HTMLInputElement;
@@ -31,12 +33,12 @@ const PortfolioSearch = ({ search, category }: { search: string; category: strin
         }}
       />
       <select
-        value={category || services?.[0]}
+        value={category}
         onChange={(e) => {
           handleCategory(e);
         }}
       >
-        {services.map((service) => (
+        {['전체', ...services].map((service) => (
           <option key={service} value={service}>
             {service}
           </option>

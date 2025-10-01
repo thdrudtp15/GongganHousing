@@ -1,22 +1,25 @@
 'use client';
 
-import type { ReactNode } from 'react';
-
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { StaticImageData } from 'next/image';
 import Image from 'next/image';
+
+import type { ReactNode } from 'react';
 
 const NewServiceItem = ({
   title,
   desc,
   start,
   image,
+  href,
 }: {
   title: string;
   desc: ReactNode;
   start: 'left' | 'right';
   image: StaticImageData;
+  href: string;
 }) => {
   const { ref, inView } = useInView();
 
@@ -53,9 +56,12 @@ const NewServiceItem = ({
                   cursor-pointer
                   "
         >
-          <p className="relative flex items-center gap-[12px] z-[3] text-white duration-600">
+          <Link
+            href={href}
+            className="relative flex items-center gap-[12px] z-[3] text-white duration-600"
+          >
             시공 사례 보러가기
-          </p>
+          </Link>
         </button>
       </motion.div>
       <motion.div
