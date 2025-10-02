@@ -6,9 +6,7 @@ import InquiryForm from '@/components/InquiryForm';
 const Page = () => {
   return (
     <div>
-      <PageBanner image={bannerImg}>
-        상담문의
-      </PageBanner>
+      <PageBanner image={bannerImg}>상담문의</PageBanner>
       <Section className="bg-[#f5f6f5]">
         <Section.Content>
           <InquiryForm />

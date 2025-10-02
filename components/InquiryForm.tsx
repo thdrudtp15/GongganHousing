@@ -1,7 +1,11 @@
 'use client';
 
 import { sendInpuiry } from '@/actions/sendInquiry';
-import { useActionState } from 'react';
+import { verifyTurnstileToken } from '@/actions/turnstile';
+
+import { useActionState, useState, useEffect } from 'react';
+
+import { Turnstile } from '@marsidev/react-turnstile';
 
 import '../app/globals.css';
 
@@ -14,15 +18,7 @@ type InputProps = {
   className?: string;
 };
 
-const Checkbox = ({
-  text,
-  name,
-  error,
-}: {
-  text: string;
-  name: string;
-  error: string;
-}) => {
+const Checkbox = ({ text, name, error }: { text: string; name: string; error: string }) => {
   return (
     <label className="w-[fit-content] text-[#222222]">
       <input
@@ -36,14 +32,7 @@ const Checkbox = ({
   );
 };
 
-const Input = ({
-  title,
-  error,
-  type,
-  name,
-  placeholder,
-  className,
-}: InputProps) => {
+const Input = ({ title, error, type, name, placeholder, className }: InputProps) => {
   const inputClassName = `
         p-[12px] w-full outline-none
         border-b-[2px] border-b-[#cccccc]
@@ -77,36 +66,40 @@ const Input = ({
 };
 
 const InquiryForm = () => {
-  // const [token, setToken] = useState<string | null>(null);
-  // const [widgetId, setWidgetId] = useState<number | null>(null);
-
-  const [state, action, pending] = useActionState(
-    sendInpuiry,
-    {
-      name: '',
-      phone: '',
-      inquiry: '',
-      agree: '',
-      server: '',
-    },
-  );
+  const [token, setToken] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [state, action, pending] = useActionState(sendInpuiry, {
+    name: '',
+    phone: '',
+    inquiry: '',
+    agree: '',
+    server: '',
+  });
 
   // 턴스타일 + IP 기반 서버 제한
 
+  useEffect(() => {
+    if (!token) return;
+    const verify = async () => {
+      const res = await verifyTurnstileToken(token);
+      setIsSuccess(res);
+    };
+
+    verify();
+  }, [token]);
+
   return (
     <div className="flex-1">
+      <Turnstile
+        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY as string}
+        onSuccess={(token) => setToken(token)}
+      />
       <div id="widget-container"></div>
-      <h3 className="text-6xl text-[#0b1b30] font-bold mb-[8px]">
-        상담문의
-      </h3>
+      <h3 className="text-6xl text-[#0b1b30] font-bold mb-[8px]">상담문의</h3>
       <p className="text-[20px] font-medium mb-[60px] text-[#222222]">
-        “편하게 문의 주시면, 최적의 솔루션을
-        찾아드립니다.”
+        “편하게 문의 주시면, 최적의 솔루션을 찾아드립니다.”
       </p>
-      <form
-        className="flex flex-col gap-[20px]"
-        action={action}
-      >
+      <form className="flex flex-col gap-[20px]" action={action}>
         <div className="flex flex-col gap-[40px]">
           <Input
             title="이름"
@@ -131,16 +124,18 @@ const InquiryForm = () => {
             className="resize-none h-[96px]"
           />
         </div>
-        <Checkbox
-          text="개인정보취급방침동의"
-          name="agree"
-          error={state.agree}
+        <Checkbox text="개인정보취급방침동의" name="agree" error={state.agree} />
+        <Turnstile
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY as string}
+          onSuccess={(token) => setToken(token)}
         />
         <button
-          disabled={pending}
+          disabled={pending || !isSuccess}
           className="py-[20px] px-[30px] w-full cursor-pointer bg-[#0c1d30] font-medium text-[20px] text-[#F5F6F5]"
         >
-          상담 신청하기
+          {pending && '...'}
+          {!isSuccess && '검증 요망'}
+          {isSuccess && '상담 요청하기'}
         </button>
         {state.server}
       </form>

@@ -4,6 +4,12 @@ import * as z from 'zod';
 
 import { getHtml, getMailContent, transporter } from '@/lib/mail/mail';
 import { supabase } from '@/lib/supabase/supabaseClient';
+import rateLimit from 'express-rate-limit';
+
+const limiter = {
+  windowMs: 15 * 60 * 1000,
+  max: 3,
+};
 
 export type sendInpuiryPrevStateType = {
   name: string;
@@ -14,7 +20,7 @@ export type sendInpuiryPrevStateType = {
 };
 
 export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData: FormData) => {
-  const errors = { ...prevState }; // 새로운 오브젝트를 만들어주어야 한다.
+  const errors = { ...prevState };
 
   const name = formData.get('name') as string;
   const phone = formData.get('phone') as string;
