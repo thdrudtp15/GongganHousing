@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
-import { getPortfolioData, getPorfolioImages } from '@/lib/queries/portfolio';
+import { getPortfolioData_ } from '@/lib/queries/portfolio';
 
 import PageBanner from '@/containers/PageBanner';
+import Section from '@/wrappers/Section';
 
 import dummy from '@/public/images/banner_inquiry.webp';
 
@@ -13,7 +14,7 @@ type Props = {
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { id } = await params;
-  const { data } = await getPortfolioData(id);
+  const { data } = await getPortfolioData_(id);
 
   if (!data) notFound();
 
@@ -29,14 +30,14 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
 
 const Detail = async ({ params }: Props) => {
   const { id } = await params;
-  const { data } = await getPortfolioData(id);
-  const { data: image } = await getPorfolioImages(id);
-
-  console.log(data);
+  const { data } = await getPortfolioData_(id);
 
   return (
     <div>
       <PageBanner image={dummy}>시공사례</PageBanner>
+      <Section>
+        <Section.Content>ㅎㅇ</Section.Content>
+      </Section>
     </div>
   );
 };

@@ -12,10 +12,9 @@ const PortfolioItem = ({ data }: { data: Portfolio }) => {
     <article
       className={`w-full flex flex-col md:flex-row py-6 border-b border-gray-300  gap-6    `}
     >
-      {/* 이미지 섹션 */}
       <Link
         href={`/portfolio/${data.id}`}
-        className="w-[100%] aspect-[1/1] md:w-[20%] md:aspect-[1.2/1]  overflow-hidden relative rounded-sm bg-gray-100"
+        className="w-[100%] aspect-[1/1] md:w-[30%] md:aspect-[1.2/1]  overflow-hidden relative rounded-sm bg-gray-100"
       >
         <Image
           src={dummy1}
@@ -25,16 +24,17 @@ const PortfolioItem = ({ data }: { data: Portfolio }) => {
           sizes="(max-width: 768px)  432px, 320px"
         />
       </Link>
-
-      {/* 콘텐츠 섹션 */}
       <div className="flex-1 min-w-0 flex flex-col justify-center">
         <div className="space-y-1">
           <h3 className="text-2xl font-semibold text-gray-900">{data.title}</h3>
-          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">{'설명'}</p>
+          <p className="text-sm text-gray-600 line-clamp-2 leading-relaxed">{data.description}</p>
         </div>
+        <p>{data.category}</p>
 
         <div className="mb-10">
-          <time className="text-xs text-gray-500 font-medium ">{formatDate(data.created_at)}</time>
+          <time className="text-xs text-gray-500 font-medium ">
+            시공 날짜: {formatDate(data.completed_at)}
+          </time>
         </div>
 
         <Link href={`/portfolio/${data.id}`}>View More</Link>
@@ -51,7 +51,7 @@ const PortfolioGrid = ({ portfolioData }: { portfolioData: Portfolio[] }) => {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-1 gap-8 mb-20">
+    <div className="grid grid-cols-2 md:grid-cols-2 gap-8 mb-20">
       {portfolioData &&
         portfolioData.map((portfolio) => (
           <React.Fragment key={portfolio.id}>

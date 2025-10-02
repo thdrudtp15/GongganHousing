@@ -2,7 +2,7 @@ import React from 'react';
 
 import Pagination from '@/components/Pagination';
 import PageBanner from '@/containers/PageBanner';
-import PortfolioGrid from '@/components/PortfolioItem';
+import PortfolioGrid from '@/components/PortfolioGrid';
 import PortfolioSearch from '@/components/PortfolioSearch';
 import Section from '@/wrappers/Section';
 

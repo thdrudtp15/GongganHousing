@@ -23,9 +23,7 @@ export const authOptions = {
   // 쿠키 설정
   cookies: {
     sessionToken: {
-      name: `${
-        process.env.NODE_ENV === 'production' ? '__Host-' : ''
-      }next-auth.session-token`,
+      name: `${process.env.NODE_ENV === 'production' ? '__Host-' : ''}next-auth.session-token`,
       options: {
         httpOnly: true,
         sameSite: 'lax',
@@ -36,9 +34,10 @@ export const authOptions = {
   },
 
   // callbacks: useSession / getServerSession 호출 시 리턴할 내용
+
   callbacks: {
     async signIn({ user }: SignInParams) {
-      const allowedEmails = [...process.env.ALLOWED_EMAILS!.split(',')];
+      const allowedEmails = [...process.env.ALLOWED_EMAILS!.trim().split(',')];
 
       if (user.email && allowedEmails.includes(user.email)) {
         return true; // 로그인 허용

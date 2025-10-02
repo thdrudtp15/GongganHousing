@@ -53,18 +53,6 @@ const Footer = async () => {
         <div className="border-t border-gray-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-xs text-gray-400">© 2025 공간하우징. All rights reserved.</p>
-
-            <div className="flex items-center space-x-6">
-              <a href="#" className="text-xs text-gray-400 hover:text-white transition-colors">
-                개인정보처리방침
-              </a>
-              <a href="#" className="text-xs text-gray-400 hover:text-white transition-colors">
-                이용약관
-              </a>
-              <a href="#" className="text-xs text-gray-400 hover:text-white transition-colors">
-                사업자정보확인
-              </a>
-            </div>
           </div>
         </div>
       </div>

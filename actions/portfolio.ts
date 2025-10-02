@@ -117,8 +117,6 @@ export const createPortfolio = async (
       .select('id')
       .single();
   } else {
-    console.log(+id, '하잉염');
-
     serverResult = await supabase
       .from('portfolio')
       .update({
@@ -176,8 +174,8 @@ export const createPortfolio = async (
     console.log(error);
     errors.server = error as string;
   }
-  revalidateTag('portfolio-detail');
-  revalidateTag('portfolio-images');
+
+  revalidateTag('portfolio');
   revalidateTag('portfolio-list');
   errors.id = data.id;
 

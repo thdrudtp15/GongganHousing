@@ -13,10 +13,7 @@ export type sendInpuiryPrevStateType = {
   server: string;
 };
 
-export const sendInpuiry = async (
-  prevState: sendInpuiryPrevStateType,
-  formData: FormData,
-) => {
+export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData: FormData) => {
   const errors = { ...prevState }; // 새로운 오브젝트를 만들어주어야 한다.
 
   const name = formData.get('name') as string;
@@ -63,15 +60,9 @@ export const sendInpuiry = async (
       const html = getHtml(name);
       const mailContent = getMailContent(html);
       await transporter.sendMail(mailContent);
-      await supabase
-        .from('inquiries')
-        .update({ status: 'success' })
-        .eq('id', data.id);
+      await supabase.from('inquiries').update({ status: 'success' }).eq('id', data.id);
     } catch (error) {
-      await supabase
-        .from('inquiries')
-        .update({ status: 'failed' })
-        .eq('id', data.id);
+      await supabase.from('inquiries').update({ status: 'failed' }).eq('id', data.id);
       errors.server = '서버 에러가 발생하였습니다.';
       console.log(error);
       return errors;
