@@ -1,11 +1,11 @@
 'use client';
 
 import { sendInpuiry } from '@/actions/sendInquiry';
-import { verifyTurnstileToken } from '@/actions/turnstile';
-
-import { useActionState, useState, useEffect } from 'react';
+import { useActionState, useState, useRef, FormEvent } from 'react';
 
 import { Turnstile } from '@marsidev/react-turnstile';
+
+import type { TurnstileInstance } from '@marsidev/react-turnstile';
 
 import '../app/globals.css';
 
@@ -67,7 +67,7 @@ const Input = ({ title, error, type, name, placeholder, className }: InputProps)
 
 const InquiryForm = () => {
   const [token, setToken] = useState<string | null>(null);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const turnstileRef = useRef<TurnstileInstance>(null);
   const [state, action, pending] = useActionState(sendInpuiry, {
     name: '',
     phone: '',
@@ -76,30 +76,21 @@ const InquiryForm = () => {
     server: '',
   });
 
-  // 턴스타일 + IP 기반 서버 제한
-
-  useEffect(() => {
-    if (!token) return;
-    const verify = async () => {
-      const res = await verifyTurnstileToken(token);
-      setIsSuccess(res);
-    };
-
-    verify();
-  }, [token]);
+  const handleSubmit = async (formData: FormData) => {
+    if (!turnstileRef.current) return;
+    action(formData);
+    // 턴스타일 초기화
+    turnstileRef.current.reset();
+  };
 
   return (
     <div className="flex-1">
-      <Turnstile
-        siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY as string}
-        onSuccess={(token) => setToken(token)}
-      />
       <div id="widget-container"></div>
       <h3 className="text-6xl text-[#0b1b30] font-bold mb-[8px]">상담문의</h3>
       <p className="text-[20px] font-medium mb-[60px] text-[#222222]">
         “편하게 문의 주시면, 최적의 솔루션을 찾아드립니다.”
       </p>
-      <form className="flex flex-col gap-[20px]" action={action}>
+      <form className="flex flex-col gap-[20px]" action={handleSubmit}>
         <div className="flex flex-col gap-[40px]">
           <Input
             title="이름"
@@ -128,16 +119,18 @@ const InquiryForm = () => {
         <Turnstile
           siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY as string}
           onSuccess={(token) => setToken(token)}
+          ref={turnstileRef}
         />
         <button
-          disabled={pending || !isSuccess}
+          disabled={pending || !token}
           className="py-[20px] px-[30px] w-full cursor-pointer bg-[#0c1d30] font-medium text-[20px] text-[#F5F6F5]"
         >
           {pending && '...'}
-          {!isSuccess && '검증 요망'}
-          {isSuccess && '상담 요청하기'}
+          {!token && '검증 요망'}
+          {token && !pending && '상담 요청하기'}
         </button>
         {state.server}
+        <input type="hidden" value={token || ''} name="turnstile_token" />
       </form>
     </div>
   );

@@ -16,7 +16,6 @@
     "browser-image-compression": "^2.0.2",
     "cloudinary": "^2.7.0",
     "embla-carousel-react": "^8.6.0",
-    "express-rate-limit": "^8.1.0",
     "framer-motion": "^12.23.12",
     "jsonwebtoken": "^9.0.2",
     "next": "15.5.2",

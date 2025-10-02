@@ -3,13 +3,9 @@
 import * as z from 'zod';
 
 import { getHtml, getMailContent, transporter } from '@/lib/mail/mail';
+import { verifyTurnstileToken } from './turnstile';
 import { supabase } from '@/lib/supabase/supabaseClient';
-import rateLimit from 'express-rate-limit';
-
-const limiter = {
-  windowMs: 15 * 60 * 1000,
-  max: 3,
-};
+import { headers } from 'next/headers';
 
 export type sendInpuiryPrevStateType = {
   name: string;
@@ -26,6 +22,13 @@ export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData:
   const phone = formData.get('phone') as string;
   const inquiry = formData.get('inquiry') as string;
   const agree = formData.get('agree') === 'on';
+  const token = formData.get('turnstile_token') as string;
+
+  const verify = await verifyTurnstileToken(token);
+
+  if (!verify) {
+    return { ...errors, server: '보안 검증 실패' };
+  }
 
   const Inquiry = z.object({
     name: z
@@ -55,9 +58,28 @@ export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData:
     return errors;
   }
 
+  const headersList = await headers();
+  const ip = headersList.get('x-forwarded-for') || headersList.get('x-real-ip') || 'unknown';
+
+  // 10분 내 같은 IP 3회 이상 제출 차단
+  const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+
+  const { data: recentSubmissions } = await supabase
+    .from('inquiries')
+    .select('id')
+    .eq('ip_address', ip)
+    .gte('created_at', tenMinutesAgo);
+
+  if (recentSubmissions && recentSubmissions.length >= 2) {
+    return {
+      ...errors,
+      server: '너무 많은 요청입니다. 10분 후 다시 시도해주세요.',
+    };
+  }
+
   const { data, error } = await supabase
     .from('inquiries')
-    .insert({ name, phone, inquiry })
+    .insert({ name, phone, inquiry, ip_address: ip })
     .select('id')
     .single();
 
