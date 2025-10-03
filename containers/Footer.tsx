@@ -1,18 +1,12 @@
 import Image from 'next/image';
 
 import logoImg from '@/public/svgs/logo_b.svg';
-import Auth from '@/components/Auth';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 const Footer = async () => {
-  const session = await getServerSession(authOptions);
-
   return (
     <footer className="bg-[#202020]  text-white px-[2rem] py-16">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-12">
-          {/* 로고 및 회사 소개 */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-4">
           <div className="lg:col-span-1">
             <div className="mb-6">
               <Image
@@ -25,7 +19,6 @@ const Footer = async () => {
             </div>
           </div>
 
-          {/* 연락처 정보 */}
           <div className="lg:col-span-2">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div>
@@ -49,14 +42,12 @@ const Footer = async () => {
           </div>
         </div>
 
-        {/* 하단 구분선 및 저작권 */}
         <div className="border-t border-gray-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-xs text-gray-400">© 2025 공간하우징. All rights reserved.</p>
           </div>
         </div>
       </div>
-      <Auth session={session} />
     </footer>
   );
 };

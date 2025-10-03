@@ -1,7 +1,7 @@
 'use client';
 
 import { sendInpuiry } from '@/actions/sendInquiry';
-import { useActionState, useState, useRef, FormEvent } from 'react';
+import { useActionState, useState, useRef } from 'react';
 
 import { Turnstile } from '@marsidev/react-turnstile';
 

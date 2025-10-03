@@ -22,7 +22,7 @@ const PortfolioSearch = ({ search, category }: { search: string; category: strin
     <div className="flex w-full">
       <input
         type="text"
-        className="flex-1"
+        className="flex-1 border border-gray-300 p-2 "
         placeholder="제목으로 검색"
         defaultValue={search}
         onKeyDown={(e) => {
@@ -34,6 +34,7 @@ const PortfolioSearch = ({ search, category }: { search: string; category: strin
       />
       <select
         value={category}
+        className="border border-l-0 border-gray-300"
         onChange={(e) => {
           handleCategory(e);
         }}

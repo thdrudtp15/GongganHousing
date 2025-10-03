@@ -10,7 +10,7 @@ const Section = ({
   id?: string;
 }) => {
   return (
-    <section id={id} className={`py-28 px-8 ${className}`}>
+    <section id={id} className={`pb-12 px-8 ${className}`}>
       {children}
     </section>
   );
@@ -19,7 +19,9 @@ const Section = ({
 export default Section;
 
 const Content = ({ children, className }: { children: ReactNode; className?: string }) => {
-  return <div className={`max-w-310 mx-auto ${className}`}>{children}</div>;
+  return (
+    <div className={`max-w-270 mx-auto border-t border-gray-200 py-4 ${className}`}>{children}</div>
+  );
 };
 
 Section.Content = Content;

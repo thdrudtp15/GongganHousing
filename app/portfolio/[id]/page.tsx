@@ -1,12 +1,12 @@
 import { notFound } from 'next/navigation';
-import type { Metadata } from 'next';
-
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 import { getPortfolioData_ } from '@/lib/queries/portfolio';
+import { formatDate } from '@/lib/utils/formatDate';
 
-import PageBanner from '@/containers/PageBanner';
-import Section from '@/wrappers/Section';
-
-import dummy from '@/public/images/banner_inquiry.webp';
+import type { Metadata } from 'next';
+import PortfolioDetailImageGrid from '@/components/PortfolioDetailImageGrid';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -32,12 +32,43 @@ const Detail = async ({ params }: Props) => {
   const { id } = await params;
   const { data } = await getPortfolioData_(id);
 
+  if (!data) return;
+
   return (
     <div>
-      <PageBanner image={dummy}>시공사례</PageBanner>
-      <Section>
-        <Section.Content>ㅎㅇ</Section.Content>
-      </Section>
+      <div className="pt-30 pb-20 bg-gray-50">
+        <div className="max-w-270 w-full shadow-2xl h-fit m-auto bg-white p-8 overflow-hidden">
+          <h1 className="text-3xl font-bold mb-4">시공 사례</h1>
+          <div className="border-t mb-8">
+            <div className=" border-b border-gray-300 flex py-4">
+              <h2 className="w-[20%]">제목</h2>
+              <p className="text-gray-500">{data.title}</p>
+            </div>
+            <div className=" border-b border-gray-300 flex py-4">
+              <h2 className="w-[20%]">설명</h2>
+              <p className="text-gray-500">{data.description}</p>
+            </div>
+            <div className=" border-b border-gray-300 flex py-4">
+              <h2 className="w-[20%]">시공 기간</h2>
+              <p className="text-gray-500">
+                {formatDate(data.created_at)} ~ {formatDate(data.completed_at)}
+              </p>
+            </div>
+            <div className=" border-b border-gray-300 flex py-4">
+              <h2 className="w-[20%]">분류</h2>
+              <p className="text-gray-500">{data.category}</p>
+            </div>
+          </div>
+          <h2 className="text-2xl font-bold  mb-4">시공 사진</h2>
+          <PortfolioDetailImageGrid images={data.portfolio_images} />
+          <button
+            type="button"
+            className="border text-gray-500 border-gray-400 m-auto block cursor-pointer py-2 px-4"
+          >
+            목록으로
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

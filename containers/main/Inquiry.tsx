@@ -1,14 +1,64 @@
 import Section from '@/wrappers/Section';
-import Achivements from '@/components/Achivements';
+import Map from '@/components/Map';
 import Link from 'next/link';
 
 const Inquiry = () => {
   return (
-    <>
-      <Section id="상담문의">
-        <Section.Content className="flex justify-between items-center gap-[60px]">
+    <Section>
+      <Section.Content>
+        <h2 className="text-5xl font-bold" id="사업영역">
+          상담 및 문의
+        </h2>
+        <p className="text-lg text-gray-500 mb-8">CONTACT US</p>
+        <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-2 gap-8">
+            <div className="space-y-2">
+              <h3 className="font-bold text-2xl text-gray-900">주소</h3>
+              <p className="text-gray-600 leading-relaxed">충남 계룡시 엄사면 번영로 10, 303호</p>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="font-bold text-2xl text-gray-900">전화번호</h3>
+              <p className="text-gray-600">
+                <a href="tel:042-840-8522" className="hover:underline">
+                  042-840-8522~3
+                </a>
+              </p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-bold text-2xl text-gray-900">이메일</h3>
+              <p className="text-gray-600">
+                <a href="mailto:gonggan@naver.com" className="hover:underline">
+                  gonggan@naver.com
+                </a>
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="font-bold text-2xl text-gray-900">영업시간</h3>
+              <p className="text-gray-600">09:00~18:00</p>
+            </div>
+          </div>
+          <aside className="w-full h-100 shadow-lg" aria-label="위치 지도">
+            <Map />
+          </aside>
+          <Link
+            href="/inquiry"
+            className="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors duration-200 mt-4 w-fit"
+          >
+            문의하기
+          </Link>
+        </div>
+      </Section.Content>
+    </Section>
+  );
+};
+
+export default Inquiry;
+{
+  /* <Section.Content className="flex justify-between items-center gap-[60px]">
           <Achivements />
-          {/* <InquiryForm /> */}
+          
           <div className="flex-1">
             <h2 className="text-[80px] text-(--identity) font-bold">상담문의</h2>
             <p className="text-5 text-[20px] text-[#717171] mb-10">
@@ -22,10 +72,5 @@ const Inquiry = () => {
               문의하기
             </Link>
           </div>
-        </Section.Content>
-      </Section>
-    </>
-  );
-};
-
-export default Inquiry;
+        </Section.Content> */
+}

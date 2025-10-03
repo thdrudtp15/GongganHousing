@@ -9,16 +9,6 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
-
 export const metadata: Metadata = {
   title: '공간하우징',
   description: '공간하우징 웹 사이트입니다.',
@@ -51,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.className} antialiased`}
       >
         <Header />
         {children}
