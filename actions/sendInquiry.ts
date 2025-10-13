@@ -13,6 +13,7 @@ export type sendInpuiryPrevStateType = {
   inquiry: string;
   agree: string;
   server: string;
+  file: string;
 };
 
 export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData: FormData) => {
@@ -23,6 +24,9 @@ export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData:
   const inquiry = formData.get('inquiry') as string;
   const agree = formData.get('agree') === 'on';
   const token = formData.get('turnstile_token') as string;
+  const files = formData.getAll('files') as File[];
+
+  console.log(files);
 
   const verify = await verifyTurnstileToken(token);
 
@@ -31,12 +35,7 @@ export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData:
   }
 
   const Inquiry = z.object({
-    name: z
-      .string()
-      .nonempty({ error: '이름은 필수입니다.' })
-      .regex(/^[가-힣a-zA-Z]{2,30}$/, {
-        message: '이름은 2~30자의 한글 또는 영어만 가능합니다.',
-      }),
+    name: z.string().nonempty({ error: '이름은 필수입니다.' }),
     phone: z.string().nonempty({ error: '연락처는 필수입니다.' }),
     // .regex(/^01[016789]-?\d{3,4}-?\d{4}$/, {
     //   message: '올바른 전화번호를 입력해주세요.',
@@ -70,7 +69,7 @@ export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData:
     .eq('ip_address', ip)
     .gte('created_at', tenMinutesAgo);
 
-  if (recentSubmissions && recentSubmissions.length >= 2) {
+  if (recentSubmissions && recentSubmissions.length >= 3) {
     return {
       ...errors,
       server: '너무 많은 요청입니다. 10분 후 다시 시도해주세요.',
@@ -83,10 +82,17 @@ export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData:
     .select('id')
     .single();
 
+  const attachments = await Promise.all(
+    files.map(async (file) => ({
+      filename: file.name,
+      content: Buffer.from(await file.arrayBuffer()),
+    })),
+  );
+
   if (data) {
     try {
       const html = getHtml(name);
-      const mailContent = getMailContent(html);
+      const mailContent = getMailContent(html, attachments);
       await transporter.sendMail(mailContent);
       await supabase.from('inquiries').update({ status: 'success' }).eq('id', data.id);
     } catch (error) {

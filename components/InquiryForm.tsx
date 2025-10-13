@@ -1,25 +1,29 @@
 'use client';
 import { sendInpuiry } from '@/actions/sendInquiry';
-import { useActionState, useState, useRef } from 'react';
+import { useActionState, useState, useRef, useEffect } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
-import {Input, Textarea, Checkbox} from '@/compositions/Input';
+import {Input, Textarea, Checkbox, File} from '@/compositions/Input';
 import Select from '@/compositions/Select';
 
 import { services } from '@/constants/services';
 
 import type { TurnstileInstance } from '@marsidev/react-turnstile';
+import type { ChangeEvent } from 'react';
 
 const InquiryForm = () => {
   const [token, setToken] = useState<string | null>(null);
   const turnstileRef = useRef<TurnstileInstance>(null);
+  const [files, setFiles] = useState<File[]>([]);
+
   const [state, action, pending] = useActionState(sendInpuiry, {
     name: '',
     phone: '',
     inquiry: '',
     agree: '',
     server: '',
+    file : ''
   });
 
   const handleSubmit = async (formData: FormData) => {
@@ -28,6 +32,18 @@ const InquiryForm = () => {
     // 턴스타일 초기화
     turnstileRef.current.reset();
   };
+
+  const addFile = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { files }  = e.target as HTMLInputElement
+    if (files) {
+      setFiles(Array.from(files));
+    }
+  };
+
+
+  useEffect(() => {
+    alert(state.server)
+  },[state.server])
 
   return (
     <div className="flex-1">
@@ -64,12 +80,10 @@ const InquiryForm = () => {
             placeholder="문의 내용을 작성해주세요"
             className="resize-none h-[96px]"
           />
-            <Input
+          <File
             title="첨부파일"
-            error={state.phone}
-            type="file"
-            name="phone"
-            placeholder="연락처를 작성해주세요"
+            name="files"
+            onChange={addFile}
           />
         </div>
         <Checkbox title="개인정보취급방침동의" name="agree" error={state.agree} />
@@ -85,7 +99,6 @@ const InquiryForm = () => {
           {(pending || !token) && <AiOutlineLoading3Quarters fontSize={20} className="animate-spin m-auto" />}
           {token && !pending && '상담 요청하기'}
         </button>
-        {state.server}
         <input type="hidden" value={token || ''} name="turnstile_token" />
       </form>
     </div>

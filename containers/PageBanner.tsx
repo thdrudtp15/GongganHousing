@@ -63,11 +63,9 @@ const Breadcrumb = ({
         <MdKeyboardArrowRight fontSize={20}/>
         {breadcrumb.map((item, index) => (
          <Fragment key={item.title}>
-           {item.path ? <Link href={item.path} className='text-sm'>
-              {item.title}
-            </Link> : 
-            <span className='text-md'>{item.title}</span>}
-       
+           {item.path 
+                    ? <Link href={item.path} className='text-sm'>{item.title}</Link> 
+                    : <span className='text-sm'>{item.title}</span>}
             {index !== breadcrumb.length - 1 && <MdKeyboardArrowRight fontSize={20}/>}
          </Fragment>
         ))}

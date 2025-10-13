@@ -10,12 +10,16 @@ export const transporter = nodemailer.createTransport({
   },
 });
 
-export const getMailContent = (html: string) => {
+export const getMailContent = (
+  html: string,
+  attachments?: { filename: string; content: Buffer }[],
+) => {
   return {
     from: process.env.NEXT_PUBLIC_NAVER_EMAIL,
     to: process.env.NEXT_PUBLIC_NAVER_EMAIL,
     subject: '공간하우징 문의사항',
     html,
+    attachments: attachments,
   };
 };
 
