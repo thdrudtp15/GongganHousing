@@ -1,6 +1,4 @@
 import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import Link from 'next/link';
 import React from 'react';
 import { getPortfolioData_ } from '@/lib/queries/portfolio';
 import { formatDate } from '@/lib/utils/formatDate';
@@ -28,6 +26,14 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
   };
 };
 
+
+const InfoItem = ({title, content} : {title : string, content : string}) => {
+    return  <div className=" border-b border-gray-300 flex py-4">
+    <h2 className="w-[20%]">{title}</h2>
+    <p className="text-gray-500">{content}</p>
+  </div>
+}
+
 const Detail = async ({ params }: Props) => {
   const { id } = await params;
   const { data } = await getPortfolioData_(id);
@@ -40,24 +46,10 @@ const Detail = async ({ params }: Props) => {
         <div className="max-w-270 w-full shadow-2xl h-fit m-auto bg-white p-8 overflow-hidden">
           <h1 className="text-3xl font-bold mb-4">시공 사례</h1>
           <div className="border-t mb-8">
-            <div className=" border-b border-gray-300 flex py-4">
-              <h2 className="w-[20%]">제목</h2>
-              <p className="text-gray-500">{data.title}</p>
-            </div>
-            <div className=" border-b border-gray-300 flex py-4">
-              <h2 className="w-[20%]">설명</h2>
-              <p className="text-gray-500">{data.description}</p>
-            </div>
-            <div className=" border-b border-gray-300 flex py-4">
-              <h2 className="w-[20%]">시공 기간</h2>
-              <p className="text-gray-500">
-                {formatDate(data.created_at)} ~ {formatDate(data.completed_at)}
-              </p>
-            </div>
-            <div className=" border-b border-gray-300 flex py-4">
-              <h2 className="w-[20%]">분류</h2>
-              <p className="text-gray-500">{data.category}</p>
-            </div>
+            <InfoItem title="제목" content={data.title}/>
+            <InfoItem title="설명" content={data.description}/>
+            <InfoItem title="시공 기간" content={`${formatDate(data.created_at)} ~ ${formatDate(data.completed_at)}`}/>
+            <InfoItem title="분류" content={data.category}/>
           </div>
           <h2 className="text-2xl font-bold  mb-4">시공 사진</h2>
           <PortfolioDetailImageGrid images={data.portfolio_images} />

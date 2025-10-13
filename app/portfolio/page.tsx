@@ -7,7 +7,7 @@ import { getPortfolioList } from '@/lib/queries/portfolio';
 
 import type { Portfolio } from '@/types/portfolio';
 
-const pageSize = 4;
+const pageSize = 6;
 
 const Page = async ({
   searchParams,

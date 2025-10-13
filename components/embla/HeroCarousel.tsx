@@ -6,6 +6,9 @@ import { EmblaOptionsType } from 'embla-carousel';
 import { DotButton, useDotButton } from './EmblaCarouselDotButton';
 import { usePrevNextButtons } from './EmblaCarouselArrowButtons';
 
+
+import type { ReactNode } from "react";
+
 import Image, { StaticImageData } from 'next/image';
 import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';

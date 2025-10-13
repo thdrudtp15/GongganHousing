@@ -170,9 +170,9 @@ export const createPortfolio = async (
         throw new Error(error.message);
       }
     }
-  } catch (error) {
+  } catch (error: any) {
     console.log(error);
-    errors.server = error as string;
+    errors.server = error?.message || error.toString();
   }
 
   revalidateTag('portfolio');

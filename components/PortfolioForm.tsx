@@ -91,7 +91,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
       formData.append('image_count', imageCount.toString());
     }
 
-    if (data) {
+    if (data?.id) {
       formData.append('id', data.id.toString());
     }
 
@@ -102,49 +102,132 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
   // 이미지 추가
   //========================
   const addImage = async (e: ChangeEvent<HTMLInputElement>) => {
+   try {
     if (!e.target.files) return;
     const { files } = e.target;
 
-    // 파일 중복 제거 및 1MB 이하 필터링
-    const map = new Map();
-    const MAX_SIZE = 1 * 1024 * 1024; // 1MB in bytes
+    const processedFiles : File[] = [];
+    const failedFiles : string[]  = [];
+    const skippedFiles : string[] = [];
 
-    await Promise.all(
-      Array.from(files).map(async (file) => {
-        if (file.size <= MAX_SIZE) {
-          map.set(`${file.name}-${file.lastModified}-${file.size}`, file);
-        } else {
-          try {
-            // 이미지 압축
-            const target = await imageCompression(file, {
-              maxSizeMB: 1,
-              maxWidthOrHeight: 800,
-              useWebWorker: true,
-            });
-            // 압축된파일 Blob -> File 형태로 변환
-            const fileTarget = new File([target], target.name, {
-              type: target.type,
-              lastModified: target.lastModified,
-            });
-            map.set(`${file.name}-${file.lastModified}-${file.size}`, fileTarget);
-          } catch (e) {
-            console.log('이미지 압축 실패 : ', e);
-          }
-        }
-      }),
-    );
+    const MAX_IMAGE_COUNT = 10;
+    const MAX_FILE_SIZE = 0.8 * 1024 * 1024; 
+    const MAX_TOTAL_SIZE = 8 * 1024 * 1024; // 8MB
 
-    const array = Array.from(map.values());
+    const currentCount = (images || []).length;
+ 
 
-    if (array.length < files.length) {
-      alert('1MB 이하의 파일만 업로드할 수 있습니다.');
+    const availableSlots = MAX_IMAGE_COUNT - currentCount;
+    const filesToProcess = Array.from(files).slice(0, availableSlots);
+
+    if ((currentCount >= MAX_IMAGE_COUNT) || (files.length > availableSlots)) {
+      alert(`이미지는 최대 ${MAX_IMAGE_COUNT}개까지 업로드할 수 있습니다.`);
+      return;
     }
-    // setter
-    setImages((prev) => {
-      return [...(prev ?? []), ...array];
-    });
 
-    if (imageRef.current) imageRef.current.value = '';
+     // ✅ 순차 처리 (메모리 효율적)
+     for (let i = 0; i < filesToProcess.length; i++) {
+      const file = filesToProcess[i];
+      
+      // 중복 체크 (같은 이름, 같은 크기)
+      const isDuplicate = processedFiles.some(
+        (f) => f.name === file.name && f.size === file.size
+      );
+      
+      if (isDuplicate) {
+        skippedFiles.push(file.name);
+        continue;
+      }
+
+      try {
+        let targetFile: File;
+
+        if (file.size > MAX_FILE_SIZE || file.type !== 'image/jpeg') {
+          
+          const compressed = await imageCompression(file, {
+            maxSizeMB: 0.7, 
+            maxWidthOrHeight: 1200,
+            useWebWorker: true,
+            initialQuality: 1,
+            fileType: 'image/jpeg',
+          });
+
+          targetFile = new File(
+            [compressed],
+            file.name.replace(/\.\w+$/, '.jpg'), 
+            {
+              type: 'image/jpeg',
+              lastModified: Date.now(),
+            }
+          );
+        } else {
+          // 이미 충분히 작으면 그대로 사용
+          targetFile = file;
+        }
+
+        // 압축 후에도 너무 크면 스킵
+        if (targetFile.size > 1 * 1024 * 1024) {
+          skippedFiles.push(file.name);
+          continue;
+        }
+
+        processedFiles.push(targetFile);
+
+      } catch (error) {
+        console.error(`❌ 압축 실패:`, error);
+        failedFiles.push(file.name);
+      }
+    }
+
+     // 결과 검증
+     const totalSize = processedFiles.reduce((sum, f) => sum + f.size, 0);
+     const existingSize = (images || [])
+       .filter((img): img is File => img instanceof File)
+       .reduce((sum, f) => sum + f.size, 0);
+     const newTotalSize = existingSize + totalSize;
+ 
+     console.log(`\n=== 처리 결과 ===`);
+     console.log(`성공: ${processedFiles.length}개 (${(totalSize / 1024 / 1024).toFixed(2)}MB)`);
+     console.log(`실패: ${failedFiles.length}개`);
+     console.log(`중복: ${skippedFiles.length}개`);
+     console.log(`기존: ${(existingSize / 1024 / 1024).toFixed(2)}MB`);
+     console.log(`합계: ${(newTotalSize / 1024 / 1024).toFixed(2)}MB`);
+ 
+     // 전체 크기 체크
+     if (newTotalSize > MAX_TOTAL_SIZE) {
+       alert(
+         `전체 이미지 크기가 ${(MAX_TOTAL_SIZE / 1024 / 1024).toFixed(0)}MB를 초과합니다.\n` +
+         `현재: ${(newTotalSize / 1024 / 1024).toFixed(2)}MB\n` +
+         `기존 이미지를 일부 삭제하거나 새 이미지 수를 줄여주세요.`
+       );
+       return;
+     }
+ 
+     // 실패/스킵 알림
+     if (failedFiles.length > 0) {
+       alert(`다음 파일 처리 실패:\n${failedFiles.join('\n')}`);
+     }
+     if (skippedFiles.length > 0) {
+       alert(`다음 파일 제외됨:\n${skippedFiles.join('\n')}\n(중복 또는 크기 초과)`);
+     }
+ 
+     if (processedFiles.length === 0) {
+       alert('추가할 수 있는 이미지가 없습니다.');
+       return;
+     }
+ 
+     // ✅ 상태 업데이트
+     setImages((prev) => [...(prev ?? []), ...processedFiles]);
+ 
+     if (imageRef.current) {
+       imageRef.current.value = '';
+     }
+ 
+     console.log('✓ 이미지 추가 완료\n');
+    }
+   catch(e) {
+    alert(e);
+   }
   };
 
   //========================
@@ -223,7 +306,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
           accept="image/*"
           multiple
         />
-        {data && <input value={data.id} type="hidden" />}
+        {data?.id && <input value={data.id} type="hidden" />}
         <div className="flex gap-2">
           {images &&
             images.map((image, index) => {

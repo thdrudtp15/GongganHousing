@@ -13,12 +13,12 @@ const Inquiry = () => {
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-2 gap-8">
             <div className="space-y-2">
-              <h3 className="font-bold text-2xl text-gray-900">주소</h3>
+              <h3 className="font-bold text-2xl text-gray-900 mb-1">주소</h3>
               <p className="text-gray-600 leading-relaxed">충남 계룡시 엄사면 번영로 10, 303호</p>
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-bold text-2xl text-gray-900">전화번호</h3>
+              <h3 className="font-bold text-2xl text-gray-900 mb-1">전화번호</h3>
               <p className="text-gray-600">
                 <a href="tel:042-840-8522" className="hover:underline">
                   042-840-8522~3
@@ -26,7 +26,7 @@ const Inquiry = () => {
               </p>
             </div>
             <div className="space-y-2">
-              <h3 className="font-bold text-2xl text-gray-900">이메일</h3>
+              <h3 className="font-bold text-2xl text-gray-900 mb-1">이메일</h3>
               <p className="text-gray-600">
                 <a href="mailto:gonggan@naver.com" className="hover:underline">
                   gonggan@naver.com
@@ -35,7 +35,7 @@ const Inquiry = () => {
             </div>
 
             <div className="space-y-2">
-              <h3 className="font-bold text-2xl text-gray-900">영업시간</h3>
+              <h3 className="font-bold text-2xl text-gray-900 mb-1">영업시간</h3>
               <p className="text-gray-600">09:00~18:00</p>
             </div>
           </div>

@@ -25,17 +25,17 @@ const Services = () => {
           <ServiceItem
             title="실내 건축"
             desc="공간의 기능과 아름다움을 고려 사람의 라이프스타일과 경험을 반영 최적화된 실내 공간 설계"
-            href="/portfolio?cateogry=실내건축"
+            href="/portfolio?category=실내건축"
           />
           <ServiceItem
             title="옥외 광고물"
             desc="브랜드 가치를 돋보이게 하고 도시 속에서 강렬한 첫인상 세련되고 감각적인 옥외광고 솔루션"
-            href="/portfolio?cateogry=옥외광고물"
+            href="/portfolio?category=옥외광고물"
           />
           <ServiceItem
             title="금속 창호"
             desc="견고함과 스타일을 동시에 빛과 공간을 조화롭게 담은 맞춤형 금속 창호 솔루션"
-            href="/portfolio?cateogry=금속창호"
+            href="/portfolio?category=금속창호"
           />
         </div>
       </Section.Content>
