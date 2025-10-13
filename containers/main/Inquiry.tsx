@@ -1,4 +1,4 @@
-import Section from '@/wrappers/Section';
+import Section from '@/wrappers/MainSection';
 import Map from '@/components/Map';
 import Link from 'next/link';
 

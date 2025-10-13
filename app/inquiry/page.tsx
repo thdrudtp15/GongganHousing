@@ -1,6 +1,6 @@
 import PageBanner from '@/containers/PageBanner';
 import bannerImg from '@/public/images/banner_inquiry.webp';
-import Section from '@/wrappers/Section';
+import Section from '@/wrappers/MainSection';
 import InquiryForm from '@/components/InquiryForm';
 
 const Page = () => {

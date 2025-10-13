@@ -1,5 +1,5 @@
 import PortfolioCarousel from "@/components/embla/PortfolioCarousel";
-import Section from '@/wrappers/Section';
+import Section from '@/wrappers/MainSection';
 import Link from 'next/link';
 
 const Portfolio = () => {

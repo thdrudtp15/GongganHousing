@@ -5,6 +5,7 @@ import { formatDate } from '@/lib/utils/formatDate';
 
 import type { Metadata } from 'next';
 import PortfolioDetailImageGrid from '@/components/PortfolioDetailImageGrid';
+import PageSection from '@/wrappers/PageSection';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -41,27 +42,18 @@ const Detail = async ({ params }: Props) => {
   if (!data) return;
 
   return (
-    <div>
-      <div className="pt-30 pb-20 bg-gray-50">
-        <div className="max-w-270 w-full shadow-2xl h-fit m-auto bg-white p-8 overflow-hidden">
-          <h1 className="text-3xl font-bold mb-4">시공 사례</h1>
-          <div className="border-t mb-8">
-            <InfoItem title="제목" content={data.title}/>
-            <InfoItem title="설명" content={data.description}/>
-            <InfoItem title="시공 기간" content={`${formatDate(data.created_at)} ~ ${formatDate(data.completed_at)}`}/>
-            <InfoItem title="분류" content={data.category}/>
-          </div>
-          <h2 className="text-2xl font-bold  mb-4">시공 사진</h2>
-          <PortfolioDetailImageGrid images={data.portfolio_images} />
-          <button
-            type="button"
-            className="border text-gray-500 border-gray-400 m-auto block cursor-pointer py-2 px-4"
-          >
-            목록으로
-          </button>
-        </div>
+    <PageSection>
+      <PageSection.Header>시공 사례</PageSection.Header>
+      <div className='border-t mb-8'>
+          <InfoItem title="제목" content={data.title}/>
+          <InfoItem title="설명" content={data.description}/>
+          <InfoItem title="시공 기간" content={`${formatDate(data.created_at)} ~ ${formatDate(data.completed_at)}`}/>
+          <InfoItem title="분류" content={data.category}/>
       </div>
-    </div>
+      <h2 className="text-2xl font-bold  mb-4">시공 사진</h2>
+        <PortfolioDetailImageGrid images={data.portfolio_images} />
+        <button type="button" className="border text-gray-500 border-gray-400 m-auto block cursor-pointer py-2 px-4">목록으로</button>
+    </PageSection>
   );
 };
 

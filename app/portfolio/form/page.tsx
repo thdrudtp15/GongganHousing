@@ -2,7 +2,7 @@ import PageBanner from '@/containers/PageBanner';
 import PortfolioForm from '@/components/PortfolioForm';
 
 import dummy from '@/public/images/banner_inquiry.webp';
-import Section from '@/wrappers/Section';
+import Section from '@/wrappers/MainSection';
 import { getPortfolioData_ } from '@/lib/queries/portfolio';
 import { redirect } from 'next/navigation';
 import type { Portfolio } from '@/types/portfolio';

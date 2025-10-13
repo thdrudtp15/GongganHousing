@@ -1,4 +1,4 @@
-import Section from '@/wrappers/Section';
+import Section from '@/wrappers/MainSection';
 import Link from 'next/link';
 import Image from 'next/image';
 
