@@ -6,4 +6,5 @@ export type Portfolio = {
   description: string;
   title: string;
   category: string;
+  cover: string;
 };
