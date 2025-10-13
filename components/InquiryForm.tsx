@@ -42,6 +42,7 @@ const InquiryForm = () => {
 
 
   useEffect(() => {
+    if(!state.server) return;
     alert(state.server)
   },[state.server])
 

@@ -35,12 +35,12 @@ export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData:
   }
 
   const Inquiry = z.object({
-    name: z.string().nonempty({ error: '이름은 필수입니다.' }),
-    phone: z.string().nonempty({ error: '연락처는 필수입니다.' }),
+    name: z.string().min(1, { error: '이름은 필수입니다.' }),
+    phone: z.string().min(1, { error: '연락처는 필수입니다.' }),
     // .regex(/^01[016789]-?\d{3,4}-?\d{4}$/, {
     //   message: '올바른 전화번호를 입력해주세요.',
     // }),
-    inquiry: z.string().nonempty({ error: '문의 사항을 작성해주세요' }),
+    inquiry: z.string().min(1, { error: '문의 사항을 작성해주세요' }),
     agree: z.boolean().refine((value) => value === true, {
       error: '개인정보취급방침 동의를 체크해주세요',
     }),
@@ -82,6 +82,7 @@ export const sendInpuiry = async (prevState: sendInpuiryPrevStateType, formData:
     .select('id')
     .single();
 
+  // 용량 제한
   const attachments = await Promise.all(
     files.map(async (file) => ({
       filename: file.name,

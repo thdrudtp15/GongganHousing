@@ -4,8 +4,8 @@ import logoImg from '@/public/svgs/logo_b.svg';
 import Link from 'next/link';
 
 const navItems = [
-  { name: '시공 사례', href: '/portfolio' },
   { name: '사업 영역', href: '/#사업영역' },
+  { name: '시공 사례', href: '/portfolio' },
   { name: '상담문의', href: '/inquiry' },
 ];
 
