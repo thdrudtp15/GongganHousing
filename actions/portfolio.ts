@@ -17,6 +17,7 @@ export const createPortfolio = async (
     image: string;
     server: string;
     id: string;
+    started_at: string;
   },
   formdata: FormData,
 ) => {
@@ -49,7 +50,10 @@ export const createPortfolio = async (
   // 카테고리
   const category = formdata.get('category');
 
-  // 시공 날짜
+  // 시공 시작 날짜
+  const started_at = formdata.get('started_at');
+
+  // 시공 완료 날짜
   const completed_at = formdata.get('completed_at');
 
   for (let i = 0; i < +imageCount; i++) {
@@ -66,27 +70,41 @@ export const createPortfolio = async (
   console.log(deleteImageArray, '삭제할 이미지 배열');
 
   // zod 적용하기
-  const Portfolio = z.object({
-    title: z.string().nonempty({
-      error: '제목을 작성해주세요',
-    }),
-    completed_at: z.string().nonempty({
-      error: '시공 날짜를 선택해주세요',
-    }),
-    category: z.string().nonempty({
-      error: '시공 분야를 선택해주세요',
-    }),
-    description: z.string().nonempty({
-      error: '내용을 작성해주세요',
-    }),
-    // image: z
-    //   .array(z.file())
-    //   .min(1, '이미지는 필수입니다.')
-    //   .max(10, '이미지는 10개까지 등록할 수 있습니다.'),
-  });
+  const Portfolio = z
+    .object({
+      title: z.string().nonempty({
+        error: '제목을 작성해주세요',
+      }),
+      started_at: z.string().nonempty({
+        error: '시공 시작 날짜를 선택해주세요',
+      }),
+      completed_at: z.string().nonempty({
+        error: '시공 완료 날짜를 선택해주세요',
+      }),
+      category: z.string().nonempty({
+        error: '시공 분야를 선택해주세요',
+      }),
+
+      description: z.string().nonempty({
+        error: '내용을 작성해주세요',
+      }),
+    })
+    .refine(
+      (data) => {
+        // started_at이 completed_at보다 이전이거나 같아야 함
+        const startDate = new Date(data.started_at);
+        const endDate = new Date(data.completed_at);
+        return startDate <= endDate;
+      },
+      {
+        message: '시공 시작 날짜는 완료 날짜보다 이전이어야 합니다',
+        path: ['completed_at'], // 에러를 표시할 필드
+      },
+    );
 
   const result = Portfolio.safeParse({
     title,
+    started_at,
     completed_at,
     category,
     description,
@@ -96,6 +114,7 @@ export const createPortfolio = async (
   if (!result.success) {
     const fieldsError = z.flattenError(result.error).fieldErrors;
     errors.title = fieldsError.title?.[0] || '';
+    errors.started_at = fieldsError.started_at?.[0] || '';
     errors.completed_at = fieldsError.completed_at?.[0] || '';
     errors.category = fieldsError.category?.[0] || '';
     errors.description = fieldsError.description?.[0] || '';
@@ -110,6 +129,7 @@ export const createPortfolio = async (
       .from('portfolio')
       .insert({
         title,
+        started_at,
         completed_at,
         category,
         description,
@@ -121,6 +141,7 @@ export const createPortfolio = async (
       .from('portfolio')
       .update({
         title,
+        started_at,
         completed_at,
         category,
         description,

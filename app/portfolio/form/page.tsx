@@ -3,6 +3,7 @@ import PortfolioForm from '@/components/PortfolioForm';
 
 import dummy from '@/public/images/banner_inquiry.webp';
 import Section from '@/wrappers/MainSection';
+import PageSection from '@/wrappers/PageSection';
 import { getPortfolioData_ } from '@/lib/queries/portfolio';
 import { redirect } from 'next/navigation';
 import type { Portfolio } from '@/types/portfolio';
@@ -30,14 +31,10 @@ const Page = async ({ searchParams }: Props) => {
   const { portfolio_images, ...portfolioData } = data || {};
 
   return (
-    <div>
-      <PageBanner image={dummy}>시공 사례 작성</PageBanner>
-      <Section>
-        <Section.Content>
+        <PageSection>
+          <PageSection.Header>시공 사례 작성</PageSection.Header>
           <PortfolioForm data={portfolioData as Portfolio} imageData={portfolio_images || []} />
-        </Section.Content>
-      </Section>
-    </div>
+        </PageSection>
   );
 };
 

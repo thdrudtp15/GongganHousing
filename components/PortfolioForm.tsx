@@ -3,6 +3,8 @@
 import React, { useActionState, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import imageCompression from 'browser-image-compression';
+import { Input, Textarea } from '@/compositions/Input';
+import Select from '@/compositions/Select';
 
 import { services } from '@/constants/services';
 
@@ -11,6 +13,9 @@ import { useRouter } from 'next/navigation';
 
 import type { ChangeEvent } from 'react';
 import type { Portfolio } from '@/types/portfolio';
+
+
+import { MdOutlineImage } from "react-icons/md";
 
 type ExistingImage = {
   id: number;
@@ -22,9 +27,11 @@ type ImageItem = ExistingImage | File;
 const Preview = ({
   file,
   removeImage,
+  isMain
 }: {
   file: ImageItem;
   removeImage: (file: ImageItem) => void;
+  isMain: boolean;
 }) => {
   // const preview = URL.createObjectURL(file);
 
@@ -36,13 +43,21 @@ const Preview = ({
   }
   return (
     <div
-      className="h-40 w-40 relative"
+      className="relative h-70 group"
       onClick={() => {
         URL.revokeObjectURL(preview);
         removeImage(file);
       }}
-    >
-      <Image fill src={preview} alt="upload image" />
+    > 
+      {isMain && <div className="absolute top-4 left-4 z-[2] bg-black rounded p-1">
+        <p className="text-white font-bold text-sm">대표 이미지</p>
+      </div>}
+      <div className="absolute opacity-0 group-hover:opacity-100 
+                      transition-opacity duration-300 top-0 w-full h-full left-0 z-[2] 
+                      bg-[rgba(0,0,0,0.7)] flex items-center justify-center">
+      <p className="text-white font-bold text-2xl">클릭하여 삭제</p>
+      </div>
+      <Image fill src={preview} alt="upload image" className="object-cover" />
     </div>
   );
 };
@@ -65,6 +80,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
     image: '',
     server: '',
     id: '',
+    started_at: '',
   });
 
   //========================
@@ -263,71 +279,131 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
 
   return (
     <div>
-      <form ref={formRef} className="flex flex-col gap-10" action={handleSubmit}>
-        <input
-          className="border"
-          type="text"
-          placeholder="제목"
-          name="title"
-          defaultValue={data?.title}
+    <form ref={formRef} className="flex flex-col gap-10" action={handleSubmit}>
+      <Input 
+        title="제목" 
+        type='text'
+        placeholder='제목'
+        name='title'
+        defaultValue={data?.title}
+        error={state.title}
+      />
+      
+      <div className='w-full flex items-center gap-4'>
+        <Input 
+          title="시공 시작 날짜" 
+          type='date'
+          className='flex-1'
+          placeholder='시공 시작 날짜'
+          name='started_at'
+          defaultValue={data?.started_at}
+          error={state.started_at}
         />
-        {state.title}
-        <input
-          type="date"
-          placeholder="시공 날짜"
-          name="completed_at"
+        <Input 
+          title="시공 종료 날짜" 
+          type='date'
+          className='flex-1'
+          placeholder='시공 종료 날짜'
+          name='completed_at'
           defaultValue={data?.completed_at}
+          error={state.completed_at}
         />
-        {state.completed_at}
-        <select name="category" defaultValue={data?.category}>
-          {services.map((service) => (
-            <option key={service} value={service}>
-              {service}
-            </option>
-          ))}
-        </select>
-        {state.category}
-        <textarea
-          className="border"
-          placeholder="설명"
-          name="description"
-          defaultValue={data?.description}
-        />
-        {state.description}
-        <button type="button" onClick={() => imageRef.current?.click()}>
-          이미지 추가하기
-        </button>
-        {state.image}
-        <input
-          onChange={(e) => addImage(e)}
-          ref={imageRef}
-          type="file"
-          className="hidden"
-          accept="image/*"
-          multiple
-        />
-        {data?.id && <input value={data.id} type="hidden" />}
-        <div className="flex gap-2">
-          {images &&
-            images.map((image, index) => {
-              return (
-                <React.Fragment key={index}>
-                  <PreviewImage file={image} removeImage={removeImage} />
-                </React.Fragment>
-              );
-            })}
+      </div>
+      
+      <Select
+        title="시공 분야"
+        options={services}
+        name="category"
+        error={state.category}
+      />
+      
+      <Textarea
+        title="설명"
+        name="description"
+        placeholder="설명"
+        defaultValue={data?.description}
+        error={state.description}
+      />
+  
+      {/* 🎯 이미지 섹션 */}
+      <div className="space-y-6">
+        {/* 헤더 */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-semibold">시공 이미지</h3>
+            <p className="text-sm text-gray-500">
+              첫 번째 이미지가 대표 이미지로 표시됩니다
+            </p>
+          </div>
+          <button 
+            type="button" 
+            onClick={() => imageRef.current?.click()}
+            className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+          >
+            이미지 추가
+          </button>
         </div>
-
-        <button
-          type="submit"
-          disabled={pending}
-          className="bg-blue-500 text-white px-4 py-2 rounded disabled:opacity-50"
-        >
-          {pending ? '등록 중...' : `시공사례 ${data ? '수정' : '등록'}`}
+  
+        {/* 이미지 그리드 */}
+        {images && images.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {images.map((image, index) => (
+              <PreviewImage 
+                key={index}
+                file={image} 
+                removeImage={removeImage}
+                isMain={index === 0}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
+            <MdOutlineImage className="w-12 h-12 text-gray-300 m-auto" />
+            <p className="mt-2 text-sm text-gray-600">
+              이미지를 추가해주세요
+            </p>
+            <button
+              type="button"
+              onClick={() => imageRef.current?.click()}
+              className="mt-4 text-blue-500 hover:text-blue-600 text-sm font-medium"
+            >
+              파일 선택
+            </button>
+          </div>
+        )}
+  
+        {state.image && (
+          <p className="text-red-500 text-sm">{state.image}</p>
+        )}
+      </div>
+  
+      {/* 제출 버튼 */}
+      <button
+        type="submit"
+        disabled={pending}
+        className="bg-blue-500 text-white px-6 py-3 disabled:opacity-50 hover:bg-blue-600 transition-colors font-medium"
+      >
+        {pending ? '등록 중...' : `시공사례 ${data?.id ? '수정' : '등록'}`}
+      </button>
+  
+      {state.server && (
+        <p className={`text-sm ${state.server === 'success' ? 'text-green-500' : 'text-red-500'}`}>
           {state.server}
-        </button>
-      </form>
-    </div>
+        </p>
+      )}
+  
+      {/* Hidden inputs */}
+      <input
+        onChange={(e) => addImage(e)}
+        ref={imageRef}
+        type="file"
+        className="hidden"
+        accept="image/*"
+        multiple
+      />
+      {data?.id && <input name="id" value={data.id} type="hidden" />}
+    </form>
+  </div>
   );
 };
 

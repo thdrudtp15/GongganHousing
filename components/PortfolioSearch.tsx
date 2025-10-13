@@ -1,4 +1,7 @@
 'use client';
+import {Input} from '@/compositions/Input';
+import Select from '@/compositions/Select';
+
 
 import { services } from '@/constants/services';
 
@@ -20,9 +23,9 @@ const PortfolioSearch = ({ search, category }: { search: string; category: strin
 
   return (
     <div className="flex w-full">
-      <input
+      <Input
         type="text"
-        className="flex-1 border border-gray-300 p-2 "
+        className="flex-1"
         placeholder="제목으로 검색"
         defaultValue={search}
         onKeyDown={(e) => {
@@ -32,19 +35,14 @@ const PortfolioSearch = ({ search, category }: { search: string; category: strin
           }
         }}
       />
-      <select
+      <Select
         value={category}
-        className="border border-l-0 border-gray-300"
+        className="border-l-0"
         onChange={(e) => {
           handleCategory(e);
         }}
-      >
-        {['전체', ...services].map((service) => (
-          <option key={service} value={service}>
-            {service}
-          </option>
-        ))}
-      </select>
+        options={['전체', ...services]}
+      />
     </div>
   );
 };
