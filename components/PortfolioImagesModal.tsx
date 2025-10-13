@@ -2,6 +2,9 @@
 
 import type { Dispatch, SetStateAction, MouseEvent } from 'react';
 import Image from 'next/image';
+import ImageDetailModalCarousel from './embla/ImageDetailModalCarousel';
+import { MdClear } from "react-icons/md";
+
 
 type Props = {
   images: { id: number; image: string }[];
@@ -21,24 +24,18 @@ const PortfolioImagesModal = ({ images, imageIndex, setImageIndex }: Props) => {
       id="overlay"
       onClick={(e) => handleClose(e)}
     >
-      <Image
-        src={images[imageIndex].image}
-        width={700}
-        height={500}
-        alt={`시공 사례 ${imageIndex}번째 이미지`}
-        className="mb-20"
-      />
-      <div className="flex gap-4">
-        {images.map((image, index) => (
-          <div
-            key={image.id}
-            className="relative w-25 h-15 hover:border hover:border-2 border-blue-500 overflow-hidden rounded-lg"
-            onClick={() => setImageIndex(index)}
-          >
-            <Image src={image.image} alt="미리보기 이미지" fill className="object-cover" />
-          </div>
-        ))}
+      <MdClear fontSize={36} color='white' className='absolute top-5 cursor-pointer right-15' onClick={() => setImageIndex(null)} />
+      <div className="relative w-full max-w-4xl h-[70vh] mb-10">
+          <Image
+            src={images[imageIndex].image}
+            fill
+            alt={`시공 사례 ${imageIndex}번째 이미지`}
+            className="object-contain" // 이미지 전체 표시
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            priority
+          />
       </div>
+      <ImageDetailModalCarousel images={images} imageIndex={imageIndex} setImageIndex={setImageIndex} />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React from 'react';
 import PortfolioImagesModal from './PortfolioImagesModal';
 
+
 type Props = {
   images: {
     id: number;
@@ -45,6 +46,7 @@ const PortfolioDetailImageGrid = ({ images }: Props) => {
           setImageIndex={setImageIndex}
         />
       )}
+    
     </>
   );
 };
