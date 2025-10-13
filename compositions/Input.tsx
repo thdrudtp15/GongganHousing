@@ -9,14 +9,15 @@ type InputProps = {
     placeholder?: string;
     value?: string;
     defaultValue?: string;
+    required? : boolean;
     onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     onKeyDown?: (e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     className?: string;
 }
 
-export const Input = ({title, type = "text", name, error, placeholder, value, onChange, onKeyDown, className}: InputProps) => {
-    return <div className={`flex flex-col gap-2 ${className} relative`}>   
-                {title && <span className="font-bold">{title}</span>}
+export const Input = ({title, type = "text", name, error, placeholder, value, onChange, onKeyDown, className, required}: InputProps) => {
+    return <label className={`flex flex-col gap-2 ${className} relative`}>   
+                {title && <span className="font-bold">{title}{required && <span className="text-red-500">*</span>}</span>}
                 <input type={type} 
                        name={name} 
                        placeholder={placeholder} 
@@ -25,18 +26,27 @@ export const Input = ({title, type = "text", name, error, placeholder, value, on
                        onChange={onChange} 
                        className={`border border-gray-300 p-2`} />
                 {error && <span className="absolute top-[100%] text-red-500 text-sm">{error}</span>}
-            </div>
+            </label>
     
     
  
 }
 
-export const Textarea = ({title, name, error, placeholder, value, onChange, onKeyDown, className}: InputProps) => {
-    return <div className={`flex flex-col gap-2 ${className} relative`}>   
-                {title && <span className="font-bold">{title}</span>}
+export const Textarea = ({title, name, error, placeholder, value, onChange, onKeyDown, className , required}: InputProps) => {
+    return <label className={`flex flex-col gap-2 ${className} relative`}>   
+                {title && <span className="font-bold">{title}{required && <span className="text-red-500">*</span>}</span>}
                 <textarea name={name} placeholder={placeholder} value={value} onKeyDown={onKeyDown} onChange={onChange} className={`border border-gray-300 p-2`} />
                 {error && <span className="absolute top-[100%] text-red-500 text-sm">{error}</span>}
-            </div>
+            </label>
 }
 
 
+export const Checkbox = ({title, name, error, onChange, className}: InputProps) => {
+    return <div>
+            <label className={`flex gap-2 items-center ${className} relative`}>   
+                <input type="checkbox" name={name} onChange={onChange} className={`border border-gray-300 p-2 h-5 w-5`} />
+                {title && <span className="font-bold">{title}</span>}
+                </label>
+                {error && <span className="text-red-500 text-sm">{error}</span>}
+            </div>
+}

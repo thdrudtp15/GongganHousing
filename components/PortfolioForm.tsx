@@ -338,7 +338,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
           <button 
             type="button" 
             onClick={() => imageRef.current?.click()}
-            className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+            className="px-4 py-2 bg-(--identity) text-white hover:bg-blue-600 transition-colors"
           >
             이미지 추가
           </button>
@@ -381,7 +381,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
       <button
         type="submit"
         disabled={pending}
-        className="bg-blue-500 text-white px-6 py-3 disabled:opacity-50 hover:bg-blue-600 transition-colors font-medium"
+        className="bg-(--identity) text-white px-4 py-2 disabled:opacity-50  transition-colors font-medium"
       >
         {pending ? '등록 중...' : `시공사례 ${data?.id ? '수정' : '등록'}`}
       </button>

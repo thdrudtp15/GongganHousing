@@ -6,6 +6,9 @@ import { formatDate } from '@/lib/utils/formatDate';
 import type { Metadata } from 'next';
 import PortfolioDetailImageGrid from '@/components/PortfolioDetailImageGrid';
 import PageSection from '@/wrappers/PageSection';
+import PageBanner from '@/containers/PageBanner';
+
+import dummy from '@/public/images/banner_about.webp';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -42,18 +45,23 @@ const Detail = async ({ params }: Props) => {
   if (!data) return;
 
   return (
-    <PageSection>
-      <PageSection.Header>시공 사례</PageSection.Header>
-      <div className='border-t mb-8'>
-          <InfoItem title="제목" content={data.title}/>
-          <InfoItem title="설명" content={data.description}/>
-          <InfoItem title="시공 기간" content={`${formatDate(data.created_at)} ~ ${formatDate(data.completed_at)}`}/>
-          <InfoItem title="분류" content={data.category}/>
-      </div>
-      <h2 className="text-2xl font-bold  mb-4">시공 사진</h2>
-        <PortfolioDetailImageGrid images={data.portfolio_images} />
-        <button type="button" className="border text-gray-500 border-gray-400 m-auto block cursor-pointer py-2 px-4">목록으로</button>
-    </PageSection>
+    <>
+      <PageBanner image={dummy} title="시공 사례" >
+        <PageBanner.Breadcrumb breadcrumb={[{ title: '시공 사례', path: '/portfolio' }, {title : data.title}]} />
+      </PageBanner>
+      <PageSection>
+        <PageSection.Header>시공 사례</PageSection.Header>
+        <div className='border-t mb-8'>
+            <InfoItem title="제목" content={data.title}/>
+            <InfoItem title="설명" content={data.description}/>
+            <InfoItem title="시공 기간" content={`${formatDate(data.created_at)} ~ ${formatDate(data.completed_at)}`}/>
+            <InfoItem title="분류" content={data.category}/>
+        </div>
+        <h2 className="text-2xl font-bold  mb-4">시공 사진</h2>
+          <PortfolioDetailImageGrid images={data.portfolio_images} />
+          <button type="button" className="border text-gray-500 border-gray-400 m-auto block cursor-pointer py-2 px-4">목록으로</button>
+      </PageSection>
+    </>
   );
 };
 

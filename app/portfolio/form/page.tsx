@@ -31,10 +31,15 @@ const Page = async ({ searchParams }: Props) => {
   const { portfolio_images, ...portfolioData } = data || {};
 
   return (
-        <PageSection>
-          <PageSection.Header>시공 사례 작성</PageSection.Header>
-          <PortfolioForm data={portfolioData as Portfolio} imageData={portfolio_images || []} />
-        </PageSection>
+       <>
+        <PageBanner image={dummy} title="시공 사례 작성" >
+          <PageBanner.Breadcrumb breadcrumb={[{ title: '시공 사례 작성' }]} />
+        </PageBanner>
+          <PageSection>
+            <PageSection.Header>시공 사례 작성</PageSection.Header>
+            <PortfolioForm data={portfolioData as Portfolio} imageData={portfolio_images || []} />
+          </PageSection>
+       </>
   );
 };
 

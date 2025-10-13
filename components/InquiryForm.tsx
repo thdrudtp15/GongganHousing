@@ -1,69 +1,15 @@
 'use client';
-
 import { sendInpuiry } from '@/actions/sendInquiry';
 import { useActionState, useState, useRef } from 'react';
-
 import { Turnstile } from '@marsidev/react-turnstile';
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
+import {Input, Textarea, Checkbox} from '@/compositions/Input';
+import Select from '@/compositions/Select';
+
+import { services } from '@/constants/services';
 
 import type { TurnstileInstance } from '@marsidev/react-turnstile';
-
-import '../app/globals.css';
-
-type InputProps = {
-  title: string;
-  error: string;
-  type: 'textarea' | 'input';
-  name: string;
-  placeholder: string;
-  className?: string;
-};
-
-const Checkbox = ({ text, name, error }: { text: string; name: string; error: string }) => {
-  return (
-    <label className="w-[fit-content] text-[#222222]">
-      <input
-        className="mr-[8px] "
-        // defaultChecked={false}
-        type="checkbox"
-        name={name}
-      />
-      {text} {error}
-    </label>
-  );
-};
-
-const Input = ({ title, error, type, name, placeholder, className }: InputProps) => {
-  const inputClassName = `
-        p-[12px] w-full outline-none
-        border-b-[2px] border-b-[#cccccc]
-        focus:border-b-[#0c1d30]
-        transition
-    `;
-  return (
-    <label>
-      {title && (
-        <h4 className="text-[14px] font-regular mb-[4px] text-[#222222]">
-          {title} {error}
-        </h4>
-      )}
-      {type === 'input' && (
-        <input
-          className={`${inputClassName} ${className} text-[#222222]`}
-          type="text"
-          name={name}
-          placeholder={placeholder}
-        />
-      )}
-      {type === 'textarea' && (
-        <textarea
-          className={`${inputClassName} ${className} text-[#222222]`}
-          name={name}
-          placeholder={placeholder}
-        />
-      )}
-    </label>
-  );
-};
 
 const InquiryForm = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -86,14 +32,11 @@ const InquiryForm = () => {
   return (
     <div className="flex-1">
       <div id="widget-container"></div>
-      <h3 className="text-6xl text-[#0b1b30] font-bold mb-[8px]">상담문의</h3>
-      <p className="text-[20px] font-medium mb-[60px] text-[#222222]">
-        “편하게 문의 주시면, 최적의 솔루션을 찾아드립니다.”
-      </p>
-      <form className="flex flex-col gap-[20px]" action={handleSubmit}>
-        <div className="flex flex-col gap-[40px]">
+      <form className="flex flex-col gap-5" action={handleSubmit}>
+        <div className="flex flex-col gap-8 mb-4">
           <Input
             title="이름"
+            required
             error={state.name}
             type="input"
             name="name"
@@ -101,21 +44,35 @@ const InquiryForm = () => {
           />
           <Input
             title="연락처"
+            required
             error={state.phone}
             type="input"
             name="phone"
             placeholder="연락처를 작성해주세요"
           />
-          <Input
+          <Select
+            title="문의 분야"
+            name="inquiry_category"
+            options={services}
+          />
+          <Textarea
             title="문의내용"
+            required
             error={state.inquiry}
             type="textarea"
             name="inquiry"
             placeholder="문의 내용을 작성해주세요"
             className="resize-none h-[96px]"
           />
+            <Input
+            title="첨부파일"
+            error={state.phone}
+            type="file"
+            name="phone"
+            placeholder="연락처를 작성해주세요"
+          />
         </div>
-        <Checkbox text="개인정보취급방침동의" name="agree" error={state.agree} />
+        <Checkbox title="개인정보취급방침동의" name="agree" error={state.agree} />
         <Turnstile
           siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY as string}
           onSuccess={(token) => setToken(token)}
@@ -123,10 +80,9 @@ const InquiryForm = () => {
         />
         <button
           disabled={pending || !token}
-          className="py-[20px] px-[30px] w-full cursor-pointer bg-[#0c1d30] font-medium text-[20px] text-[#F5F6F5]"
+          className="bg-(--identity) text-white px-4 py-5 text-lg disabled:opacity-70 transition-colors font-medium cursor-pointer"
         >
-          {pending && '...'}
-          {!token && '검증 요망'}
+          {(pending || !token) && <AiOutlineLoading3Quarters fontSize={20} className="animate-spin m-auto" />}
           {token && !pending && '상담 요청하기'}
         </button>
         {state.server}
