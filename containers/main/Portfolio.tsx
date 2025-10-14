@@ -1,7 +1,7 @@
 import PortfolioCarousel from "@/components/embla/PortfolioCarousel";
 import Section from '@/wrappers/MainSection';
 import Link from 'next/link';
-
+import Button from "@/compositions/Button";
 const Portfolio = () => {
   return (
     <Section>
@@ -11,8 +11,10 @@ const Portfolio = () => {
         </h2>
         <div className="flex justify-between mb-8">
           <p className="text-lg text-gray-500">PORTFOLIO</p>
-          <Link href="/portfolio" className="text-1xl">
-            더 보기
+          <Link href="/portfolio">
+            <Button type="button" className="text-sm">
+              더 보기
+            </Button>
           </Link>
         </div>
         <PortfolioCarousel />

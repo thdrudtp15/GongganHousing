@@ -1,10 +1,10 @@
 'use client';
 
-import type { Dispatch, SetStateAction, MouseEvent } from 'react';
+import type { Dispatch, SetStateAction  } from 'react';
 import Image from 'next/image';
 import ImageDetailModalCarousel from './embla/ImageDetailModalCarousel';
 import { MdClear } from "react-icons/md";
-
+import Modal from '@/wrappers/Modal';
 
 type Props = {
   images: { id: number; image: string }[];
@@ -13,17 +13,9 @@ type Props = {
 };
 
 const PortfolioImagesModal = ({ images, imageIndex, setImageIndex }: Props) => {
-  const handleClose = (e: MouseEvent) => {
-    const { id } = e.target as HTMLElement;
-    if (id === 'overlay') setImageIndex(null);
-  };
 
   return (
-    <div
-      className="fixed left-0 top-0 w-screen h-screen bg-[rgba(0,0,0,0.9)] z-[10] flex flex-col justify-center items-center p-10"
-      id="overlay"
-      onClick={(e) => handleClose(e)}
-    >
+      <Modal handleClose={() => setImageIndex(null)}>
       <MdClear fontSize={36} color='white' className='absolute top-5 cursor-pointer right-15' onClick={() => setImageIndex(null)} />
       <div className="relative w-full max-w-4xl h-[70vh] mb-10">
           <Image
@@ -36,7 +28,7 @@ const PortfolioImagesModal = ({ images, imageIndex, setImageIndex }: Props) => {
           />
       </div>
       <ImageDetailModalCarousel images={images} imageIndex={imageIndex} setImageIndex={setImageIndex} />
-    </div>
+    </Modal>
   );
 };
 

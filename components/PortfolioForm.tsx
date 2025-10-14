@@ -5,6 +5,7 @@ import Image from 'next/image';
 import imageCompression from 'browser-image-compression';
 import { Input, Textarea } from '@/compositions/Input';
 import Select from '@/compositions/Select';
+import Button from '@/compositions/Button';
 
 import { services } from '@/constants/services';
 
@@ -335,13 +336,13 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
               첫 번째 이미지가 대표 이미지로 표시됩니다
             </p>
           </div>
-          <button 
+          <Button 
             type="button" 
             onClick={() => imageRef.current?.click()}
-            className="px-4 py-2 bg-(--identity) text-white hover:bg-blue-600 transition-colors"
+            className="text-sm"
           >
             이미지 추가
-          </button>
+          </Button>
         </div>
   
         {/* 이미지 그리드 */}
@@ -378,13 +379,12 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
       </div>
   
       {/* 제출 버튼 */}
-      <button
+      <Button
         type="submit"
         disabled={pending}
-        className="bg-(--identity) text-white px-4 py-2 disabled:opacity-50  transition-colors font-medium"
       >
         {pending ? '등록 중...' : `시공사례 ${data?.id ? '수정' : '등록'}`}
-      </button>
+      </Button>
   
       {state.server && (
         <p className={`text-sm ${state.server === 'success' ? 'text-green-500' : 'text-red-500'}`}>

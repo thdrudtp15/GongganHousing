@@ -1,5 +1,6 @@
 import { useRef } from "react"
 
+import Button from '@/compositions/Button';
 import type { ChangeEvent, KeyboardEvent } from "react"
 
 
@@ -33,22 +34,39 @@ export const Input = ({title, type = "text", name, error, placeholder, value, on
 }
 
 
-export const File = ({title, name, error, onChange, className, required}: InputProps) => {
+export const File = ({title, name, error, className, required, files, addFile, removeFile}: InputProps & {files : File[], addFile : (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void, removeFile : (file: File) => void}) => {
     const ref = useRef<HTMLInputElement>(null);
 
-    return <label className={`flex flex-col gap-2 ${className} relative`}>   
+    return <div className={`flex flex-col gap-2 ${className} relative`}>   
                 {title && <span className="font-bold">{title}{required && <span className="text-red-500">*</span>}</span>}
-                <input type="file" multiple name={name} onChange={onChange} ref={ref}/>
+                <div className="flex gap-2 items-center">
+                   <Button type="button" className="w-fit text-sm" onClick={() => ref.current?.click()}>파일 추가</Button>
+                   <div className="flex flex-col">
+                        <span className="text-sm text-gray-500">최대 5개의 파일을 첨부할 수 있습니다.</span>
+                        <span className="text-sm text-gray-500">첨부된 파일: {files.length}개</span>
+                   </div>
+                </div>
+                <input type="file" multiple className="hidden" name={name} onChange={(e) => {
+                    addFile(e)
+                }} ref={ref}/>
+                {files.map((file : File) => 
+                        <div key={file.name} className="flex justify-between">
+                            <span>{file.name}</span>
+                          <div className="flex gap-2 items-center">
+                                <span className="text-sm text-gray-500">{(file.size / 1024 / 1024).toFixed(2)}MB</span>
+                                <button type="button" className="rounded-full cursor-pointer px-2 py-1 text-md text-gray-500" onClick={() => removeFile(file)}>삭제</button> 
+                          </div>
+                        </div>)}
                 {error && <span className="absolute top-[100%] text-red-500 text-sm">{error}</span>}
-            </label>
+            </div>
 }
 
 
 export const Textarea = ({title, name, error, placeholder, value, onChange, onKeyDown, className , required}: InputProps) => {
 
-    return <label className={`flex flex-col gap-2 ${className} relative`}>   
+    return <label className={`flex flex-col gap-2 relative`}>   
                 {title && <span className="font-bold">{title}{required && <span className="text-red-500">*</span>}</span>}
-                <textarea name={name} placeholder={placeholder} value={value} onKeyDown={onKeyDown} onChange={onChange} className={`border border-gray-300 p-2`} />
+                <textarea name={name} placeholder={placeholder} value={value} onKeyDown={onKeyDown} onChange={onChange} className={`border border-gray-300 p-2 ${className}`} />
                 {error && <span className="absolute top-[100%] text-red-500 text-sm">{error}</span>}
             </label>
 }

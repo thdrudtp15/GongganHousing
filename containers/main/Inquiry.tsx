@@ -1,7 +1,7 @@
 import Section from '@/wrappers/MainSection';
 import Map from '@/components/Map';
 import Link from 'next/link';
-
+import Button from '@/compositions/Button';
 const Inquiry = () => {
   return (
     <Section>
@@ -44,9 +44,8 @@ const Inquiry = () => {
           </aside>
           <Link
             href="/inquiry"
-            className="inline-flex items-center justify-center px-6 py-3 bg-(--identity) text-white font-semibold mt-4 w-fit"
           >
-            문의하기
+            <Button>문의하기</Button>
           </Link>
         </div>
       </Section.Content>
