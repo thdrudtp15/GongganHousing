@@ -24,7 +24,7 @@ const Header = () => {
             className={`group-hover:filter transition duration-300`}
           />
 
-          <p className="text-2xl font-bold">공간하우징</p>
+          <p className="text-2xl hidden sm:block font-bold">공간하우징</p>
         </Link>
         <nav>
           <ul className="flex gap-8 md:gap-12">
@@ -36,7 +36,9 @@ const Header = () => {
                  after:content-[''] after:absolute after:w-0 after:h-0.5 
                  after:bg-black
                  after:left-1/2 after:bottom-[-4px] after:transition-all after:duration-300 
-                 hover:after:w-full hover:after:left-0`}
+                 hover:after:w-full hover:after:left-0
+                 text-sm sm:text-lg
+                 `}
                 >
                   {item.name}
                 </Link>

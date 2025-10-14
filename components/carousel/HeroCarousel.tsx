@@ -24,8 +24,8 @@ const Overlay = ({children} : {children? : ReactNode}) => {
   return (
   <div className="absolute w-full h-full bg-[rgba(0,0,0,0.5)] z-[2] px-8">
     <div className="max-w-[1080px] m-auto flex flex-col h-full justify-center">
-      <h1 className="text-white font-bold text-5xl md:text-6xl text-shadow-2xl">공간에 가치를 더하다.</h1>
-      <p className="text-white text-md md:text-lg">
+      <h1 className="text-white font-bold text-3xl md:text-6xl text-shadow-2xl">공간에 가치를 더하다.</h1>
+      <p className="text-white text-sm sm:text-md md:text-lg">
         전문성과 투명성을 바탕으로 고객만을 생각합니다.
       </p>
         {children}
