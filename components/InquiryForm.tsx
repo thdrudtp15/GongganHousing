@@ -19,7 +19,7 @@ const InquiryForm = () => {
   const turnstileRef = useRef<TurnstileInstance>(null);
   const [files, setFiles] = useState<File[]>([]);
 
-  const [isSuccess, setIsSuccess] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
 
 
   const [state, action, pending] = useActionState(sendInquiry, {
