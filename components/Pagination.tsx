@@ -66,7 +66,7 @@ const Pagination = ({ pageSize, totalCount, nowPage = 1 }: Props) => {
     <div className={'flex gap-[5px] items-center mx-auto w-fit'}>
       <PaginationItem
         handleClick={() => {
-          if (nowPage > 1) handleQueryParams({ queryObj: { page: 1 } });
+          if (nowPage > 1) handleQueryParams({ queryObj: { page: 1 }});
         }}
       >
         <MdKeyboardDoubleArrowLeft />

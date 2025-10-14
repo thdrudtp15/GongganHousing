@@ -35,8 +35,7 @@ const Page = async ({
       <PageBanner.Breadcrumb breadcrumb={[{ title: '시공 사례' }]} /></PageBanner>
     <PageSection>
         <PageSection.Header>시공 사례</PageSection.Header>
-        <p className="text-sm mb-2 text-gray-500">총 {count}개의 게시글이 있습니다.</p>
-        <PortfolioSearch search={search} category={category} />
+        <PortfolioSearch search={search} category={category} count={count as number} />
         <PortfolioGrid portfolioData={data as Portfolio[]} />
         <Pagination pageSize={pageSize} totalCount={count as number} nowPage={page} />
       </PageSection>

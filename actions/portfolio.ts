@@ -7,8 +7,6 @@ import { getServerSession } from 'next-auth';
 import { revalidateTag } from 'next/cache';
 import * as z from 'zod';
 
-import { services } from '@/constants/services';
-
 const Portfolio = z
   .object({
     title: z.string().min(1, '제목을 작성해주세요'),

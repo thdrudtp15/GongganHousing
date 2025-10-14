@@ -16,11 +16,12 @@ type InputProps = {
     required? : boolean;
     onChange?: (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     onKeyDown?: (e: KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-    className?: string;
+    labelClassName?: string;
+    inputClassName?: string;
 }
 
-export const Input = ({title, type = "text", name, error, placeholder, value, onChange, onKeyDown, className, required}: InputProps) => {
-    return <label className={`flex flex-col gap-2 ${className} relative`}>   
+export const Input = ({title, type = "text", name, error, placeholder, value, onChange, onKeyDown, labelClassName, inputClassName, required}: InputProps) => {
+    return <label className={`flex flex-col gap-2 ${labelClassName} relative`}>   
                 {title && <span className="font-bold">{title}{required && <span className="text-red-500">*</span>}</span>}
                 <input type={type} 
                        name={name} 
@@ -28,16 +29,16 @@ export const Input = ({title, type = "text", name, error, placeholder, value, on
                        value={value} 
                        onKeyDown={onKeyDown} 
                        onChange={onChange} 
-                       className={`border border-gray-300 p-2`} />
+                       className={`border border-gray-300 p-2 ${inputClassName}`} />
                 {error && <span className="absolute top-[100%] text-red-500 text-sm">{error}</span>}
             </label>
 }
 
 
-export const File = ({title, name, error, className, required, files, addFile, removeFile}: InputProps & {files : File[], addFile : (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void, removeFile : (file: File) => void}) => {
+export const File = ({title, name, error, labelClassName, required, files, addFile, removeFile}: InputProps & {files : File[], addFile : (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void, removeFile : (file: File) => void}) => {
     const ref = useRef<HTMLInputElement>(null);
 
-    return <div className={`flex flex-col gap-2 ${className} relative`}>   
+    return <div className={`flex flex-col gap-2 ${labelClassName} relative`}>   
                 {title && <span className="font-bold">{title}{required && <span className="text-red-500">*</span>}</span>}
                 <div className="flex gap-2 items-center">
                    <Button type="button" className="w-fit text-sm" onClick={() => ref.current?.click()}>파일 추가</Button>
@@ -62,19 +63,19 @@ export const File = ({title, name, error, className, required, files, addFile, r
 }
 
 
-export const Textarea = ({title, name, error, placeholder, value, onChange, onKeyDown, className , required}: InputProps) => {
+export const Textarea = ({title, name, error, placeholder, value, onChange, onKeyDown, inputClassName , required}: InputProps) => {
 
     return <label className={`flex flex-col gap-2 relative`}>   
                 {title && <span className="font-bold">{title}{required && <span className="text-red-500">*</span>}</span>}
-                <textarea name={name} placeholder={placeholder} value={value} onKeyDown={onKeyDown} onChange={onChange} className={`border border-gray-300 p-2 ${className}`} />
+                <textarea name={name} placeholder={placeholder} value={value} onKeyDown={onKeyDown} onChange={onChange} className={`border border-gray-300 p-2 ${inputClassName}`} />
                 {error && <span className="absolute top-[100%] text-red-500 text-sm">{error}</span>}
             </label>
 }
 
 
-export const Checkbox = ({title, name, error, onChange, className}: InputProps) => {
+export const Checkbox = ({title, name, error, onChange, labelClassName}: InputProps) => {
     return <div>
-            <label className={`flex gap-2 items-center ${className} relative`}>   
+            <label className={`flex gap-2 items-center ${labelClassName} relative`}>   
                 <input type="checkbox" name={name} onChange={onChange} className={`border border-gray-300 p-2 h-5 w-5`} />
                 {title && <span className="font-bold">{title}</span>}
                 </label>

@@ -95,10 +95,9 @@ const InquiryForm = () => {
               title="문의내용"
               required
               error={state.inquiry}
-              type="textarea"
               name="inquiry"
               placeholder="문의 내용을 작성해주세요"
-              className="resize-y h-40"
+              inputClassName="resize-y h-40"
             />
             <File
               title="첨부파일"
@@ -119,6 +118,8 @@ const InquiryForm = () => {
             disabled={pending || !token}
             type="submit"
           >
+            {pending && <AiOutlineLoading3Quarters className="animate-spin" />}
+            {!pending && !token && '자동 인증을 완료해주세요'}
             {token && !pending && '상담 요청하기'}
           </Button>
           <input type="hidden" value={token || ''} name="turnstile_token" />
