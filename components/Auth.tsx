@@ -1,12 +1,13 @@
 'use client';
 import { signIn, signOut } from 'next-auth/react';
+import Button from '@/compositions/Button';
 
 const Login = () => {
-  return <button onClick={() => signIn()}>관리자 로그인</button>;
+  return <Button className='bg-blue-500' onClick={() => signIn('google',{callbackUrl : '/'})}>관리자 로그인</Button>;
 };
 
 const Logout = () => {
-  return <button onClick={() => signOut()}>로그아웃</button>;
+  return <Button className='bg-red-500' onClick={() => signOut({callbackUrl : '/'})}>로그아웃</Button>;
 };
 
 const Auth = ({ session }: { session: any }) => {

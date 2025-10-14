@@ -1,14 +1,9 @@
 import Image from 'next/image';
 
 import logoImg from '@/public/svgs/logo_b.svg';
-import Auth from '@/components/Auth';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 const Footer = async () => {
 
-  const session = await getServerSession(authOptions);
-  
   return (
     <footer className="bg-[#202020]  text-white px-[2rem] py-16">
       <div className="max-w-6xl mx-auto">
@@ -54,7 +49,6 @@ const Footer = async () => {
           </div>
         </div>
       </div>
-      <Auth session={session} />
     </footer>
   );
 };
