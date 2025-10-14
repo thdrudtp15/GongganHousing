@@ -4,8 +4,6 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { motion } from 'framer-motion';
 import { EmblaOptionsType } from 'embla-carousel';
 import { DotButton, useDotButton } from './EmblaCarouselDotButton';
-import { usePrevNextButtons } from './EmblaCarouselArrowButtons';
-
 
 import type { ReactNode } from "react";
 

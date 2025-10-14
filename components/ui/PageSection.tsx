@@ -4,7 +4,7 @@
 
 const PageSection = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="pt-10 pb-20 bg-gray-50 px-8">
+    <div className="pt-10 pb-20 bg-gray-50 px-4 sm:px-8">
     <div className="max-w-270 w-full shadow-2xl h-fit m-auto bg-white p-8">
         {children}
     </div>

@@ -10,7 +10,7 @@ const Section = ({
   id?: string;
 }) => {
   return (
-    <section id={id} className={`pb-12 px-8 ${className}`}>
+    <section id={id} className={`pb-12 px-4 sm:px-8 ${className}`}>
       {children}
     </section>
   );

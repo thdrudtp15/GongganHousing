@@ -15,7 +15,7 @@ const PageBanner = ({
   image?: StaticImageData;
 }) => {
   return (
-      <section className="relative h-120 pt-20 overflow-hidden w-full">
+      <section className="relative h-90 md:h-120 pt-20 overflow-hidden w-full">
         {image && (
           <Image
             src={image}
@@ -28,7 +28,7 @@ const PageBanner = ({
         <div className='absolute pt-20 top-0 left-0 w-full h-full 
                         bg-[rgba(0,0,0,0.2)] flex items-center 
                         justify-center z-[2] flex-col gap-2'>
-          <h1 className="font-bold text-6xl text-white text-shadow-lg">
+          <h1 className="font-bold text-3xl md:text-6xl text-white text-shadow-lg">
             {title}
           </h1>
           {children}
@@ -44,7 +44,7 @@ const Description = ({
 }: {
   description: string;
 }) => {
-  return <p className='text-2xl text-gray-100 font-thin'>{description}</p>;
+  return <p className='text-md sm:text-lg md:text-2lg text-gray-100 font-thin'>{description}</p>;
 };
 
 const Breadcrumb = ({
