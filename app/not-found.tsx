@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import Button from '@/compositions/Button';
+import Button from '@/components/ui/Button';
 import { AiOutlineFileUnknown } from "react-icons/ai";
 
 const NotFound = () => {

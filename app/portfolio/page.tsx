@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Pagination from '@/components/Pagination';
-import PortfolioGrid from '@/components/PortfolioGrid';
-import PortfolioSearch from '@/components/PortfolioSearch';
-import PageSection from '@/wrappers/PageSection';
-import PageBanner from '@/containers/PageBanner';
+import Pagination from '@/components/ui/Pagination';
+import PortfolioGrid from '@/components/portfolio/PortfolioGrid';
+import PortfolioSearch from '@/components/portfolio/PortfolioSearch';
+import PageSection from '@/components/ui/PageSection';
+import PageBanner from '@/components/ui/PageBanner';
 import { getPortfolioList } from '@/lib/queries/portfolio';
 import dummy from '@/public/images/banner_portfolio.webp';
 import type { Portfolio } from '@/types/portfolio';

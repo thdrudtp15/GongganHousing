@@ -1,6 +1,6 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
-import Auth from '@/components/Auth';
+import Auth from '@/components/account/Auth';
 
 const Page = async () => {
 

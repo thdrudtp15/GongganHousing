@@ -1,7 +1,7 @@
-import PageBanner from '@/containers/PageBanner';
+import PageBanner from '@/components/ui/PageBanner';
 import bannerImg from '@/public/images/banner_inquiry.webp';
-import PageSection from '@/wrappers/PageSection';
-import InquiryForm from '@/components/InquiryForm';
+import PageSection from '@/components/ui/PageSection';
+import InquiryForm from '@/components/inquiry/InquiryForm';
 
 const Page = () => {
   return (

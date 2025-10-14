@@ -4,9 +4,9 @@ import { getPortfolioData_ } from '@/lib/queries/portfolio';
 import { formatDate } from '@/lib/utils/formatDate';
 
 import type { Metadata } from 'next';
-import PortfolioDetailImageGrid from '@/components/PortfolioDetailImageGrid';
-import PageSection from '@/wrappers/PageSection';
-import PageBanner from '@/containers/PageBanner';
+import PortfolioDetailImageGrid from '@/components/portfolio/PortfolioDetailImageGrid';
+import PageSection from '@/components/ui/PageSection';
+import PageBanner from '@/components/ui/PageBanner';
 import Link from 'next/link';
 
 import dummy from '@/public/images/banner_about.webp';

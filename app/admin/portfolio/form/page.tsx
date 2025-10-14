@@ -1,8 +1,8 @@
-import PageBanner from '@/containers/PageBanner';
-import PortfolioForm from '@/components/PortfolioForm';
+import PageBanner from '@/components/ui/PageBanner';
+import PortfolioForm from '@/components/portfolio/PortfolioForm';
 
 import dummy from '@/public/images/banner_inquiry.webp';
-import PageSection from '@/wrappers/PageSection';
+import PageSection from '@/components/ui/PageSection';
 import { getPortfolioData_ } from '@/lib/queries/portfolio';
 import { redirect } from 'next/navigation';
 import type { Portfolio } from '@/types/portfolio';
