@@ -6,16 +6,20 @@ export const transporter = nodemailer.createTransport({
   secure: false,
   auth: {
     user: process.env.NEXT_PUBLIC_NAVER_EMAIL,
-    pass: process.env.NEXT_PUBLIC_NAVER_PW,
+    pass: process.env.NAVER_PW,
   },
 });
 
-export const getMailContent = (html: string) => {
+export const getMailContent = (
+  html: string,
+  attachments?: { filename: string; content: Buffer }[],
+) => {
   return {
     from: process.env.NEXT_PUBLIC_NAVER_EMAIL,
     to: process.env.NEXT_PUBLIC_NAVER_EMAIL,
     subject: '공간하우징 문의사항',
     html,
+    attachments: attachments,
   };
 };
 

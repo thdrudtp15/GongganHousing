@@ -2,6 +2,7 @@ import { SupabaseAdapter } from '@next-auth/supabase-adapter';
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import jwt from 'jsonwebtoken';
+
 import type { User } from 'next-auth';
 import type { AdapterUser } from 'next-auth/adapters';
 import type { Account } from 'next-auth';
@@ -22,7 +23,7 @@ export const authOptions = {
   // 쿠키 설정
   cookies: {
     sessionToken: {
-      name: `__Host-next-auth.session-token`,
+      name: `${process.env.NODE_ENV === 'production' ? '__Host-' : ''}next-auth.session-token`,
       options: {
         httpOnly: true,
         sameSite: 'lax',
@@ -33,9 +34,10 @@ export const authOptions = {
   },
 
   // callbacks: useSession / getServerSession 호출 시 리턴할 내용
+
   callbacks: {
     async signIn({ user }: SignInParams) {
-      const allowedEmails = [...process.env.ALLOWED_EMAILS!.split(',')];
+      const allowedEmails = [...process.env.ALLOWED_EMAILS!.trim().split(',')];
 
       if (user.email && allowedEmails.includes(user.email)) {
         return true; // 로그인 허용
@@ -43,7 +45,6 @@ export const authOptions = {
       return false; // 로그인 거부
     },
     async session({ session, user }: { session: any; user: any }) {
-      console.log('세션 실행');
       const signingSecret = process.env.SUPABASE_JWT_SECRET;
       if (signingSecret) {
         const payload = {
@@ -62,7 +63,7 @@ export const authOptions = {
 
   // DB 세션/Adapter 설정
   adapter: SupabaseAdapter({
-    url: process.env.SUPABASE_URL as string,
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL as string,
     secret: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
   }),
 
@@ -73,6 +74,9 @@ export const authOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     }),
   ],
+  pages: {
+    signIn: '/account',
+  },
 };
 
 export default NextAuth(authOptions);
