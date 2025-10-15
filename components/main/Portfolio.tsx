@@ -2,8 +2,15 @@ import PortfolioCarousel from "@/components/carousel/PortfolioCarousel";
 import Section from '@/components/ui/MainSection';
 import Link from 'next/link';
 import Button from "@/components/ui/Button";
+import { supabase } from "@/lib/supabase/supabaseClient";
+import type { Portfolio } from "@/types/portfolio";
 
-const Portfolio = () => {
+
+const Portfolio = async () => {
+
+  const {data} = await supabase.from('portfolio').select('*').order('created_at', { ascending: false }).limit(6);
+
+
   return (
     <Section>
       <Section.Content className="overflow-hidden">
@@ -18,7 +25,7 @@ const Portfolio = () => {
             </Button>
           </Link>
         </div>
-        <PortfolioCarousel />
+        <PortfolioCarousel slides={data as Portfolio[]}/>
       </Section.Content>
     </Section>
   );

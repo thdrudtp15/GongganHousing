@@ -59,6 +59,7 @@ export const createPortfolio = async (
   const category = formdata.get('category');
   const started_at = formdata.get('started_at');
   const completed_at = formdata.get('completed_at');
+  const cover = formdata.get('cover');
 
   // 이미지 개수 추출
   const imageCount = (formdata.get('image_count') as string) || 0;
@@ -113,7 +114,7 @@ export const createPortfolio = async (
 
     const PortfolioData = {
       title,
-      cover: imageUrls?.[0] || '',
+      cover: cover || imageUrls?.[0] || '',
       started_at,
       completed_at,
       category,

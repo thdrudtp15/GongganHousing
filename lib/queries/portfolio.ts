@@ -40,6 +40,7 @@ export const getPortfolioData_ = unstable_cache(
         id,
         title,
         created_at,
+        started_at,
         completed_at,
         category,
         description,

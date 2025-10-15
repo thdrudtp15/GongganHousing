@@ -2,7 +2,7 @@
 
 import type { Dispatch, SetStateAction  } from 'react';
 import Image from 'next/image';
-import ImageDetailModalCarousel from './embla/ImageDetailModalCarousel';
+import ImageDetailModalCarousel from '@/components/carousel/ImageDetailModalCarousel';
 import { MdClear } from "react-icons/md";
 import Modal from '@/components/ui/Modal';
 

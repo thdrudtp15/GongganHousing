@@ -20,12 +20,13 @@ type InputProps = {
     inputClassName?: string;
 }
 
-export const Input = ({title, type = "text", name, error, placeholder, value, onChange, onKeyDown, labelClassName, inputClassName, required}: InputProps) => {
+export const Input = ({title, type = "text", name, error, placeholder,defaultValue,  value, onChange, onKeyDown, labelClassName, inputClassName, required}: InputProps) => {
     return <label className={`flex flex-col gap-2 ${labelClassName} relative`}>   
                 {title && <span className="font-bold">{title}{required && <span className="text-red-500">*</span>}</span>}
                 <input type={type} 
                        name={name} 
                        placeholder={placeholder} 
+                       defaultValue={defaultValue}
                        value={value} 
                        onKeyDown={onKeyDown} 
                        onChange={onChange} 
@@ -63,11 +64,11 @@ export const File = ({title, name, error, labelClassName, required, files, addFi
 }
 
 
-export const Textarea = ({title, name, error, placeholder, value, onChange, onKeyDown, inputClassName , required}: InputProps) => {
+export const Textarea = ({title, name, error, placeholder, value, defaultValue, onChange, onKeyDown, inputClassName , required}: InputProps) => {
 
     return <label className={`flex flex-col gap-2 relative`}>   
                 {title && <span className="font-bold">{title}{required && <span className="text-red-500">*</span>}</span>}
-                <textarea name={name} placeholder={placeholder} value={value} onKeyDown={onKeyDown} onChange={onChange} className={`border border-gray-300 p-2 ${inputClassName}`} />
+                <textarea name={name} placeholder={placeholder} defaultValue={defaultValue} value={value} onKeyDown={onKeyDown} onChange={onChange} className={`border border-gray-300 p-2 ${inputClassName}`} />
                 {error && <span className="absolute top-[100%] text-red-500 text-sm">{error}</span>}
             </label>
 }

@@ -23,6 +23,11 @@ type ExistingImage = {
   image: string;
 };
 
+function isExistingImage(image: any): image is ExistingImage {
+  return image && typeof image.id === 'number' && typeof image.image === 'string';
+}
+
+
 type ImageItem = ExistingImage | File;
 
 const Preview = ({
@@ -98,11 +103,18 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
 
     // 추가할 이미지 파일 append
     if (images && images.length > 0) {
+
+      console.log(images);
+
       let imageCount = 0;
+      let cover = ''
       images.forEach((image) => {
         if (image instanceof File) {
           formData.append(`image_${imageCount}`, image);
           imageCount++;
+        } else if(!cover && isExistingImage(image)) {
+          cover = image.image;
+          formData.append('cover', image.image);
         }
       });
       formData.append('image_count', imageCount.toString());
@@ -203,12 +215,6 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
        .reduce((sum, f) => sum + f.size, 0);
      const newTotalSize = existingSize + totalSize;
  
-     console.log(`\n=== 처리 결과 ===`);
-     console.log(`성공: ${processedFiles.length}개 (${(totalSize / 1024 / 1024).toFixed(2)}MB)`);
-     console.log(`실패: ${failedFiles.length}개`);
-     console.log(`중복: ${skippedFiles.length}개`);
-     console.log(`기존: ${(existingSize / 1024 / 1024).toFixed(2)}MB`);
-     console.log(`합계: ${(newTotalSize / 1024 / 1024).toFixed(2)}MB`);
  
      // 전체 크기 체크
      if (newTotalSize > MAX_TOTAL_SIZE) {
@@ -294,7 +300,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
         <Input 
           title="시공 시작 날짜" 
           type='date'
-          className='flex-1'
+          labelClassName='flex-1'
           placeholder='시공 시작 날짜'
           name='started_at'
           defaultValue={data?.started_at}
@@ -303,7 +309,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
         <Input 
           title="시공 종료 날짜" 
           type='date'
-          className='flex-1'
+          labelClassName='flex-1'
           placeholder='시공 종료 날짜'
           name='completed_at'
           defaultValue={data?.completed_at}

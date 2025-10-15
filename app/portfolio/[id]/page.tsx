@@ -60,7 +60,7 @@ const Detail = async ({ params }: Props) => {
         </div>
         <h2 className="text-2xl font-bold  mb-4">시공 사진</h2>
           <PortfolioDetailImageGrid images={data.portfolio_images} />
-          <Link href={'/portfolio'} type="button" className="border text-gray-500 border-gray-400 m-auto block cursor-pointer py-2 px-4">목록으로</Link>
+          <Link href={'/portfolio'} type="button" className="border text-gray-500 border-gray-400 m-auto block cursor-pointer w-fit py-2 px-4">목록으로</Link>
       </PageSection>
     </>
   );
