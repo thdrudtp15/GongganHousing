@@ -1,4 +1,3 @@
-
 import Image from 'next/image';
 
 import type { Portfolio } from '@/types/portfolio';
@@ -11,14 +10,17 @@ const PortfolioItem = ({ data }: { data: Portfolio }) => {
   return (
     <Link href={`/portfolio/${data.id}`}>
       <article className="group">
-       {data.cover && <div className="w-full aspect-[16/9] relative overflow-hidden">
-          <Image
-            src={data.cover}
-            alt={`시공사례 ${data.title} 이미지`}
-            fill
-            className="object-cover group-hover:scale-[1.2] duration-300"
-          />
-        </div>}
+        {data.cover && (
+          <div className="w-full aspect-[16/9] relative overflow-hidden">
+            <Image
+              src={data.cover}
+              alt={`시공사례 ${data.title} 이미지`}
+              fill
+              className="object-cover group-hover:scale-[1.2] duration-300"
+              loading="lazy"
+            />
+          </div>
+        )}
         <div className="shadow-lg p-4">
           <h3 className="text-1xl font-bold">{data.title}</h3>
           <p className="text-gray-500 text-sm mb-2">
@@ -41,7 +43,7 @@ const PortfolioGrid = ({ portfolioData }: { portfolioData: Portfolio[] }) => {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-20 mt-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20 mt-4">
       {portfolioData &&
         portfolioData.map((portfolio) => (
           <React.Fragment key={portfolio.id}>

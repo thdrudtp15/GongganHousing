@@ -4,7 +4,6 @@ import Image from 'next/image';
 import React from 'react';
 import PortfolioImagesModal from './PortfolioImagesModal';
 
-
 type Props = {
   images: {
     id: number;
@@ -35,7 +34,16 @@ const PortfolioDetailImageGrid = ({ images }: Props) => {
               >
                 <p className="text-white font-bold text-2xl">클릭하여 자세히 보기</p>
               </div>
-              <Image src={image.image} fill alt="이미지" className="object-cover z-[1]" />
+              <Image
+                src={image.image}
+                alt={`시공 이미지 ${index + 1}`}
+                fill
+                className="object-cover z-[1]"
+                loading="lazy" // ✅ 중요: 지연 로딩
+                sizes="(max-width: 768px) 100vw,
+                      (max-width: 1024px) 50vw,
+                      33vw" // ✅ 반응형에 맞는 사이즈 힌트
+              />
             </div>
           ))}
       </div>
@@ -46,7 +54,6 @@ const PortfolioDetailImageGrid = ({ images }: Props) => {
           setImageIndex={setImageIndex}
         />
       )}
-    
     </>
   );
 };

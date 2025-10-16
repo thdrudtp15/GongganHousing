@@ -1,5 +1,5 @@
 {
-  "editor.formatOnSave": false, // 기본 비활성화
+  "editor.formatOnSave": true, // 기본 비활성화
 
   "[javascript]": {
     "editor.formatOnSave": true,

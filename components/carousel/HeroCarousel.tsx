@@ -79,7 +79,7 @@ const HeroCarousel: React.FC<PropType> = (props) => {
                         scale: { duration: 10 },
                     }}
                 >
-                  <Image src={slide.src} fill priority alt="시공사례 이미지" className="object-cover z-[1]" />       
+                  <Image src={slide.src} fill priority alt="시공사례 이미지" className="object-cover z-[1]" placeholder='blur' blurDataURL={slide.src} sizes='100vw'/>       
                 </motion.div>    
             </div>
           ))}

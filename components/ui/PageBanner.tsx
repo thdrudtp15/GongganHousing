@@ -23,6 +23,9 @@ const PageBanner = ({
             alt="banner image"
             className="object-cover z-[-1]"
             priority
+            placeholder='blur'
+            blurDataURL={image.src}
+            sizes='100vw'
           />
         )}
         <div className='absolute pt-20 top-0 left-0 w-full h-full 
