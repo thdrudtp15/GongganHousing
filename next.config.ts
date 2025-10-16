@@ -3,7 +3,6 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        formats: ['image/avif', 'image/webp'],
         hostname: 'res.cloudinary.com',
         pathname: '/dtodrrwy8/**',
       },
