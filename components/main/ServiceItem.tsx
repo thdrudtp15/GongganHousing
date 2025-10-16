@@ -47,9 +47,7 @@ const ServiceItem = ({
       >
         <h2 className="text-4xl mb-4 font-bold">{title}</h2>
         <div className="text-xl mb-4 text-gray-500">{desc}</div>
-        <Button
-          className="py-4"
-        >
+        <Button className="py-4">
           <Link
             href={href}
             className="relative flex items-center gap-[12px] z-[3] text-white duration-600"
@@ -75,7 +73,13 @@ const ServiceItem = ({
         }}
         className="w-[100%] h-80 bg-black relative md:w-[60%]"
       >
-        <Image src={image} alt={title} fill className="object-cover" />
+        <Image
+          src={image}
+          alt={title}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 60vw"
+        />
       </motion.div>
       <div ref={ref} className="absolute top-[0%]"></div>
     </div>

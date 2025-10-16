@@ -18,6 +18,7 @@ const PortfolioItem = ({ data }: { data: Portfolio }) => {
               fill
               className="object-cover group-hover:scale-[1.2] duration-300"
               loading="lazy"
+              sizes="100vw"
             />
           </div>
         )}
