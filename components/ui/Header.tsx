@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import logoImg from '@/public/svgs/logo_b.svg';
 import Link from 'next/link';
+import HamburgerMenu from './HamburgerMenu';
 
 const navItems = [
   { name: '사업 영역', href: '/#사업영역' },
@@ -24,10 +25,10 @@ const Header = () => {
             className={`group-hover:filter transition duration-300`}
           />
 
-          <p className="text-2xl hidden sm:block font-bold">공간하우징</p>
+          <p className="text-2xl font-bold">공간하우징</p>
         </Link>
-        <nav>
-          <ul className="flex gap-8 md:gap-12">
+        <nav className="hidden sm:flex items-center">
+          <ul className="gap-8 md:gap-12 flex">
             {navItems.map((item) => (
               <li key={item.name}>
                 <Link
@@ -46,6 +47,7 @@ const Header = () => {
             ))}
           </ul>
         </nav>
+        <HamburgerMenu navItems={navItems} />
       </div>
     </header>
   );
