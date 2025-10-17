@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### [개인 프로젝트] 공간하우징[**_(링크)_**](https://gongganhousing.vercel.app)
 
-## Getting Started
+- **기간**: 2025.9 ~ 2025.10 (약1개월)
+- **기술 스택**: Next.js 15, TypeScript, Supabase, NextAuth.js, Tailwind CSS, Cloudinary
+- **GitHub**
 
-First, run the development server:
+#### 프로젝트 개요
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+건축 회사 공간하우징의 웹사이트입니다. 아버지 회사의 웹 사이트를 만들어드리고자 만들어 본 웹사이트입니다. supabase cloudinary 등을 사용하여 풀스택으로 구현 되었습니다.
+현재 기능은 완성된 상태이며, 디자인 수정 및 코드 최적화 작업을 진행중입니다.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### 주요 기능
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Next.js 15 App Router 기반 풀스택 개발 (CRUD)
+- Supabase + RLS로 안전한 데이터 관리
+- NextAuth 인증 및 관리자 권한 시스템
+- Cloudinary 이미지 최적화 (자동 압축/변환)
+- Nodemailer SMTP 이메일 전송 기능
+- Rate Limiting + Turnstile로 메일 스팸 방지
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 문제 해결 경험
 
-## Learn More
+#### 이미지 업로드 최적화 과정
 
-To learn more about Next.js, take a look at the following resources:
+초기에는 시공 사례 이미지 업로드 시 원본 이미지를 그대로 업로드하면서 Cloudinary 저장 용량이 빠르게 증가하는 문제가 있었습니다.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+이를 해결하기 위해 **browser-image-compression** 라이브러리를 도입하여
+클라이언트 측에서 이미지를 0.7MB 이하로 사전 압축하도록 구현했습니다.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+그 결과, Next.js 서버로 전송되는 요청 크기가 **60%** 감소했고,
+Cloudinary 저장 용량 또한 크게 절감할 수 있었습니다.
+이를 통해 클라우드 비용 최적화와 빠른 업로드 속도를 동시에 달성했습니다.
 
-## Deploy on Vercel
+#### 이메일 스팸 방지 시스템
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+상담 및 문의 폼은 스팸 타겟이 될 수도 있다고 생각했습니다.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+이를 방지하기 위해 **Cloudflare Turnstile**로 1차 필터링하고, **Rate Limiting**을 통해 동일한 IP의 과도한 요청 차단 작업을 진행하였습니다.
+
+#### 인증 시스템 개선
+
+초기에는 **supabase Auth**를 사용했으나, 빌드 시 모든 라우트가 다이나믹 라우트로 변환되고 , 매번 Supabase 클라이언트를 생성해야 하는 등
+**반복적인 코드가 증가**하는 문제가 있었습니다.
+
+이를 해결하기 위해 **NextAuth** 세션 기반 인증으로 전환했습니다.
+서버와 클라이언트 양쪽에서 더 간결하고 통일된 방식으로
+인증 상태를 관리할 수 있게 되었습니다.
+
+동시에 Supabase RLS는 그대로 유지하여 데이터베이스 레벨에서의
+추가 권한 검증을 보장했습니다.
+
+#### 메타데이터 중복 요청 최적화
+
+시공 사례 상세 페이지에서 메타데이터 생성을 위해 동일한 데이터를 2번 가져와야 하는 문제가 있었습니다. **React**의 **cache** 함수를 도입하여 요청을 1회로 줄이고 불필요한 중복을 제거했습니다.
+
+#### 데이터 캐싱을 통한 성능 개선
+
+초기에는 시공 사례 조회 시 매번 데이터베이스에 직접 요청하여 서버 부하와 느린 응답 속도 문제가 있었습니다. **Next.js**의 **unstable_cache**를 활용해 자주 조회되는 데이터를 캐싱한 결과, 시공 사례 목록 및 상세 페이지의 로딩 속도를 약 **25%** 개선했습니다.
+
+![스크린샷 2025-10-17 171744]("@/public/images/readme_no-cache.png")
+![스크린샷 2025-10-17 171758]("@/public/images/readme_cache.png)
+
+#### 성능 지표 - Lighthouse 99점 달성
+
+![스크린샷 2025-10-17 172412](@/public/images/readme_lighthouse.png)
