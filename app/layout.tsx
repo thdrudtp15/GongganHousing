@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     siteName: '공간하우징',
     images: [
       {
-        url: 'https://res.cloudinary.com/dtodrrwy8/image/upload/v1756717530/favicon_kvnach.png',
+        url: 'https://res.cloudinary.com/dtodrrwy8/image/upload/v1760691565/ChatGPT_Image_2025%EB%85%84_8%EC%9B%94_20%EC%9D%BC_%EC%98%A4%ED%9B%84_03_35_16_l3afu2.png',
         width: 1200,
         height: 630,
       },
@@ -40,9 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} antialiased`}
-      >
+      <body className={`${inter.className} antialiased`}>
         <Header />
         {children}
         <Footer />
