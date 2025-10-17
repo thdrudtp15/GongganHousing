@@ -5,28 +5,8 @@ import { createServerSupabaseClient } from '@/lib/supabase/supabaseClient';
 import { authOptions } from '@/pages/api/auth/[...nextauth]';
 import { getServerSession } from 'next-auth';
 import { revalidateTag } from 'next/cache';
+import { PortfolioSchema } from '@/zod/zod';
 import * as z from 'zod';
-
-const Portfolio = z
-  .object({
-    title: z.string().min(1, '제목을 작성해주세요'),
-    started_at: z.string().min(1, '시공 시작 날짜를 선택해주세요'),
-    completed_at: z.string().min(1, '시공 완료 날짜를 선택해주세요'),
-    category: z.string().min(1, '시공 분야를 선택해주세요'),
-    description: z.string().min(1, '내용을 작성해주세요'),
-  })
-  .refine(
-    (data) => {
-      const startDate = new Date(data.started_at);
-      const endDate = new Date(data.completed_at);
-      return !isNaN(startDate.getTime()) && !isNaN(endDate.getTime()) && startDate <= endDate;
-    },
-    {
-      message: '시공 시작 날짜는 완료 날짜보다 이전이어야 합니다',
-      path: ['completed_at'],
-    },
-  );
-
 // submit~으로 함수명 변경하기
 export const createPortfolio = async (
   prevState: {
@@ -78,7 +58,7 @@ export const createPortfolio = async (
     deleteImageArray.push(datas);
   }
 
-  const result = Portfolio.safeParse({
+  const result = PortfolioSchema.safeParse({
     title,
     started_at,
     completed_at,

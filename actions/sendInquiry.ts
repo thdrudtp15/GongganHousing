@@ -1,11 +1,11 @@
 'use server';
 
-import * as z from 'zod';
-
 import { getHtml, getMailContent, transporter } from '@/lib/mail/mail';
 import { verifyTurnstileToken } from './turnstile';
 import { supabase } from '@/lib/supabase/supabaseClient';
 import { headers } from 'next/headers';
+import { InquirySchema } from '@/zod/zod';
+import * as z from 'zod';
 
 export type sendInquiryPrevStateType = {
   name: string;
@@ -39,6 +39,7 @@ export const sendInquiry = async (prevState: sendInquiryPrevStateType, formData:
   const inquiry = formData.get('inquiry') as string;
   const agree = formData.get('agree') === 'on';
   const token = formData.get('turnstile_token') as string;
+  const category = formData.get('category') as string;
   const files = formData.getAll('files') as File[];
 
   const verify = await verifyTurnstileToken(token);
@@ -47,28 +48,7 @@ export const sendInquiry = async (prevState: sendInquiryPrevStateType, formData:
     return { ...state, server: '보안 검증 실패' };
   }
 
-  const Inquiry = z.object({
-    name: z
-      .string()
-      .min(1, { message: '이름은 필수입니다.' })
-      .max(30, { message: '이름은 30자 이하로 입력해주세요.' }),
-
-    phone: z
-      .string()
-      .min(1, { message: '연락처는 필수입니다.' })
-      .regex(/^01[016789]-?\d{3,4}-?\d{4}$/, {
-        message: '올바른 전화번호를 입력해주세요. 예: 010-1234-5678',
-      }),
-    inquiry: z
-      .string()
-      .min(1, { message: '문의 내용을 입력해주세요.' })
-      .max(1000, { message: '문의 내용은 1000자 이하로 입력해주세요.' }),
-    agree: z.boolean().refine((value) => value === true, {
-      error: '개인정보취급방침 동의를 체크해주세요',
-    }),
-  });
-
-  const result = Inquiry.safeParse({ name, phone, inquiry, agree });
+  const result = InquirySchema.safeParse({ name, phone, inquiry, agree });
 
   if (!result.success) {
     const fieldsError = z.flattenError(result.error).fieldErrors;
@@ -147,7 +127,7 @@ export const sendInquiry = async (prevState: sendInquiryPrevStateType, formData:
 
   if (data) {
     try {
-      const html = getHtml(name);
+      const html = getHtml(name, phone, inquiry, category);
       const mailContent = getMailContent(html, attachments);
       await transporter.sendMail(mailContent);
       await supabase.from('inquiries').update({ status: 'success' }).eq('id', data.id);

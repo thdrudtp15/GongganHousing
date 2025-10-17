@@ -12,11 +12,10 @@ import { services } from '@/constants/services';
 import { createPortfolio } from '@/actions/portfolio';
 import { useRouter } from 'next/navigation';
 
-import type { ChangeEvent } from 'react';
-import type { Portfolio } from '@/types/portfolio';
-
 import { MdOutlineImage } from 'react-icons/md';
 
+import type { ChangeEvent } from 'react';
+import type { Portfolio } from '@/types/portfolio';
 import type { PortfolioImages } from '@/types/portfolio';
 
 function isExistingImage(image: any): image is PortfolioImages {

@@ -2,9 +2,9 @@
 import { sendInquiry } from '@/actions/sendInquiry';
 import { useActionState, useState, useRef, useEffect } from 'react';
 import { Turnstile } from '@marsidev/react-turnstile';
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
-import {Input, Textarea, Checkbox, File} from '@/components/ui/Input';
+import { Input, Textarea, Checkbox, File } from '@/components/ui/Input';
 import Select from '@/components/ui/Select';
 import Button from '@/components/ui/Button';
 import InquirySuccessModal from './InquirySuccessModal';
@@ -21,15 +21,14 @@ const InquiryForm = () => {
 
   const [isSuccess, setIsSuccess] = useState(false);
 
-
   const [state, action, pending] = useActionState(sendInquiry, {
     name: '',
     phone: '',
     inquiry: '',
     agree: '',
     server: '',
-    file : '',
-    success : false
+    file: '',
+    success: false,
   });
 
   const handleSubmit = async (formData: FormData) => {
@@ -40,9 +39,9 @@ const InquiryForm = () => {
   };
 
   const addFile = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { files }  = e.target as HTMLInputElement
+    const { files } = e.target as HTMLInputElement;
     if (files) {
-      setFiles((prev : File[]) => [...prev, ...Array.from(files)]);
+      setFiles((prev: File[]) => [...prev, ...Array.from(files)]);
     }
   };
 
@@ -52,17 +51,15 @@ const InquiryForm = () => {
 
   // 서버 에러 발생 시 alert
   useEffect(() => {
-    if(!state.server) return;
-    alert(state.server)
-  },[state.server])
-
+    if (!state.server) return;
+    alert(state.server);
+  }, [state.server]);
 
   // 문의 사항 접수 성공 시 모달
   useEffect(() => {
-    if(!state.success) return;
+    if (!state.success) return;
     setIsSuccess(true);
-  },[state.success])
-
+  }, [state.success]);
 
   return (
     <>
@@ -86,13 +83,9 @@ const InquiryForm = () => {
               name="phone"
               placeholder="연락처를 작성해주세요"
             />
-            <Select
-              title="문의 분야"
-              name="inquiry_category"
-              options={services}
-            />
+            <Select title="문의 분야" name="category" options={services} />
             <Textarea
-              title="문의내용"
+              title="문의 내용"
               required
               error={state.inquiry}
               name="inquiry"
@@ -100,7 +93,7 @@ const InquiryForm = () => {
               inputClassName="resize-y h-40"
             />
             <File
-              title="첨부파일"
+              title="첨부 파일"
               name="files"
               files={files}
               addFile={addFile}
@@ -114,10 +107,7 @@ const InquiryForm = () => {
             onSuccess={(token) => setToken(token)}
             ref={turnstileRef}
           />
-          <Button
-            disabled={pending || !token}
-            type="submit"
-          >
+          <Button disabled={pending || !token} type="submit">
             {pending && <AiOutlineLoading3Quarters className="animate-spin" />}
             {!pending && !token && '자동 인증을 완료해주세요'}
             {token && !pending && '상담 요청하기'}

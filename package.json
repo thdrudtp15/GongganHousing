@@ -15,6 +15,7 @@
     "@supabase/supabase-js": "^2.57.4",
     "browser-image-compression": "^2.0.2",
     "cloudinary": "^2.7.0",
+    "dompurify": "^3.3.0",
     "embla-carousel-autoplay": "^8.6.0",
     "embla-carousel-fade": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
