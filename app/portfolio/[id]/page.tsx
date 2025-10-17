@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 import { getPortfolioData_ } from '@/lib/queries/portfolio';
 import { formatDate } from '@/lib/utils/formatDate';
+import { cache } from 'react';
 
 import type { Metadata } from 'next';
 import PortfolioDetailImageGrid from '@/components/portfolio/PortfolioDetailImageGrid';
@@ -15,9 +16,13 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
+const getPortfolioDataByCache = cache(async (id: string) => {
+  return await getPortfolioData_(id);
+});
+
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const { id } = await params;
-  const { data } = await getPortfolioData_(id);
+  const { data } = await getPortfolioDataByCache(id);
 
   if (!data) notFound();
 
@@ -31,36 +36,48 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
   };
 };
 
-
-const InfoItem = ({title, content} : {title : string, content : string}) => {
-    return  <div className=" border-b border-gray-300 flex py-4">
-    <h2 className="w-[20%]">{title}</h2>
-    <p className="text-gray-500">{content}</p>
-  </div>
-}
+const InfoItem = ({ title, content }: { title: string; content: string }) => {
+  return (
+    <div className=" border-b border-gray-300 flex py-4">
+      <h2 className="w-[20%]">{title}</h2>
+      <p className="text-gray-500">{content}</p>
+    </div>
+  );
+};
 
 const Detail = async ({ params }: Props) => {
   const { id } = await params;
-  const { data } = await getPortfolioData_(id);
+  const { data } = await getPortfolioDataByCache(id);
 
   if (!data) return;
 
   return (
     <>
-      <PageBanner image={dummy} title="시공 사례" >
-        <PageBanner.Breadcrumb breadcrumb={[{ title: '시공 사례', path: '/portfolio' }, {title : data.title}]} />
+      <PageBanner image={dummy} title="시공 사례">
+        <PageBanner.Breadcrumb
+          breadcrumb={[{ title: '시공 사례', path: '/portfolio' }, { title: data.title }]}
+        />
       </PageBanner>
       <PageSection>
         <PageSection.Header>시공 사례</PageSection.Header>
-        <div className='border-t mb-8'>
-            <InfoItem title="제목" content={data.title}/>
-            <InfoItem title="설명" content={data.description}/>
-            <InfoItem title="시공 기간" content={`${formatDate(data.created_at)} ~ ${formatDate(data.completed_at)}`}/>
-            <InfoItem title="분류" content={data.category}/>
+        <div className="border-t mb-8">
+          <InfoItem title="제목" content={data.title} />
+          <InfoItem title="설명" content={data.description} />
+          <InfoItem
+            title="시공 기간"
+            content={`${formatDate(data.created_at)} ~ ${formatDate(data.completed_at)}`}
+          />
+          <InfoItem title="분류" content={data.category} />
         </div>
         <h2 className="text-2xl font-bold  mb-4">시공 사진</h2>
-          <PortfolioDetailImageGrid images={data.portfolio_images} />
-          <Link href={'/portfolio'} type="button" className="border text-gray-500 border-gray-400 m-auto block cursor-pointer w-fit py-2 px-4">목록으로</Link>
+        <PortfolioDetailImageGrid images={data.portfolio_images} />
+        <Link
+          href={'/portfolio'}
+          type="button"
+          className="border text-gray-500 border-gray-400 m-auto block cursor-pointer w-fit py-2 px-4"
+        >
+          목록으로
+        </Link>
       </PageSection>
     </>
   );

@@ -24,9 +24,11 @@ const PortfolioItem = ({ data }: { data: Portfolio }) => {
         )}
         <div className="shadow-lg p-4">
           <h3 className="text-1xl font-bold">{data.title}</h3>
-          <p className="text-gray-500 text-sm mb-2">
-            {formatDate(data.started_at)}~{formatDate(data.completed_at)}
-          </p>
+          {data.started_at && data.completed_at && (
+            <p className="text-gray-500 text-sm mb-2">
+              {formatDate(data.started_at)}~{formatDate(data.completed_at)}
+            </p>
+          )}
           <p className="border border-gray-300 w-fit py-2 px-4 text-sm text-gray-500">
             {data.category}
           </p>

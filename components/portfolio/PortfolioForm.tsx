@@ -17,16 +17,13 @@ import type { Portfolio } from '@/types/portfolio';
 
 import { MdOutlineImage } from 'react-icons/md';
 
-type ExistingImage = {
-  id: number;
-  image: string;
-};
+import type { PortfolioImages } from '@/types/portfolio';
 
-function isExistingImage(image: any): image is ExistingImage {
+function isExistingImage(image: any): image is PortfolioImages {
   return image && typeof image.id === 'number' && typeof image.image === 'string';
 }
 
-type ImageItem = ExistingImage | File;
+type ImageItem = PortfolioImages | File;
 
 const Preview = ({
   file,
@@ -41,15 +38,17 @@ const Preview = ({
 
   let preview;
   if (file instanceof File) {
+    // 파일 형태일 경우(새로 업로드할 이미지)
     preview = URL.createObjectURL(file);
   } else {
+    // 문자열 형태의 경우(기존 이미지)
     preview = file.image;
   }
   return (
     <div
       className="relative h-70 group"
       onClick={() => {
-        URL.revokeObjectURL(preview);
+        URL.revokeObjectURL(preview as string);
         removeImage(file);
       }}
     >
@@ -65,20 +64,26 @@ const Preview = ({
       >
         <p className="text-white font-bold text-2xl">클릭하여 삭제</p>
       </div>
-      <Image fill src={preview} alt="upload image" className="object-cover" sizes="100vw" />
+      <Image
+        fill
+        src={preview as string}
+        alt="upload image"
+        className="object-cover"
+        sizes="100vw"
+      />
     </div>
   );
 };
 
 const PreviewImage = React.memo(Preview);
 
-const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: ExistingImage[] }) => {
+const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: PortfolioImages[] }) => {
   const router = useRouter();
   const imageRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
   const [images, setImages] = useState<ImageItem[] | null | undefined>(imageData);
-  const [deleteImage, setDeleteImage] = useState<ExistingImage[] | null>([]);
+  const [deleteImage, setDeleteImage] = useState<PortfolioImages[] | null>([]);
 
   const [state, formAction, pending] = useActionState(createPortfolio, {
     description: '',
@@ -97,7 +102,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
   const handleSubmit = (formData: FormData) => {
     //삭제할 이미지 파일 append
     if (deleteImage && deleteImage.length > 0) {
-      deleteImage?.forEach((image: ExistingImage, index: number) => {
+      deleteImage?.forEach((image: PortfolioImages, index: number) => {
         formData.append(`delete_${index}`, JSON.stringify(image));
       });
       formData.append('delete_count', deleteImage.length.toString());
@@ -114,8 +119,8 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
           formData.append(`image_${imageCount}`, image);
           imageCount++;
         } else if (!cover && isExistingImage(image)) {
-          cover = image.image;
-          formData.append('cover', image.image);
+          cover = image.image as string;
+          formData.append('cover', image.image as string);
         }
       });
       formData.append('image_count', imageCount.toString());
@@ -284,7 +289,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
           type="text"
           placeholder="제목"
           name="title"
-          defaultValue={data?.title}
+          defaultValue={data?.title || ''}
           error={state.title}
         />
 
@@ -295,7 +300,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
             labelClassName="flex-1"
             placeholder="시공 시작 날짜"
             name="started_at"
-            defaultValue={data?.started_at}
+            defaultValue={data?.started_at || ''}
             error={state.started_at}
           />
           <Input
@@ -304,7 +309,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
             labelClassName="flex-1"
             placeholder="시공 종료 날짜"
             name="completed_at"
-            defaultValue={data?.completed_at}
+            defaultValue={data?.completed_at || ''}
             error={state.completed_at}
           />
         </div>
@@ -315,7 +320,7 @@ const PortfolioForm = ({ data, imageData }: { data?: Portfolio; imageData: Exist
           title="설명"
           name="description"
           placeholder="설명"
-          defaultValue={data?.description}
+          defaultValue={data?.description || ''}
           error={state.description}
         />
 

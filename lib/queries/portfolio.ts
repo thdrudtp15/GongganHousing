@@ -13,6 +13,7 @@ export const getPortfolioList = unstable_cache(
     search?: string;
     category?: string;
   }) => {
+    console.log('디테일 가져오기');
     const from = ((+page || 1) - 1) * pageSize;
     const to = from + pageSize - 1;
     let query = supabase
@@ -33,6 +34,7 @@ export const getPortfolioList = unstable_cache(
 
 export const getPortfolioData_ = unstable_cache(
   async (id: string) => {
+    console.log('리스트 가져오기 실행');
     return await supabase
       .from('portfolio')
       .select(

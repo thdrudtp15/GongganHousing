@@ -38,19 +38,23 @@ const PortfolioCarousel = ({ slides }: { slides: Portfolio[] }) => {
                                 hover:opacity-100 duration-300 p-4 flex flex-col justify-end"
                 >
                   <h3 className="text-white text-2xl font-bold">{slide.title}</h3>
-                  <p className="text-[gray]">
-                    {formatDate(slide.started_at)} ~ {formatDate(slide.completed_at)}
-                  </p>
+                  {slide.started_at && slide.completed_at && (
+                    <p className="text-[gray]">
+                      {formatDate(slide.started_at)} ~ {formatDate(slide.completed_at)}
+                    </p>
+                  )}
                   <p className="text-white">{slide.category}</p>
                 </div>
-                <Image
-                  src={slide.cover}
-                  fill
-                  priority
-                  alt="시공사례 이미지"
-                  className="object-cover z-[1]"
-                  sizes="(max-width: 768px) 100vw, 35vw"
-                />
+                {slide.cover && (
+                  <Image
+                    src={slide.cover}
+                    fill
+                    priority
+                    alt="시공사례 이미지"
+                    className="object-cover z-[1]"
+                    sizes="(max-width: 768px) 100vw, 35vw"
+                  />
+                )}
               </div>
             </div>
           ))}
