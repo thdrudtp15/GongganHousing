@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-// 시공 사례 검증증
+// 시공 사례 검증
 export const PortfolioSchema = z
   .object({
     title: z.string().min(1, '제목을 작성해주세요'),
@@ -21,7 +21,7 @@ export const PortfolioSchema = z
     },
   );
 
-// 문의 사항 검증증
+// 문의 사항 검증
 export const InquirySchema = z.object({
   name: z
     .string()
@@ -41,13 +41,4 @@ export const InquirySchema = z.object({
   agree: z.boolean().refine((value) => value === true, {
     error: '개인정보취급방침 동의를 체크해주세요',
   }),
-});
-
-// 환경 변수 검증
-export const EnviromentSchema = z.object({
-  NEXT_PUBLIC_SUPABASE_URL: z.string().min(1, { message: 'SUPABASE_URL은 필수입니다.' }),
-  NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().min(1, { message: 'SUPABASE_ANON_KEY은 필수입니다.' }),
-  CLOUDINARY_CLOUD_NAME: z.string().min(1, { message: 'CLOUDINARY_CLOUD_NAME은 필수입니다.' }),
-  CLOUDINARY_API_KEY: z.string().min(1, { message: 'CLOUDINARY_API_KEY은 필수입니다.' }),
-  CLOUDINARY_API_SECRET: z.string().min(1, { message: 'CLOUDINARY_API_SECRET은 필수입니다.' }),
 });

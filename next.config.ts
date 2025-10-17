@@ -1,3 +1,5 @@
+import { validateEnvironmentVariables } from '@/lib/utils/checkENV';
+validateEnvironmentVariables();
 const nextConfig = {
   images: {
     remotePatterns: [
