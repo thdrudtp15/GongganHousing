@@ -57,9 +57,9 @@ Cloudinary 저장 용량 또한 크게 절감할 수 있었습니다.
 
 초기에는 시공 사례 조회 시 매번 데이터베이스에 직접 요청하여 서버 부하와 느린 응답 속도 문제가 있었습니다. **Next.js**의 **unstable_cache**를 활용해 자주 조회되는 데이터를 캐싱한 결과, 시공 사례 목록 및 상세 페이지의 로딩 속도를 약 **25%** 개선했습니다.
 
-![스크린샷 2025-10-17 171744]("@/public/images/readme_no-cache.png")
-![스크린샷 2025-10-17 171758]("@/public/images/readme_cache.png)
+![스크린샷 2025-10-17 171744](https://res.cloudinary.com/dtodrrwy8/image/upload/v1760690004/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2025-10-17_171744_bx46pz.png)
+![스크린샷 2025-10-17 171758](https://res.cloudinary.com/dtodrrwy8/image/upload/v1760690004/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2025-10-17_171758_job0r3.png)
 
 #### 성능 지표 - Lighthouse 99점 달성
 
-![스크린샷 2025-10-17 172412](@/public/images/readme_lighthouse.png)
+![스크린샷 2025-10-17 172412](https://res.cloudinary.com/dtodrrwy8/image/upload/v1760690004/%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7_2025-10-17_172412_zc1zv1.png)
