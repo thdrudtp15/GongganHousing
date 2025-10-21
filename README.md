@@ -60,7 +60,7 @@ npm run start
 
 ### 📖 관리자 인증 시스템
 
-- NextAuth.js Google OAuth 인증
+- `NextAuth.js` `Google OAuth` 인증
 - 관리자만 포트폴리오 + 등록/수정/삭제 가능
 - 서버사이드 세션 검증
 
@@ -73,9 +73,9 @@ npm run start
 
 **이미지 최적화**
 
-- browser-image-compression으로 클라이언트에서 이미지 압축 작업
+- `browser-image-compression`으로 클라이언트에서 이미지 압축 작업
 - 자동 압축: 최대 0.7MB, JPEG 포맷 변환
-- Cloudinary 용량 비용 절감 효과
+- `Cloudinary` 용량 비용 절감 효과
 
 **데이터 캐싱**
 
@@ -86,9 +86,9 @@ npm run start
 
 **보안기능**
 
-- Cloudflare Turnstile을 활용하여 봇 이메일 전송 차단
+- `Cloudflare Turnstile`을 활용하여 봇 이메일 전송 차단
 - IP기반 Rate Limiting : 10분 내 같은 IP 3회 제출 차단
-- zod 스키마 검증으로 입력 데이터 검증증
+- `zod` 스키마 검증으로 입력 데이터 검증증
 
 **이메일 발송**
 
@@ -100,7 +100,7 @@ npm run start
 
 **카카오맵 연동**
 
-- React Kakao Maps SDK 사용
+- `React Kakao Maps SDK` 사용
 - 회사 위치 표시 및 반응형 지도
 
 ---
