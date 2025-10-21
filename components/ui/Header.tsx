@@ -19,12 +19,11 @@ const Header = () => {
         <Link href={'/'} className="flex gap-4 items-center">
           <Image
             src={logoImg}
-            width={80}
+            // width={80}
             priority
             alt="logo"
             className={`group-hover:filter transition duration-300`}
           />
-
           <p className="text-2xl font-bold">공간하우징</p>
         </Link>
         <nav className="hidden sm:flex items-center">

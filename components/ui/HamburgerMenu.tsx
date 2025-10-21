@@ -17,7 +17,7 @@ const HamburgerMenu = ({ navItems }: { navItems: { name: string; href: string }[
         setIsOpen(false);
       }
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
       window.removeEventListener('resize', handleResize);

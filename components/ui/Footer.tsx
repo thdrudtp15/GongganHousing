@@ -3,7 +3,6 @@ import Image from 'next/image';
 import logoImg from '@/public/svgs/logo_b.svg';
 
 const Footer = async () => {
-
   return (
     <footer className="bg-[#202020]  text-white px-[2rem] py-16">
       <div className="max-w-6xl mx-auto">
@@ -14,7 +13,6 @@ const Footer = async () => {
                 className="mb-4 filter brightness-0 invert"
                 src={logoImg}
                 width={120}
-                height={48}
                 alt="공간하우징 로고"
               />
             </div>
