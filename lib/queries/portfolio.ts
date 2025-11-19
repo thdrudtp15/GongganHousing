@@ -28,7 +28,7 @@ export const getPortfolioList = unstable_cache(
     return query;
   },
   [`portfolio-page`],
-  { revalidate: false, tags: ['portfolio-list'] },
+  { revalidate: 10000, tags: ['portfolio-list'] },
 );
 
 export const getPortfolioData_ = unstable_cache(
