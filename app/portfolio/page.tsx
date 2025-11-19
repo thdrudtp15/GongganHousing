@@ -10,7 +10,14 @@ import dummy from '@/public/images/banner_portfolio.webp';
 import type { Portfolio } from '@/types/portfolio';
 import { Suspense } from 'react';
 import { PortfolioSkeleton } from '@/components/portfolio/PortfolioGrid';
+import { cache } from 'react';
 const pageSize = 6;
+
+const getPortfolioListByCache = cache(
+  async (page: string, pageSize: number, category: string, search: string) => {
+    return await getPortfolioList({ page: +page || 1, pageSize, category: category || '', search });
+  },
+);
 
 const Page = async ({
   searchParams,
@@ -22,12 +29,7 @@ const Page = async ({
   }>;
 }) => {
   const { page, search, category } = await searchParams;
-  const { data, count } = await getPortfolioList({
-    page: +page || 1,
-    pageSize: pageSize,
-    category: category || '',
-    search,
-  });
+  const { count } = await getPortfolioListByCache(page, pageSize, category, search);
 
   return (
     <>
@@ -38,7 +40,6 @@ const Page = async ({
       <PageSection>
         <PageSection.Header>시공 사례</PageSection.Header>
         <PortfolioSearch search={search} category={category} count={count as number} />
-
         <Suspense key={`${page}-${search}-${category}`} fallback={<PortfolioSkeleton />}>
           <PortfolioContent searchParams={{ page, search, category }} />
         </Suspense>
@@ -55,12 +56,7 @@ async function PortfolioContent({
   searchParams: { page: string; search: string; category: string };
 }) {
   const { page, search, category } = searchParams;
-  const { data, count } = await getPortfolioList({
-    page: +page || 1,
-    pageSize: 6,
-    category: category || '',
-    search,
-  });
+  const { data, count } = await getPortfolioListByCache(page, pageSize, category, search);
 
   return (
     <>

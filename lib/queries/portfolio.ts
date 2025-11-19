@@ -13,6 +13,7 @@ export const getPortfolioList = unstable_cache(
     search?: string;
     category?: string;
   }) => {
+    console.log('실행');
     const from = ((+page || 1) - 1) * pageSize;
     const to = from + pageSize - 1;
     let query = supabase
