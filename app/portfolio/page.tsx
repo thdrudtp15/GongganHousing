@@ -8,7 +8,8 @@ import PageBanner from '@/components/ui/PageBanner';
 import { getPortfolioList } from '@/lib/queries/portfolio';
 import dummy from '@/public/images/banner_portfolio.webp';
 import type { Portfolio } from '@/types/portfolio';
-
+import { Suspense } from 'react';
+import { PortfolioSkeleton } from '@/components/portfolio/PortfolioGrid';
 const pageSize = 6;
 
 const Page = async ({
@@ -30,17 +31,41 @@ const Page = async ({
 
   return (
     <>
-    <PageBanner image={dummy} title="시공 사례" >
-      <PageBanner.Description description="다양한 시공 현장을 만나보세요" />
-      <PageBanner.Breadcrumb breadcrumb={[{ title: '시공 사례' }]} /></PageBanner>
-    <PageSection>
+      <PageBanner image={dummy} title="시공 사례">
+        <PageBanner.Description description="다양한 시공 현장을 만나보세요" />
+        <PageBanner.Breadcrumb breadcrumb={[{ title: '시공 사례' }]} />
+      </PageBanner>
+      <PageSection>
         <PageSection.Header>시공 사례</PageSection.Header>
         <PortfolioSearch search={search} category={category} count={count as number} />
-        <PortfolioGrid portfolioData={data as Portfolio[]} />
-        <Pagination pageSize={pageSize} totalCount={count as number} nowPage={page} />
+
+        <Suspense key={`${page}-${search}-${category}`} fallback={<PortfolioSkeleton />}>
+          <PortfolioContent searchParams={{ page, search, category }} />
+        </Suspense>
       </PageSection>
-  
     </>
   );
 };
 export default Page;
+
+// 별도 컴포넌트로 분리
+async function PortfolioContent({
+  searchParams,
+}: {
+  searchParams: { page: string; search: string; category: string };
+}) {
+  const { page, search, category } = searchParams;
+  const { data, count } = await getPortfolioList({
+    page: +page || 1,
+    pageSize: 6,
+    category: category || '',
+    search,
+  });
+
+  return (
+    <>
+      <PortfolioGrid portfolioData={data as Portfolio[]} />
+      <Pagination pageSize={6} totalCount={count as number} nowPage={page} />
+    </>
+  );
+}
