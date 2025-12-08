@@ -21,7 +21,7 @@
     "framer-motion": "^12.23.12",
     "isomorphic-dompurify": "^2.29.0",
     "jsonwebtoken": "^9.0.2",
-    "next": "15.5.2",
+    "next": "^15.5.7",
     "next-auth": "^4.24.11",
     "nextjs-toploader": "^3.9.17",
     "nodemailer": "^6.9.4",
